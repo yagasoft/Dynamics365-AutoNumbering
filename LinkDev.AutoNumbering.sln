@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkDev.AutoNumbering.Plugins.AutoNumber", "LinkDev.AutoNumbering.Plugins.AutoNumber\LinkDev.AutoNumbering.Plugins.AutoNumber.csproj", "{94B1719A-FE4B-4B1A-97B1-61BB30AEB11D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "licence", "licence", "{CE4B8CCD-907E-433D-BD13-32A0A2D134EE}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94B1719A-FE4B-4B1A-97B1-61BB30AEB11D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94B1719A-FE4B-4B1A-97B1-61BB30AEB11D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94B1719A-FE4B-4B1A-97B1-61BB30AEB11D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94B1719A-FE4B-4B1A-97B1-61BB30AEB11D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5C764B43-87C0-4535-93CE-22C37D60DF8A}
+	EndGlobalSection
+EndGlobal

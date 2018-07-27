@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{f5efbad0-3d01-e511-80c2-080027e39bdb}" Name="Auto-Numbering - Set ratio unrequire and hide">
+  <XamlFileName>/Workflows/Auto-Numbering-Setratiounrequireandhide-F5EFBAD0-3D01-E511-80C2-080027E39BDB.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>1.2.40</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <PrimaryEntity>ldv_autonumbering</PrimaryEntity>
+  <ProcessTriggers>
+    <ProcessTrigger processtriggerid="{1fcd1778-3e01-e511-80c2-080027e39bdb}">
+      <formid>{eee9d255-928f-4650-8978-d02ce6f24ff6}</formid>
+      <scope>1</scope>
+      <event>load</event>
+      <pipelinestage>0</pipelinestage>
+      <iscustomizable>1</iscustomizable>
+      <primaryentitytypecode>ldv_autonumbering</primaryentitytypecode>
+    </ProcessTrigger>
+    <ProcessTrigger processtriggerid="{20cd1778-3e01-e511-80c2-080027e39bdb}">
+      <controltype>1</controltype>
+      <formid>{eee9d255-928f-4650-8978-d02ce6f24ff6}</formid>
+      <scope>1</scope>
+      <controlname>ldv_isnumberletterratio</controlname>
+      <event>change</event>
+      <pipelinestage>0</pipelinestage>
+      <iscustomizable>1</iscustomizable>
+      <primaryentitytypecode>ldv_autonumbering</primaryentitytypecode>
+    </ProcessTrigger>
+  </ProcessTriggers>
+</Workflow>

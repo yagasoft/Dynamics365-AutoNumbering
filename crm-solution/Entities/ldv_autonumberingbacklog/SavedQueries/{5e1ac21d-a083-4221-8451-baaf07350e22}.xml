@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<savedqueries>
+  <savedquery>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>0</CanBeDeleted>
+    <isquickfindquery>0</isquickfindquery>
+    <isprivate>0</isprivate>
+    <isdefault>1</isdefault>
+    <returnedtypecode>10060</returnedtypecode>
+    <savedqueryid>{5e1ac21d-a083-4221-8451-baaf07350e22}</savedqueryid>
+    <layoutxml>
+      <grid name="resultset" object="10060" jump="ldv_name" select="1" icon="1" preview="1">
+        <row name="result" id="ldv_autonumberingbacklogid">
+          <cell name="ldv_triggerid" width="200" imageproviderfunctionname="" imageproviderwebresource="$webresource:" />
+          <cell name="ldv_autonumberingconfigid" width="200" imageproviderfunctionname="" imageproviderwebresource="$webresource:" />
+          <cell name="ldv_indexvalue" width="100" />
+          <cell name="createdon" width="125" />
+        </row>
+      </grid>
+    </layoutxml>
+    <querytype>0</querytype>
+    <fetchxml>
+      <fetch version="1.0" mapping="logical">
+        <entity name="ldv_autonumberingbacklog">
+          <attribute name="createdon" />
+          <order attribute="createdon" descending="false" />
+          <filter type="and">
+            <condition attribute="statecode" operator="eq" value="0" />
+          </filter>
+          <attribute name="ldv_triggerid" />
+          <attribute name="ldv_indexvalue" />
+          <attribute name="ldv_autonumberingconfigid" />
+          <attribute name="ldv_autonumberingbacklogid" />
+        </entity>
+      </fetch>
+    </fetchxml>
+    <IntroducedVersion>6.2.3.1</IntroducedVersion>
+    <LocalizedNames>
+      <LocalizedName description="Active Auto-Numbering Backlogs" languagecode="1033" />
+    </LocalizedNames>
+  </savedquery>
+</savedqueries>

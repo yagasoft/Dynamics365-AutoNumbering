@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SdkMessageProcessingStep Name="LinkDev.AutoNumbering.Config.Plugins.PostUpdateConfigTriggerId: Update of ldv_autonumbering: PostOp Sync at 999" SdkMessageProcessingStepId="{9c4d2ea2-66ff-e711-80e5-00155d5f3d03}">
+  <PluginTypeName>LinkDev.AutoNumbering.Config.Plugins.PostUpdateConfigTriggerId, LinkDev.AutoNumbering.Plugins.AutoNumber, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4</PluginTypeName>
+  <PrimaryEntity>ldv_autonumbering</PrimaryEntity>
+  <AsyncAutoDelete>0</AsyncAutoDelete>
+  <FilteringAttributes>ldv_triggerid</FilteringAttributes>
+  <InvocationSource>1</InvocationSource>
+  <Mode>0</Mode>
+  <Rank>999</Rank>
+  <SdkMessageId>{20bebb1b-ea3e-db11-86a7-000a3a5473e8}</SdkMessageId>
+  <EventHandlerTypeCode>4602</EventHandlerTypeCode>
+  <Stage>40</Stage>
+  <IsCustomizable>1</IsCustomizable>
+  <IsHidden>0</IsHidden>
+  <SupportedDeployment>0</SupportedDeployment>
+  <IntroducedVersion>1.0</IntroducedVersion>
+  <SdkMessageProcessingStepImages>
+    <SdkMessageProcessingStepImage Name="image">
+      <SdkMessageProcessingStepImageId>{9e4d2ea2-66ff-e711-80e5-00155d5f3d03}</SdkMessageProcessingStepImageId>
+      <Attributes></Attributes>
+      <EntityAlias>image</EntityAlias>
+      <ImageType>1</ImageType>
+      <MessagePropertyName>Target</MessagePropertyName>
+      <IsCustomizable>1</IsCustomizable>
+    </SdkMessageProcessingStepImage>
+  </SdkMessageProcessingStepImages>
+</SdkMessageProcessingStep>

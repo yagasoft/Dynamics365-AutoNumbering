@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ImportExportXml version="8.2.0001.0176" SolutionPackageVersion="8.2" languagecode="1033" generatedBy="OnPremise" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SolutionManifest>
+    <UniqueName>AutoNumbering</UniqueName>
+    <LocalizedNames>
+      <LocalizedName description="Auto-Numbering" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="Refer to YagaSoft.com for any enquiries." languagecode="1033" />
+    </Descriptions>
+    <Version>1.1.0.1</Version>
+    <Managed>0</Managed>
+    <Publisher>
+      <UniqueName>linkdevelopment</UniqueName>
+      <LocalizedNames>
+        <LocalizedName description="LINK Development" languagecode="1033" />
+      </LocalizedNames>
+      <Descriptions>
+        <Description description="The default publisher for link development" languagecode="1033" />
+      </Descriptions>
+      <EMailAddress xsi:nil="true"></EMailAddress>
+      <SupportingWebsiteUrl>http://www.linkdev.com</SupportingWebsiteUrl>
+      <CustomizationPrefix>ldv</CustomizationPrefix>
+      <CustomizationOptionValuePrefix>75324</CustomizationOptionValuePrefix>
+      <Addresses>
+        <Address>
+          <AddressNumber>1</AddressNumber>
+          <AddressTypeCode>1</AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode>1</ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+        <Address>
+          <AddressNumber>2</AddressNumber>
+          <AddressTypeCode>1</AddressTypeCode>
+          <City xsi:nil="true"></City>
+          <County xsi:nil="true"></County>
+          <Country xsi:nil="true"></Country>
+          <Fax xsi:nil="true"></Fax>
+          <FreightTermsCode xsi:nil="true"></FreightTermsCode>
+          <ImportSequenceNumber xsi:nil="true"></ImportSequenceNumber>
+          <Latitude xsi:nil="true"></Latitude>
+          <Line1 xsi:nil="true"></Line1>
+          <Line2 xsi:nil="true"></Line2>
+          <Line3 xsi:nil="true"></Line3>
+          <Longitude xsi:nil="true"></Longitude>
+          <Name xsi:nil="true"></Name>
+          <PostalCode xsi:nil="true"></PostalCode>
+          <PostOfficeBox xsi:nil="true"></PostOfficeBox>
+          <PrimaryContactName xsi:nil="true"></PrimaryContactName>
+          <ShippingMethodCode>1</ShippingMethodCode>
+          <StateOrProvince xsi:nil="true"></StateOrProvince>
+          <Telephone1 xsi:nil="true"></Telephone1>
+          <Telephone2 xsi:nil="true"></Telephone2>
+          <Telephone3 xsi:nil="true"></Telephone3>
+          <TimeZoneRuleVersionNumber xsi:nil="true"></TimeZoneRuleVersionNumber>
+          <UPSZone xsi:nil="true"></UPSZone>
+          <UTCOffset xsi:nil="true"></UTCOffset>
+          <UTCConversionTimeZoneCode xsi:nil="true"></UTCConversionTimeZoneCode>
+        </Address>
+      </Addresses>
+    </Publisher>
+    <RootComponents>
+      <RootComponent type="1" schemaName="ldv_autonumbering" behavior="0" />
+      <RootComponent type="1" schemaName="ldv_autonumberingbacklog" behavior="0" />
+      <RootComponent type="1" schemaName="ldv_genericconfiguration" behavior="0" />
+      <RootComponent type="9" schemaName="ldv_datefrequency" behavior="0" />
+      <RootComponent type="9" schemaName="ldv_filesplitmode" behavior="0" />
+      <RootComponent type="9" schemaName="ldv_loglevel" behavior="0" />
+      <RootComponent type="9" schemaName="ldv_logmode" behavior="0" />
+      <RootComponent type="61" schemaName="ldv_/Generic/js/GenericConfigForm" behavior="0" />
+      <RootComponent type="61" schemaName="ldv_autonumbering16png" behavior="0" />
+      <RootComponent type="61" schemaName="ldv_autonumbering32png" behavior="0" />
+      <RootComponent type="61" schemaName="ldv_AutoNumberingJs" behavior="0" />
+      <RootComponent type="61" schemaName="ldv_CommonGenericJs" behavior="0" />
+      <RootComponent type="61" schemaName="ldv_CommonGenericSchemaJs" behavior="0" />
+      <RootComponent type="61" schemaName="ldv_crmlogconfig16png" behavior="0" />
+      <RootComponent type="61" schemaName="ldv_crmlogconfig32png" behavior="0" />
+      <RootComponent type="91" schemaName="LinkDev.AutoNumbering.Plugins.AutoNumber, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" behavior="0" />
+      <RootComponent type="92" id="{020d03f9-f982-e611-9c05-f8b156a3e077}" behavior="0" />
+      <RootComponent type="92" id="{64958e4b-5782-e611-9c05-f8b156a3e077}" behavior="0" />
+      <RootComponent type="92" id="{87257c2d-6eff-e711-80e5-00155d5f3d03}" behavior="0" />
+      <RootComponent type="92" id="{9c4d2ea2-66ff-e711-80e5-00155d5f3d03}" behavior="0" />
+    </RootComponents>
+    <MissingDependencies />
+  </SolutionManifest>
+</ImportExportXml>

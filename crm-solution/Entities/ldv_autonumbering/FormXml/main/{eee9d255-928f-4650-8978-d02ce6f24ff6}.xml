@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms>
+  <systemform>
+    <formid>{eee9d255-928f-4650-8978-d02ce6f24ff6}</formid>
+    <IntroducedVersion>1.1.25</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form shownavigationbar="true" showImage="false" maxWidth="1900">
+      <tabs>
+        <tab verticallayout="true" id="{a3783767-f79f-4242-8a78-a3d93547ed51}" IsUserDefined="1" name="{a3783767-f79f-4242-8a78-a3d93547ed51}" locklevel="0" expanded="true" showlabel="false">
+          <labels>
+            <label description="General" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section showlabel="true" showbar="true" IsUserDefined="0" id="{123f2dd1-225f-4cb3-9bdd-26463f41355d}" name="EntitySection" columns="1" locklevel="0" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
+                  <labels>
+                    <label description="Entity" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{613b898c-424d-48a1-bf0d-ab16a8cb565d}">
+                        <labels>
+                          <label description="Name" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_name" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{6ae98712-94b3-859e-63ed-a3e04453ab85}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Unique ID" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_uniqueid" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_uniqueid" disabled="true" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{9974d103-b500-4614-5d0a-6539ed82412c}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Entity Logical Name" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_entitylogicalname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_entitylogicalname" disabled="false" uniqueid="{d6c37d27-d11e-9c4a-01a9-60960859932a}" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{8db78b80-5d03-1eca-7555-83651a4a3a5c}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Field Logical Name" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_fieldlogicalname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_fieldlogicalname" disabled="false" uniqueid="{68930b6c-2421-c867-2bbc-40dde4b96b07}" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab name="tab_2" id="{6804b210-b631-900d-5280-80421a334cb5}" IsUserDefined="0" locklevel="0" showlabel="false" expanded="true">
+          <labels>
+            <label description="Tab" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section name="IndexSection" showlabel="true" showbar="true" locklevel="0" id="{dd7b525e-be44-59e8-931c-aa2da9aed0d4}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
+                  <labels>
+                    <label description="Index" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{47a29b01-4672-89b0-be41-97b45bd9acbe}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Current Index" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_currentindex" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="ldv_currentindex" disabled="false" />
+                      </cell>
+                      <cell id="{a01517e9-8ad5-3c88-911a-e9484a44bb4d}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Use Backlog" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_isusebacklog" classid="{B0C6723A-8503-4fd7-BB28-C8A06AC933C2}" datafieldname="ldv_isusebacklog" disabled="false" uniqueid="{2c8c4115-d2a7-6d9c-4b58-a28707114c48}" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{a8bc69a2-21cc-85ad-54bb-18d15681eb11}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Index Padding" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_indexpadding" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="ldv_indexpadding" disabled="false" />
+                      </cell>
+                      <cell id="{8e6ee9c0-5820-6de8-35e1-987e34686a3b}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Backlog Threshold" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_backlogthreshold" classid="{AA987274-CE4E-4271-A803-66164311A958}" datafieldname="ldv_backlogthreshold" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d5ba762c-9c49-7e54-dc1a-0139c81d9691}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Increment OnUpdate" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_isincrementonupdate" classid="{B0C6723A-8503-4fd7-BB28-C8A06AC933C2}" datafieldname="ldv_isincrementonupdate" disabled="false" />
+                      </cell>
+                      <cell id="{12598c52-18cd-2336-637a-759a021ceb08}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="FormatSection" showlabel="true" showbar="true" locklevel="0" id="{67cb6917-3ebb-8a38-0577-4779929639cb}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
+                  <labels>
+                    <label description="Format" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{2da706e3-d332-6ee8-860e-84694b159d04}" showlabel="true" locklevel="0" colspan="2">
+                        <labels>
+                          <label description="Format String" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_formatstring" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_formatstring" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{e0a9607c-796a-d775-8096-39379e3b52e9}" showlabel="true" locklevel="0" colspan="2">
+                        <labels>
+                          <label description="Replacement Characters" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_replacementcharacters" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_replacementcharacters" disabled="false" uniqueid="{6dad9ac6-8670-0d82-6784-7d332387d55c}" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{6dcec071-2d15-2936-cbbd-7d2150c26745}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Validate Unique String" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_isvalidateuniquestring" classid="{B0C6723A-8503-4fd7-BB28-C8A06AC933C2}" datafieldname="ldv_isvalidateuniquestring" disabled="false" />
+                      </cell>
+                      <cell id="{cc5d92ab-0605-9473-5527-e13048d29452}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="RandomStringSection" showlabel="true" showbar="true" locklevel="0" id="{03296a7b-b6d6-4273-a613-0167dbbe885e}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
+                  <labels>
+                    <label description="Random String" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{820919aa-740a-216a-6c01-0651a802c2ba}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Use Num/Letter Ratio" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_isnumberletterratio" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ldv_isnumberletterratio" disabled="false" />
+                      </cell>
+                      <cell id="{d2ac71bc-7cb5-3b84-83a1-d538ec382b73}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Must Start with Letter" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_israndomletterstart" classid="{67FAC785-CD58-4f9f-ABB3-4B7DDC6ED5ED}" datafieldname="ldv_israndomletterstart" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{d4b393d1-c8d9-797e-8140-1ae889b3664d}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Number Letter Ratio" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_numberletterratio" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="ldv_numberletterratio" disabled="false" />
+                      </cell>
+                      <cell id="{dab877ec-b5b1-3407-86e7-c40a7a960128}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+                <section name="ResetSection" showlabel="true" showbar="true" locklevel="0" id="{9ad43611-a44c-3b16-9737-80a38009307c}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
+                  <labels>
+                    <label description="Reset" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{23a319a1-876d-1ad2-de5c-6527e99e6597}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Reset Interval" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_resetinterval" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ldv_resetinterval" disabled="false" />
+                      </cell>
+                      <cell id="{0a092aca-d3ec-cbcb-66ec-4a0b5cdb23b0}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Reset Index" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_resetindex" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="ldv_resetindex" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{167d4955-b7d4-e212-9c7d-cba0b0c092cb}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Reset On" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_resetdate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ldv_resetdate" disabled="false" />
+                      </cell>
+                      <cell id="{bc47e862-7c76-4acb-106d-89482ada2611}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Last Reset Date" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_lastresetdate" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="ldv_lastresetdate" disabled="true" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab name="tab_3" id="{b5c8bae4-70a5-ce86-0941-84b6a545b3b9}" IsUserDefined="0" locklevel="0" showlabel="false" expanded="true">
+          <labels>
+            <label description="Tab" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section name="tab_3_section_1" showlabel="true" showbar="true" locklevel="0" id="{d17e7bb5-98b8-5589-69c1-6aca4edb1462}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="150" celllabelalignment="Left" celllabelposition="Top" height="auto">
+                  <labels>
+                    <label description="Plugin Apply Condition" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{51a2debb-a748-c76e-ab2d-0331699aa5a2}" showlabel="true" locklevel="0" auto="true" rowspan="3">
+                        <labels>
+                          <label description="Condition" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_condition" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ldv_condition" disabled="false" />
+                      </cell>
+                    </row>
+                    <row></row>
+                    <row height="auto"></row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+        <tab name="tab_4" id="{71e90c8d-56d3-192c-2e8d-98ed97ca9166}" IsUserDefined="0" locklevel="0" showlabel="false" expanded="true">
+          <labels>
+            <label description="Tab" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section name="GeneralSection" showlabel="true" showbar="true" locklevel="0" id="{3a705ba6-935a-2219-b186-5460322a7604}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
+                  <labels>
+                    <label description="Administration" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{028811eb-2792-db96-3640-e3bc01236200}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Created On" languagecode="1033" />
+                        </labels>
+                        <control id="createdon" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="createdon" disabled="true" uniqueid="{16aea908-40c9-7846-e667-63a1425689dc}" />
+                      </cell>
+                      <cell id="{365ec3ac-1c19-4b5c-8bc9-852c2b8bd36b}" showlabel="true" locklevel="1">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" uniqueid="{c5132bab-8eca-842c-173e-251d8c218c05}" disabled="true">
+                          <parameters>
+                            <AutoResolve>true</AutoResolve>
+                            <DisableMru>false</DisableMru>
+                          </parameters>
+                        </control>
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{66bc170d-ed2d-cd08-c029-7e5e41e868d1}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Modified On" languagecode="1033" />
+                        </labels>
+                        <control id="modifiedon" classid="{5B773807-9FB2-42db-97C3-7A91EFF8ADFF}" datafieldname="modifiedon" disabled="true" uniqueid="{542c32a9-e0cd-8b82-0b10-5b7991e8059b}" />
+                      </cell>
+                      <cell id="{4274331b-9bec-cec3-16b8-d0e88ce59bee}" showlabel="true" locklevel="1">
+                        <labels>
+                          <label description="Status" languagecode="1033" />
+                        </labels>
+                        <control id="statecode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="statecode" disabled="true" uniqueid="{303a02d8-7a00-1c0d-7762-47c7e9aa5474}" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <Navigation>
+        <NavBar></NavBar>
+        <NavBarAreas>
+          <NavBarArea Id="Info">
+            <Titles>
+              <Title LCID="1033" Text="Common" />
+            </Titles>
+          </NavBarArea>
+          <NavBarArea Id="Sales">
+            <Titles>
+              <Title LCID="1033" Text="Sales" />
+            </Titles>
+          </NavBarArea>
+          <NavBarArea Id="Service">
+            <Titles>
+              <Title LCID="1033" Text="Service" />
+            </Titles>
+          </NavBarArea>
+          <NavBarArea Id="Marketing">
+            <Titles>
+              <Title LCID="1033" Text="Marketing" />
+            </Titles>
+          </NavBarArea>
+          <NavBarArea Id="ProcessCenter">
+            <Titles>
+              <Title LCID="1033" Text="Process Sessions" />
+            </Titles>
+          </NavBarArea>
+        </NavBarAreas>
+      </Navigation>
+      <formLibraries>
+        <Library name="ldv_CommonGenericJs" libraryUniqueId="{a57be25a-386b-a466-eea2-39d0231790ea}" />
+        <Library name="ldv_AutoNumberingJs" libraryUniqueId="{d5ea2c6c-6dde-1ecc-b44c-283c7eaab442}" />
+      </formLibraries>
+      <events>
+        <event name="onload" application="false" active="false">
+          <Handlers>
+            <Handler functionName="OnLoad" libraryName="ldv_AutoNumberingJs" handlerUniqueId="{9e0e307b-71c2-234e-2a02-79854e1e5aeb}" enabled="true" parameters="" passExecutionContext="false" />
+          </Handlers>
+        </event>
+        <event name="onchange" application="false" active="false" attribute="ldv_entitylogicalname">
+          <Handlers>
+            <Handler handlerUniqueId="{e5d2eb94-ca1d-045d-6ed3-6d4500b30447}" functionName="EntityLogicalName_OnChange" libraryName="ldv_AutoNumberingJs" enabled="false" passExecutionContext="false" parameters="" />
+          </Handlers>
+        </event>
+      </events>
+      <controlDescriptions />
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Auto-Numbering Config Form" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

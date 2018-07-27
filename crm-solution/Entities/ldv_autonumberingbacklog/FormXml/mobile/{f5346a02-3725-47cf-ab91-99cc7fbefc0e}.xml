@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms>
+  <systemform>
+    <formid>{f5346a02-3725-47cf-ab91-99cc7fbefc0e}</formid>
+    <IntroducedVersion>6.2.3.1</IntroducedVersion>
+    <FormPresentation>0</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab name="general" verticallayout="true" id="{22f1c54f-1ed7-4ed8-ad83-0e8b32155860}" IsUserDefined="0">
+          <labels>
+            <label description="" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="100%">
+              <sections>
+                <section name="account information" showlabel="false" showbar="false" id="{e706e3cf-cc56-4120-9c49-7f48bab2a728}" IsUserDefined="0">
+                  <labels>
+                    <label description="" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{be514180-e943-4e09-8c68-c4d014ae3592}">
+                        <labels>
+                          <label description="Name" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_name" disabled="false" />
+                      </cell>
+                      <cell id="{81e63ef2-331b-4f74-8529-0fe959322412}">
+                        <labels>
+                          <label description="Status" languagecode="1033" />
+                        </labels>
+                        <control id="statecode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="statecode" disabled="false" />
+                      </cell>
+                      <cell id="{7d0566b0-6a2b-42fa-8faa-e3efb457c94a}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" disabled="false" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="This is the form that is displayed for the CRM for phones express application." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

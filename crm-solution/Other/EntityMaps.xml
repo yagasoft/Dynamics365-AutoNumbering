@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntityMaps>
+  <EntityMap>
+    <EntitySource>ldv_autonumbering</EntitySource>
+    <EntityTarget>ldv_autonumberingbacklog</EntityTarget>
+    <AttributeMaps />
+  </EntityMap>
+  <EntityMap>
+    <EntitySource>systemuser</EntitySource>
+    <EntityTarget>ldv_genericconfiguration</EntityTarget>
+    <AttributeMaps />
+  </EntityMap>
+</EntityMaps>

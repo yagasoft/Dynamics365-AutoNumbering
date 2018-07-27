@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<forms>
+  <systemform>
+    <formid>{6cec2e04-bc0d-447e-805e-52eabd35a48b}</formid>
+    <IntroducedVersion>6.2.3.1</IntroducedVersion>
+    <FormPresentation>1</FormPresentation>
+    <FormActivationState>1</FormActivationState>
+    <form>
+      <tabs>
+        <tab verticallayout="true" id="{0abc533e-3ce8-453e-9183-5e435ebb6d30}" IsUserDefined="1">
+          <labels>
+            <label description="General Info" languagecode="1033" />
+          </labels>
+          <columns>
+            <column width="24%">
+              <sections>
+                <section showlabel="false" showbar="false" IsUserDefined="0" id="{04eabb13-c4cc-4d7d-82e9-fd5cb6586cbf}">
+                  <labels>
+                    <label description="General" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{7515f85e-6725-4ce5-9013-f3c08c977ad4}">
+                        <labels>
+                          <label description="Name" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_name" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{f45b26e0-2c95-4b80-90e8-a2553dfa1af2}">
+                        <labels>
+                          <label description="Owner" languagecode="1033" />
+                        </labels>
+                        <control id="ownerid" classid="{270BD3DB-D9AF-4782-9025-509E298DEC0A}" datafieldname="ownerid" />
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
+              </sections>
+            </column>
+            <column width="38%">
+              <sections>
+                <section showlabel="true" showbar="false" id="{32e2c957-fd92-4132-b8ba-e073efcddd75}" IsUserDefined="0" height="auto">
+                  <labels>
+                    <label description="TIMELINE" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell showlabel="false" colspan="1" rowspan="18" auto="false" id="{c09d94c3-c2c5-43e9-aff1-ce16904fb243}">
+                        <labels>
+                          <label description="Conversation Tabs" languagecode="1033" />
+                        </labels>
+                        <control id="interactionwallcontrol" classid="{1F179106-FA28-4495-961E-F6BD93C21974}" />
+                      </cell>
+                    </row>
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row />
+                    <row height="auto" />
+                  </rows>
+                </section>
+              </sections>
+            </column>
+            <column width="38%">
+              <sections>
+                <section showlabel="true" columns="1" showbar="false" id="{5d412efa-a57d-4a4e-8c12-c9f8ceee3f10}" name="ref_pan_{5d412efa-a57d-4a4e-8c12-c9f8ceee3f10}" IsUserDefined="0">
+                  <labels>
+                    <label description="RELATED" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row />
+                  </rows>
+                </section>
+              </sections>
+            </column>
+          </columns>
+        </tab>
+      </tabs>
+      <header id="{7477e28b-7638-4543-aad5-711ed74eac98}" celllabelposition="Left" columns="1111">
+        <rows>
+          <row />
+        </rows>
+      </header>
+    </form>
+    <IsCustomizable>1</IsCustomizable>
+    <CanBeDeleted>1</CanBeDeleted>
+    <LocalizedNames>
+      <LocalizedName description="Information" languagecode="1033" />
+    </LocalizedNames>
+    <Descriptions>
+      <Description description="A form for this entity." languagecode="1033" />
+    </Descriptions>
+  </systemform>
+</forms>

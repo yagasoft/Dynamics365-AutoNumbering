@@ -90,17 +90,14 @@
     <Compile Include="Config\Plugins\PostUpdateConfigTriggerId.cs" />
     <Compile Include="Config\Plugins\PreCreateSetIdAutoNum.cs" />
     <Compile Include="Deprecated\SetGuidField.cs" />
-    <Compile Include="Deprecated\UpdateConfigTriggerId.cs" />
     <Compile Include="Target\Plugins\PostUpdateTargetAutoNum.cs" />
     <Compile Include="Target\Plugins\PostCreateTargetAutoNum.cs" />
     <Compile Include="Target\Plugins\PrevalCreateTargetUseBacklog.cs" />
-    <Compile Include="Deprecated\CreateTargetUseBacklog.cs" />
     <Compile Include="BLL\AutoNumberingEngine.cs" />
     <Compile Include="Deprecated\AutoNumberPlugin.cs" />
     <Compile Include="Target\Plugins\PreCreateTargetAutoNum.cs" />
     <Compile Include="Target\Plugins\PreUpdateTargetAutoNum.cs" />
     <Compile Include="Target\Steps\ApplyAutoNumbering.cs" />
-    <Compile Include="Deprecated\AutoNumberStep.cs" />
     <Compile Include="CrmSchema.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

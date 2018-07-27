@@ -16,12 +16,21 @@ A CRM solution that gives a lot of flexibility in creating any pattern required 
   + Option to validate unique generated string
   + Option to generate without updating a record (return the generated string only)
   + Support for plugin step inline configuration
+  + Use a backlog to avoid long DB locks
+    + The solution reserves an index, and if a rollback happens, the index is saved for future use by another run
+    + This might cause out-of-order indices
+
+### Guide
+
+Please check the 'docs' folder for a guide PDF.
+
+I will post a complete guide soon.
 
 ### Dependencies
 
   + Common.cs
     + Can be found in the DynamicsCrm-Libraries repository
-    + Should be added to the root of the solution
+  + Generic Base solution
   + CRM Logger solution
 
 ---

@@ -5,9 +5,4 @@
     <EntityTarget>ldv_autonumberingbacklog</EntityTarget>
     <AttributeMaps />
   </EntityMap>
-  <EntityMap>
-    <EntitySource>systemuser</EntitySource>
-    <EntityTarget>ldv_genericconfiguration</EntityTarget>
-    <AttributeMaps />
-  </EntityMap>
 </EntityMaps>

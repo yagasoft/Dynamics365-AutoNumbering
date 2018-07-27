@@ -2,23 +2,15 @@
 <EntityRelationships>
   <EntityRelationship Name="business_unit_ldv_autonumbering" />
   <EntityRelationship Name="business_unit_ldv_autonumberingbacklog" />
-  <EntityRelationship Name="business_unit_ldv_genericconfiguration" />
   <EntityRelationship Name="ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId" />
-  <EntityRelationship Name="ldv_systemuser_ldv_genericconfiguration_DefaultFromUserId" />
-  <EntityRelationship Name="ldv_systemuser_ldv_genericconfiguration_DefaultRoutingUser" />
   <EntityRelationship Name="lk_ldv_autonumbering_createdby" />
   <EntityRelationship Name="lk_ldv_autonumbering_modifiedby" />
   <EntityRelationship Name="lk_ldv_autonumberingbacklog_createdby" />
   <EntityRelationship Name="lk_ldv_autonumberingbacklog_modifiedby" />
-  <EntityRelationship Name="lk_ldv_genericconfiguration_createdby" />
-  <EntityRelationship Name="lk_ldv_genericconfiguration_modifiedby" />
   <EntityRelationship Name="owner_ldv_autonumbering" />
   <EntityRelationship Name="owner_ldv_autonumberingbacklog" />
-  <EntityRelationship Name="owner_ldv_genericconfiguration" />
   <EntityRelationship Name="team_ldv_autonumbering" />
   <EntityRelationship Name="team_ldv_autonumberingbacklog" />
-  <EntityRelationship Name="team_ldv_genericconfiguration" />
   <EntityRelationship Name="user_ldv_autonumbering" />
   <EntityRelationship Name="user_ldv_autonumberingbacklog" />
-  <EntityRelationship Name="user_ldv_genericconfiguration" />
 </EntityRelationships>

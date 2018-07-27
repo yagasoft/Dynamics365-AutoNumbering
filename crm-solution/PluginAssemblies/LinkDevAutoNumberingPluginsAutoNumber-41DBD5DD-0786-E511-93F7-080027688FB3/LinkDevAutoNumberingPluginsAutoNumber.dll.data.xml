@@ -11,21 +11,11 @@
     <PluginType AssemblyQualifiedName="LinkDev.AutoNumbering.Config.Plugins.PreCreateSetIdAutoNum, LinkDev.AutoNumbering.Plugins.AutoNumber, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" Name="LinkDev.AutoNumbering.Config.Plugins.PreCreateSetIdAutoNum">
       <FriendlyName>PreCreateSetIdAutoNum</FriendlyName>
     </PluginType>
-    <PluginType AssemblyQualifiedName="LinkDev.AutoNumbering.Plugins.AutoNumber.Config.Post.UpdateConfigTriggerId, LinkDev.AutoNumbering.Plugins.AutoNumber, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" Name="LinkDev.AutoNumbering.Plugins.AutoNumber.Config.Post.UpdateConfigTriggerId">
-      <FriendlyName>UpdateConfigTriggerId</FriendlyName>
-    </PluginType>
     <PluginType AssemblyQualifiedName="LinkDev.AutoNumbering.Plugins.AutoNumber.Core.AutoNumberPlugin, LinkDev.AutoNumbering.Plugins.AutoNumber, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" Name="LinkDev.AutoNumbering.Plugins.AutoNumber.Core.AutoNumberPlugin">
       <FriendlyName>AutoNumberPlugin</FriendlyName>
     </PluginType>
-    <PluginType AssemblyQualifiedName="LinkDev.AutoNumbering.Plugins.AutoNumber.Core.AutoNumberStep, LinkDev.AutoNumbering.Plugins.AutoNumber, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" Name="LinkDev.AutoNumbering.Plugins.AutoNumber.Core.AutoNumberStep">
-      <FriendlyName>AutoNumberStep</FriendlyName>
-      <WorkflowActivityGroupName>LinkDev.AutoNumbering.Plugins.AutoNumber (1.0.0.0)</WorkflowActivityGroupName>
-    </PluginType>
     <PluginType AssemblyQualifiedName="LinkDev.AutoNumbering.Plugins.AutoNumber.SetGuidField, LinkDev.AutoNumbering.Plugins.AutoNumber, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" Name="LinkDev.AutoNumbering.Plugins.AutoNumber.SetGuidField">
       <FriendlyName>SetGuidField</FriendlyName>
-    </PluginType>
-    <PluginType AssemblyQualifiedName="LinkDev.AutoNumbering.Plugins.AutoNumber.Target.Preval.CreateTargetUseBacklog, LinkDev.AutoNumbering.Plugins.AutoNumber, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" Name="LinkDev.AutoNumbering.Plugins.AutoNumber.Target.Preval.CreateTargetUseBacklog">
-      <FriendlyName>CreateTargetUseBacklog</FriendlyName>
     </PluginType>
     <PluginType AssemblyQualifiedName="LinkDev.AutoNumbering.Target.Plugins.PostCreateTargetAutoNum, LinkDev.AutoNumbering.Plugins.AutoNumber, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" Name="LinkDev.AutoNumbering.Target.Plugins.PostCreateTargetAutoNum">
       <FriendlyName>PostCreateTargetAutoNum</FriendlyName>

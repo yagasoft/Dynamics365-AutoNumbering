@@ -8,7 +8,7 @@
     <Descriptions>
       <Description description="Refer to YagaSoft.com for any enquiries." languagecode="1033" />
     </Descriptions>
-    <Version>1.1.0.1</Version>
+    <Version>1.1.0.2</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>linkdevelopment</UniqueName>
@@ -84,25 +84,21 @@
     <RootComponents>
       <RootComponent type="1" schemaName="ldv_autonumbering" behavior="0" />
       <RootComponent type="1" schemaName="ldv_autonumberingbacklog" behavior="0" />
-      <RootComponent type="1" schemaName="ldv_genericconfiguration" behavior="0" />
-      <RootComponent type="9" schemaName="ldv_datefrequency" behavior="0" />
-      <RootComponent type="9" schemaName="ldv_filesplitmode" behavior="0" />
-      <RootComponent type="9" schemaName="ldv_loglevel" behavior="0" />
-      <RootComponent type="9" schemaName="ldv_logmode" behavior="0" />
-      <RootComponent type="61" schemaName="ldv_/Generic/js/GenericConfigForm" behavior="0" />
+      <RootComponent type="60" id="{eee9d255-928f-4650-8978-d02ce6f24ff6}" behavior="0" />
       <RootComponent type="61" schemaName="ldv_autonumbering16png" behavior="0" />
       <RootComponent type="61" schemaName="ldv_autonumbering32png" behavior="0" />
       <RootComponent type="61" schemaName="ldv_AutoNumberingJs" behavior="0" />
-      <RootComponent type="61" schemaName="ldv_CommonGenericJs" behavior="0" />
-      <RootComponent type="61" schemaName="ldv_CommonGenericSchemaJs" behavior="0" />
-      <RootComponent type="61" schemaName="ldv_crmlogconfig16png" behavior="0" />
-      <RootComponent type="61" schemaName="ldv_crmlogconfig32png" behavior="0" />
       <RootComponent type="91" schemaName="LinkDev.AutoNumbering.Plugins.AutoNumber, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" behavior="0" />
       <RootComponent type="92" id="{020d03f9-f982-e611-9c05-f8b156a3e077}" behavior="0" />
       <RootComponent type="92" id="{64958e4b-5782-e611-9c05-f8b156a3e077}" behavior="0" />
       <RootComponent type="92" id="{87257c2d-6eff-e711-80e5-00155d5f3d03}" behavior="0" />
       <RootComponent type="92" id="{9c4d2ea2-66ff-e711-80e5-00155d5f3d03}" behavior="0" />
     </RootComponents>
-    <MissingDependencies />
+    <MissingDependencies>
+      <MissingDependency>
+        <Required key="0" type="61" schemaName="ldv_CommonGenericJs" displayName="ldv_CommonGenericJs" solution="Active" />
+        <Dependent key="1" type="60" displayName="Auto-Numbering Config Form" parentDisplayName="Auto-Numbering" id="{eee9d255-928f-4650-8978-d02ce6f24ff6}" />
+      </MissingDependency>
+    </MissingDependencies>
   </SolutionManifest>
 </ImportExportXml>

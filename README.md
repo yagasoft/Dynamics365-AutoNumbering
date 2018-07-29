@@ -22,8 +22,19 @@ A CRM solution that gives a lot of flexibility in creating any pattern required 
 
 ### Example
 
-"Test-{?{$createdon@hh:mm}::NO_DATE}-{!un-5}-{@yyyy}-{index}-{param3}"
-With current index 5, padding 3, the user in Cairo (9AM) and server in London (7AM), and 'PA;RA;METER' as input parameter to the WF step, the result numbering string: "Test-09:00-Ahmed-4AM7Z-2015-005-METER"
+#### _Format String_
+
+`Test-{?{$createdon@hh:mm}::NO_DATE}-{!un-5}-{@yyyy}-{index}-{param3}`
+
+#### _Input parameters_
+  + Current index: 5
+  + Padding: 3
+  + Executing user in Cairo at 9AM and server in London 7AM
+  + String 'PA;RA;METER' as input parameter to the WF step
+  
+#### _Result numbering_
+
+`Test-09:00-Ahmed-4AM7Z-2015-005-METER"`
 
 ### Guide
 

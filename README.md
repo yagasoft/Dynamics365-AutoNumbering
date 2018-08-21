@@ -1,7 +1,7 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yagasoft/DynamicsCrm-AutoNumbering?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 # DynamicsCrm-AutoNumbering
-### Version: 1.1
+### Version: 1.1.0.2
 ---
 
 A CRM solution that gives a lot of flexibility in creating any pattern required for auto-numbering.

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Entity>
   <Name LocalizedName="Auto-Numbering" OriginalName="Auto-Numbering">ldv_autonumbering</Name>
-  <ObjectTypeCode>10005</ObjectTypeCode>
+  <ObjectTypeCode>10014</ObjectTypeCode>
   <EntityInfo>
     <entity Name="ldv_autonumbering">
       <LocalizedNames>
@@ -435,7 +435,7 @@
           <AppDefaultValue>0</AppDefaultValue>
           <optionset Name="ldv_autonumbering_ldv_isincrementonupdate">
             <OptionSetType>bit</OptionSetType>
-            <IntroducedVersion>4.3.2.2</IntroducedVersion>
+            <IntroducedVersion>1.1.0.2</IntroducedVersion>
             <IsCustomizable>1</IsCustomizable>
             <displaynames>
               <displayname description="Increment OnUpdate" languagecode="1033" />
@@ -490,7 +490,7 @@
           <AppDefaultValue>0</AppDefaultValue>
           <optionset Name="ldv_autonumbering_ldv_isnumberletterratio">
             <OptionSetType>bit</OptionSetType>
-            <IntroducedVersion>4.3.2.2</IntroducedVersion>
+            <IntroducedVersion>1.1.0.2</IntroducedVersion>
             <IsCustomizable>1</IsCustomizable>
             <displaynames>
               <displayname description="Is Number Letter Ratio" languagecode="1033" />
@@ -545,7 +545,7 @@
           <AppDefaultValue>0</AppDefaultValue>
           <optionset Name="ldv_autonumbering_ldv_israndomletterstart">
             <OptionSetType>bit</OptionSetType>
-            <IntroducedVersion>4.3.2.2</IntroducedVersion>
+            <IntroducedVersion>1.1.0.2</IntroducedVersion>
             <IsCustomizable>1</IsCustomizable>
             <displaynames>
               <displayname description="Is Random Letter Start" languagecode="1033" />
@@ -600,7 +600,7 @@
           <AppDefaultValue>0</AppDefaultValue>
           <optionset Name="ldv_autonumbering_ldv_isusebacklog">
             <OptionSetType>bit</OptionSetType>
-            <IntroducedVersion>6.2.3.1</IntroducedVersion>
+            <IntroducedVersion>1.1.0.2</IntroducedVersion>
             <IsCustomizable>1</IsCustomizable>
             <displaynames>
               <displayname description="Use Backlog" languagecode="1033" />
@@ -655,7 +655,7 @@
           <AppDefaultValue>1</AppDefaultValue>
           <optionset Name="ldv_autonumbering_ldv_isvalidateuniquestring">
             <OptionSetType>bit</OptionSetType>
-            <IntroducedVersion>4.3.2.2</IntroducedVersion>
+            <IntroducedVersion>1.1.0.2</IntroducedVersion>
             <IsCustomizable>1</IsCustomizable>
             <displaynames>
               <displayname description="Validate Unique String" languagecode="1033" />
@@ -948,7 +948,7 @@
           <AppDefaultValue>0</AppDefaultValue>
           <optionset Name="ldv_autonumbering_ldv_resetinterval">
             <OptionSetType>picklist</OptionSetType>
-            <IntroducedVersion>4.3.2.2</IntroducedVersion>
+            <IntroducedVersion>1.1.0.2</IntroducedVersion>
             <IsCustomizable>1</IsCustomizable>
             <displaynames>
               <displayname description="Reset Interval" languagecode="1033" />
@@ -1429,7 +1429,7 @@
           <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
           <optionset Name="ldv_autonumbering_statecode">
             <OptionSetType>state</OptionSetType>
-            <IntroducedVersion>4.3.2.2</IntroducedVersion>
+            <IntroducedVersion>1.1.0.2</IntroducedVersion>
             <IsCustomizable>1</IsCustomizable>
             <displaynames>
               <displayname description="Status" languagecode="1033" />
@@ -1483,7 +1483,7 @@
           <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
           <optionset Name="ldv_autonumbering_statuscode">
             <OptionSetType>status</OptionSetType>
-            <IntroducedVersion>4.3.2.2</IntroducedVersion>
+            <IntroducedVersion>1.1.0.2</IntroducedVersion>
             <IsCustomizable>1</IsCustomizable>
             <displaynames>
               <displayname description="Status Reason" languagecode="1033" />
@@ -1646,7 +1646,7 @@
   <RibbonDiffXml />
   <CustomControlDefaultConfigs>
     <CustomControlDefaultConfig>
-      <PrimaryEntityTypeCode>10005</PrimaryEntityTypeCode>
+      <PrimaryEntityTypeCode>10014</PrimaryEntityTypeCode>
       <CustomControlDefaultConfigId>{6cb92e76-c396-e611-80bb-00155d5f3d01}</CustomControlDefaultConfigId>
       <ControlDescriptionXML>
         <controlDescriptions />

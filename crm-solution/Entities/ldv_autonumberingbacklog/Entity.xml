@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Entity>
   <Name LocalizedName="Auto-Numbering Backlog" OriginalName="Auto-Numbering Backlog">ldv_autonumberingbacklog</Name>
-  <ObjectTypeCode>10060</ObjectTypeCode>
+  <ObjectTypeCode>10015</ObjectTypeCode>
   <EntityInfo>
     <entity Name="ldv_autonumberingbacklog">
       <LocalizedNames>
@@ -228,6 +228,7 @@
           <IsSortableEnabled>0</IsSortableEnabled>
           <CanModifyGlobalFilterSettings>1</CanModifyGlobalFilterSettings>
           <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
+          <Format></Format>
           <MinValue>0</MinValue>
           <MaxValue>2147483647</MaxValue>
           <displaynames>
@@ -675,7 +676,7 @@
           <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
           <optionset Name="ldv_autonumberingbacklog_statecode">
             <OptionSetType>state</OptionSetType>
-            <IntroducedVersion>6.2.3.1</IntroducedVersion>
+            <IntroducedVersion>1.1.0.2</IntroducedVersion>
             <IsCustomizable>1</IsCustomizable>
             <displaynames>
               <displayname description="Status" languagecode="1033" />
@@ -729,7 +730,7 @@
           <CanModifyIsSortableSettings>1</CanModifyIsSortableSettings>
           <optionset Name="ldv_autonumberingbacklog_statuscode">
             <OptionSetType>status</OptionSetType>
-            <IntroducedVersion>6.2.3.1</IntroducedVersion>
+            <IntroducedVersion>1.1.0.2</IntroducedVersion>
             <IsCustomizable>1</IsCustomizable>
             <displaynames>
               <displayname description="Status Reason" languagecode="1033" />
@@ -903,7 +904,7 @@
   <RibbonDiffXml />
   <CustomControlDefaultConfigs>
     <CustomControlDefaultConfig>
-      <PrimaryEntityTypeCode>10060</PrimaryEntityTypeCode>
+      <PrimaryEntityTypeCode>10015</PrimaryEntityTypeCode>
       <CustomControlDefaultConfigId>{22c93a22-e0fd-e711-80e5-00155d5f3d03}</CustomControlDefaultConfigId>
       <ControlDescriptionXML>
         <controlDescriptions />

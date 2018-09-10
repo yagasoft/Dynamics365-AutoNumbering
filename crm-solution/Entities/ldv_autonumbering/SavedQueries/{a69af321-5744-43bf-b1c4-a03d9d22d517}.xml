@@ -6,10 +6,10 @@
     <isquickfindquery>0</isquickfindquery>
     <isprivate>0</isprivate>
     <isdefault>0</isdefault>
-    <returnedtypecode>10005</returnedtypecode>
+    <returnedtypecode>10014</returnedtypecode>
     <savedqueryid>{a69af321-5744-43bf-b1c4-a03d9d22d517}</savedqueryid>
     <layoutxml>
-      <grid name="resultset" object="10005" jump="ldv_name" select="1" icon="1" preview="1">
+      <grid name="resultset" object="10014" jump="ldv_name" select="1" icon="1" preview="1">
         <row name="result" id="ldv_autonumberingid">
           <cell name="ldv_name" width="300" />
           <cell name="createdon" width="125" />

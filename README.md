@@ -1,7 +1,7 @@
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yagasoft/DynamicsCrm-AutoNumbering?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 # DynamicsCrm-AutoNumbering
-### Version: 1.1.0.2
+### Version: 2.1.1.1
 ---
 
 A CRM solution that gives a lot of flexibility in creating any pattern required for auto-numbering.
@@ -49,6 +49,12 @@ I will post a complete guide soon.
     + Can be found in the [DynamicsCrm-Libraries](https://github.com/yagasoft/DynamicsCrm-Libraries) repository
   + Generic Base solution ([DynamicsCrm-BaseSolution](https://github.com/yagasoft/DynamicsCrm-BaseSolution))
   + CRM Logger solution ([DynamicsCrm-CrmLogger](https://github.com/yagasoft/DynamicsCrm-CrmLogger))
+		
+## Changes
+
+#### _v2.1.1.1 (2018-09-05)_
++ Added: Web Resources to project
++ Changed: cleaned the project of obsolete components
 
 ---
 **Copyright &copy; by Ahmed el-Sawalhy ([Yagasoft](http://yagasoft.com))** -- _GPL v3 Licence_

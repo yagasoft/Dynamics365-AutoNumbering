@@ -87,8 +87,12 @@
     <Compile Include="..\..\DynamicsCrm-Libraries\LinkDev.Libraries.Common\Common.cs">
       <Link>Common.cs</Link>
     </Compile>
+    <Compile Include="Config\Register\PreDeleteRegisterStep.cs" />
+    <Compile Include="Config\Register\PostUpdateRegisterStep.cs" />
+    <Compile Include="Config\Register\PostCreateRegisterStep.cs" />
     <Compile Include="Config\Plugins\PostUpdateConfigTriggerId.cs" />
     <Compile Include="Config\Plugins\PreCreateSetIdAutoNum.cs" />
+    <Compile Include="Helpers\RegistrationHelper.cs" />
     <Compile Include="Target\Plugins\PostUpdateTargetAutoNum.cs" />
     <Compile Include="Target\Plugins\PostCreateTargetAutoNum.cs" />
     <Compile Include="Target\Plugins\PrevalCreateTargetUseBacklog.cs" />

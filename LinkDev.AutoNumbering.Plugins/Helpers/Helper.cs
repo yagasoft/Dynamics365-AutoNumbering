@@ -8,6 +8,7 @@ using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
+using static LinkDev.Libraries.Common.CrmHelpers;
 
 #endregion
 
@@ -211,9 +212,12 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 						{
 							isConditioned = true;
 							log.Log($"Checking condition for '{autoNumberConfigTemp.Name}':'{autoNumberConfigTemp.Id}' ...");
+							var parsedCondition = ParseAttributeVariables(service, autoNumberConfigTemp.Condition, target,
+								context.UserId, context.OrganizationId.ToString());
+							var isConditionMet = IsConditionMet(service, parsedCondition,
+								target.ToEntityReference(), context.OrganizationId.ToString());
 
-							if (Libraries.Common.CrmHelpers.IsConditionMet(service, Libraries.Common.CrmHelpers.ParsePlaceholders(autoNumberConfigTemp.Condition, target),
-								target.ToEntityReference(), context.OrganizationId.ToString()))
+							if (isConditionMet)
 							{
 								log.Log("Condition met for auto-numbering record.");
 								autoNumberConfig = autoNumberConfigTemp;

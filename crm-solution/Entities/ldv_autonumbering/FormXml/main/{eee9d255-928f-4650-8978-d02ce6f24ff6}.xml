@@ -14,9 +14,9 @@
           <columns>
             <column width="100%">
               <sections>
-                <section showlabel="true" showbar="true" IsUserDefined="0" id="{123f2dd1-225f-4cb3-9bdd-26463f41355d}" name="EntitySection" columns="1" locklevel="0" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
+                <section showlabel="true" showbar="true" IsUserDefined="0" id="{123f2dd1-225f-4cb3-9bdd-26463f41355d}" name="EntitySection" columns="11" locklevel="0" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
                   <labels>
-                    <label description="Entity" languagecode="1033" />
+                    <label description="General" languagecode="1033" />
                   </labels>
                   <rows>
                     <row>
@@ -26,16 +26,6 @@
                         </labels>
                         <control id="ldv_name" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_name" />
                       </cell>
-                    </row>
-                    <row>
-                      <cell id="{6ae98712-94b3-859e-63ed-a3e04453ab85}" showlabel="true" locklevel="0">
-                        <labels>
-                          <label description="Unique ID" languagecode="1033" />
-                        </labels>
-                        <control id="ldv_uniqueid" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_uniqueid" disabled="true" />
-                      </cell>
-                    </row>
-                    <row>
                       <cell id="{9974d103-b500-4614-5d0a-6539ed82412c}" showlabel="true" locklevel="0">
                         <labels>
                           <label description="Entity Logical Name" languagecode="1033" />
@@ -44,11 +34,30 @@
                       </cell>
                     </row>
                     <row>
+                      <cell id="{6ae98712-94b3-859e-63ed-a3e04453ab85}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Unique ID" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_uniqueid" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_uniqueid" disabled="true" />
+                      </cell>
                       <cell id="{8db78b80-5d03-1eca-7555-83651a4a3a5c}" showlabel="true" locklevel="0">
                         <labels>
                           <label description="Field Logical Name" languagecode="1033" />
                         </labels>
                         <control id="ldv_fieldlogicalname" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_fieldlogicalname" disabled="false" uniqueid="{68930b6c-2421-c867-2bbc-40dde4b96b07}" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{de48d434-0627-4248-3bac-1b6dad440cdb}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Auto-register Step Stage" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_registerstepstagecode" classid="{3EF39988-22BB-4f0b-BBBE-64B5A3748AEE}" datafieldname="ldv_registerstepstagecode" disabled="false" uniqueid="{b890948c-4982-c291-0222-75470b799d48}" />
+                      </cell>
+                      <cell id="{95bc51a0-b4dc-a42d-44b2-7dc9342aede1}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
                       </cell>
                     </row>
                   </rows>
@@ -352,7 +361,7 @@
     <IsCustomizable>1</IsCustomizable>
     <CanBeDeleted>1</CanBeDeleted>
     <LocalizedNames>
-      <LocalizedName description="Auto-Numbering Config Form" languagecode="1033" />
+      <LocalizedName description="Main Form" languagecode="1033" />
     </LocalizedNames>
     <Descriptions>
       <Description description="A form for this entity." languagecode="1033" />

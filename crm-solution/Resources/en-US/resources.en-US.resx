@@ -189,7 +189,7 @@
     <comment>ldv_autonumberingbacklog Description for EntityRelationship 'user_ldv_autonumberingbacklog'</comment>
   </data>
   <data name="15062:Description,AutoNumbering" xml:space="preserve">
-    <value>Refer to YagaSoft.com for any enquiries.</value>
+    <value>Refer to Yagasoft.com for any enquiries.</value>
     <comment> 'AutoNumbering' : Description for Solution</comment>
   </data>
   <data name="15062:Description,linkdevelopmentldv75324" xml:space="preserve">
@@ -384,6 +384,10 @@
     <value />
     <comment>'ldv_autonumbering' : Description for OptionSet 'ldv_autonumbering_ldv_isvalidateuniquestring' on Entity</comment>
   </data>
+  <data name="1:Description,ldv_autonumberingldv_autonumbering_ldv_registerstepstagecode" xml:space="preserve">
+    <value />
+    <comment>'ldv_autonumbering' : Description for OptionSet 'ldv_autonumbering_ldv_registerstepstagecode' on Entity</comment>
+  </data>
   <data name="1:Description,ldv_autonumberingldv_autonumbering_ldv_resetinterval" xml:space="preserve">
     <value />
     <comment>'ldv_autonumbering' : Description for OptionSet 'ldv_autonumbering_ldv_resetinterval' on Entity</comment>
@@ -459,6 +463,10 @@
   <data name="1:Description,ldv_autonumberingldv_NumberLetterRatio" xml:space="preserve">
     <value>The percentage of letters in the generated random string.</value>
     <comment>'ldv_autonumbering' : Description for Attribute 'ldv_NumberLetterRatio' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingldv_RegisterStepStageCode" xml:space="preserve">
+    <value>Automatically adds a plugin step for the current configuration on the Create message. Clear value to remove step.</value>
+    <comment>'ldv_autonumbering' : Description for Attribute 'ldv_RegisterStepStageCode' on Entity</comment>
   </data>
   <data name="1:Description,ldv_autonumberingldv_ReplacementCharacters" xml:space="preserve">
     <value>Regex expression to be replaced in the final string. Format: [regex1],[replacement1];[regex2],[replacement2]</value>
@@ -676,6 +684,10 @@
     <value>Validate Unique String</value>
     <comment>'ldv_autonumbering' : displayname for OptionSet 'ldv_autonumbering_ldv_isvalidateuniquestring' on Entity</comment>
   </data>
+  <data name="1:displayname,ldv_autonumberingldv_autonumbering_ldv_registerstepstagecode" xml:space="preserve">
+    <value>Register Step Stage</value>
+    <comment>'ldv_autonumbering' : displayname for OptionSet 'ldv_autonumbering_ldv_registerstepstagecode' on Entity</comment>
+  </data>
   <data name="1:displayname,ldv_autonumberingldv_autonumbering_ldv_resetinterval" xml:space="preserve">
     <value>Reset Interval</value>
     <comment>'ldv_autonumbering' : displayname for OptionSet 'ldv_autonumbering_ldv_resetinterval' on Entity</comment>
@@ -751,6 +763,10 @@
   <data name="1:displayname,ldv_autonumberingldv_NumberLetterRatio" xml:space="preserve">
     <value>Number Letter Ratio</value>
     <comment>'ldv_autonumbering' : displayname for Attribute 'ldv_NumberLetterRatio' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingldv_RegisterStepStageCode" xml:space="preserve">
+    <value>Auto-register Step Stage</value>
+    <comment>'ldv_autonumbering' : displayname for Attribute 'ldv_RegisterStepStageCode' on Entity</comment>
   </data>
   <data name="1:displayname,ldv_autonumberingldv_ReplacementCharacters" xml:space="preserve">
     <value>Replacement Characters</value>
@@ -981,7 +997,7 @@
     <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{0a092aca-d3ec-cbcb-66ec-4a0b5cdb23b0}'</comment>
   </data>
   <data name="1:label,Auto-Numbering{123f2dd1-225f-4cb3-9bdd-26463f41355d}" xml:space="preserve">
-    <value>Entity</value>
+    <value>General</value>
     <comment>'Auto-Numbering' : label for section in Entity FormXml ID: '{123f2dd1-225f-4cb3-9bdd-26463f41355d}'</comment>
   </data>
   <data name="1:label,Auto-Numbering{12598c52-18cd-2336-637a-759a021ceb08}" xml:space="preserve">
@@ -1068,6 +1084,10 @@
     <value>Backlog Threshold</value>
     <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{8e6ee9c0-5820-6de8-35e1-987e34686a3b}'</comment>
   </data>
+  <data name="1:label,Auto-Numbering{95bc51a0-b4dc-a42d-44b2-7dc9342aede1}" xml:space="preserve">
+    <value />
+    <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{95bc51a0-b4dc-a42d-44b2-7dc9342aede1}'</comment>
+  </data>
   <data name="1:label,Auto-Numbering{9974d103-b500-4614-5d0a-6539ed82412c}" xml:space="preserve">
     <value>Entity Logical Name</value>
     <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{9974d103-b500-4614-5d0a-6539ed82412c}'</comment>
@@ -1123,6 +1143,10 @@
   <data name="1:label,Auto-Numbering{dd7b525e-be44-59e8-931c-aa2da9aed0d4}" xml:space="preserve">
     <value>Index</value>
     <comment>'Auto-Numbering' : label for section in Entity FormXml ID: '{dd7b525e-be44-59e8-931c-aa2da9aed0d4}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering{de48d434-0627-4248-3bac-1b6dad440cdb}" xml:space="preserve">
+    <value>Auto-register Step Stage</value>
+    <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{de48d434-0627-4248-3bac-1b6dad440cdb}'</comment>
   </data>
   <data name="1:label,Auto-Numbering{e0a9607c-796a-d775-8096-39379e3b52e9}" xml:space="preserve">
     <value>Replacement Characters</value>
@@ -1195,6 +1219,14 @@
   <data name="1:label,ldv_autonumberingldv_autonumbering_ldv_isvalidateuniquestring1" xml:space="preserve">
     <value>Yes</value>
     <comment>'ldv_autonumbering' : label for option '1' on Entity</comment>
+  </data>
+  <data name="1:label,ldv_autonumberingldv_autonumbering_ldv_registerstepstagecode753240000" xml:space="preserve">
+    <value>Pre-operation</value>
+    <comment>'ldv_autonumbering' : label for option '753240000' on Entity</comment>
+  </data>
+  <data name="1:label,ldv_autonumberingldv_autonumbering_ldv_registerstepstagecode753240001" xml:space="preserve">
+    <value>Post-operation</value>
+    <comment>'ldv_autonumbering' : label for option '753240001' on Entity</comment>
   </data>
   <data name="1:label,ldv_autonumberingldv_autonumbering_ldv_resetinterval0" xml:space="preserve">
     <value>Never</value>
@@ -1321,7 +1353,7 @@
     <comment>'Auto-Numbering' : LocalizedName for SavedQuery on Entity QueryId: '{ddc9a003-339b-4ee9-9519-1650b0602bf5}'</comment>
   </data>
   <data name="1:LocalizedName,Auto-Numbering{eee9d255-928f-4650-8978-d02ce6f24ff6}" xml:space="preserve">
-    <value>Auto-Numbering Config Form</value>
+    <value>Main Form</value>
     <comment>'Auto-Numbering' : LocalizedName for systemform in Entity FormXml ID: '{eee9d255-928f-4650-8978-d02ce6f24ff6}'</comment>
   </data>
   <data name="1:LocalizedName,ldv_autonumberingbacklogentityldv_autonumberingbacklog" xml:space="preserve">

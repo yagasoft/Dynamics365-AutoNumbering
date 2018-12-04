@@ -66,6 +66,56 @@ namespace LinkDev.AutoNumbering.Plugins
 				return this.CreateQuery<AutoNumberingBacklog>();
 			}
 		}
+		/// <summary>
+		/// Gets a binding to the set of all <see cref="PluginType"/> entities.
+		/// </summary>
+		public System.Linq.IQueryable<PluginType> PluginTypeSet
+		{
+			get
+			{
+				return this.CreateQuery<PluginType>();
+			}
+		}
+		/// <summary>
+		/// Gets a binding to the set of all <see cref="SdkMessage"/> entities.
+		/// </summary>
+		public System.Linq.IQueryable<SdkMessage> SdkMessageSet
+		{
+			get
+			{
+				return this.CreateQuery<SdkMessage>();
+			}
+		}
+		/// <summary>
+		/// Gets a binding to the set of all <see cref="SdkMessageFilter"/> entities.
+		/// </summary>
+		public System.Linq.IQueryable<SdkMessageFilter> SdkMessageFilterSet
+		{
+			get
+			{
+				return this.CreateQuery<SdkMessageFilter>();
+			}
+		}
+		/// <summary>
+		/// Gets a binding to the set of all <see cref="SdkMessageProcessingStep"/> entities.
+		/// </summary>
+		public System.Linq.IQueryable<SdkMessageProcessingStep> SdkMessageProcessingStepSet
+		{
+			get
+			{
+				return this.CreateQuery<SdkMessageProcessingStep>();
+			}
+		}
+		/// <summary>
+		/// Gets a binding to the set of all <see cref="SdkMessageProcessingStepImage"/> entities.
+		/// </summary>
+		public System.Linq.IQueryable<SdkMessageProcessingStepImage> SdkMessageProcessingStepImageSet
+		{
+			get
+			{
+				return this.CreateQuery<SdkMessageProcessingStepImage>();
+			}
+		}
 	}
 
 	#endregion
@@ -2605,7 +2655,7 @@ namespace LinkDev.AutoNumbering.Plugins
 		public const string DisplayName = "Auto-Numbering";
 		public const string SchemaName = "ldv_autonumbering";
 		public const string EntityLogicalName = "ldv_autonumbering";
-		public const int EntityTypeCode = 10005;
+		public const int EntityTypeCode = 10014;
 		
 		#region Attributes
 
@@ -3105,6 +3155,27 @@ namespace LinkDev.AutoNumbering.Plugins
 				OnPropertyChanging("NumberLetterRatio");
 					SetAttributeValue("ldv_numberletterratio", value);
 				OnPropertyChanged("NumberLetterRatio");
+			}
+		}
+
+		[AttributeLogicalName("ldv_registerstepstagecode")]
+		public RegisterStepStageEnum? RegisterStepStage
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("ldv_registerstepstagecode");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ldv_registerstepstagecode"))
+				    value = (OptionSetValue) backupAttributeCollection["ldv_registerstepstagecode"];
+                return value == null ? (RegisterStepStageEnum?) null : (RegisterStepStageEnum?) value.Value;
+			}
+			set
+			{
+				OnPropertyChanging("RegisterStepStage");
+                if (value != null)
+				    SetAttributeValue("ldv_registerstepstagecode", new OptionSetValue((int) value.Value));
+                else
+					SetAttributeValue("ldv_registerstepstagecode", value);
+				OnPropertyChanged("RegisterStepStage");
 			}
 		}
 
@@ -3753,6 +3824,16 @@ namespace LinkDev.AutoNumbering.Plugins
 
 		#endregion
 	
+		#region RegisterStepStage
+
+		public enum RegisterStepStageEnum
+		{
+			[EnumMember]Preoperation = 753240000,
+			[EnumMember]Postoperation = 753240001,
+		}
+
+		#endregion
+	
 		#region ResetInterval
 
 		public enum ResetIntervalEnum
@@ -3828,6 +3909,7 @@ namespace LinkDev.AutoNumbering.Plugins
 				public const string IsRandomLetterStart = "ldv_israndomletterstart";
 				public const string UseBacklog = "ldv_isusebacklog";
 				public const string ValidateUniqueString = "ldv_isvalidateuniquestring";
+				public const string RegisterStepStage = "ldv_registerstepstagecode";
 				public const string ResetInterval = "ldv_resetinterval";
 				public const string Status = "statecode";
 				public const string StatusReason = "statuscode";
@@ -3891,6 +3973,17 @@ namespace LinkDev.AutoNumbering.Plugins
 					public static int GetValue(string label, int languageCode = 1033)
 					{
 						return CrmHelpers.GetValue(typeof(ValidateUniqueString), label, languageCode);
+					}
+				}
+
+				public static class RegisterStepStage 
+				{
+					public const string Preoperation_1033 = "Pre-operation";
+					public const string Postoperation_1033 = "Post-operation";
+
+					public static int GetValue(string label, int languageCode = 1033)
+					{
+						return CrmHelpers.GetValue(typeof(RegisterStepStage), label, languageCode);
 					}
 				}
 
@@ -3964,6 +4057,7 @@ namespace LinkDev.AutoNumbering.Plugins
 			public const string Locking = "ldv_locking";
 			public const string Name = "ldv_name";
 			public const string NumberLetterRatio = "ldv_numberletterratio";
+			public const string RegisterStepStage = "ldv_registerstepstagecode";
 			public const string ReplacementCharacters = "ldv_replacementcharacters";
 			public const string ResetDate = "ldv_resetdate";
 			public const string ResetIndex = "ldv_resetindex";
@@ -4011,6 +4105,7 @@ namespace LinkDev.AutoNumbering.Plugins
 				public const string Locking = "ldv_Locking";
 				public const string Name = "ldv_name";
 				public const string NumberLetterRatio = "ldv_NumberLetterRatio";
+				public const string RegisterStepStage = "ldv_RegisterStepStageCode";
 				public const string ReplacementCharacters = "ldv_ReplacementCharacters";
 				public const string ResetDate = "ldv_ResetDate";
 				public const string ResetIndex = "ldv_ResetIndex";
@@ -4141,6 +4236,11 @@ namespace LinkDev.AutoNumbering.Plugins
 				public static class NumberLetterRatio
 				{
 					public const string _1033 = "Number Letter Ratio";
+				}
+
+				public static class RegisterStepStage
+				{
+					public const string _1033 = "Register Step Stage";
 				}
 
 				public static class ReplacementCharacters
@@ -4295,7 +4395,7 @@ namespace LinkDev.AutoNumbering.Plugins
 		public const string DisplayName = "Auto-Numbering Backlog";
 		public const string SchemaName = "ldv_autonumberingbacklog";
 		public const string EntityLogicalName = "ldv_autonumberingbacklog";
-		public const int EntityTypeCode = 10060;
+		public const int EntityTypeCode = 10015;
 		
 		#region Attributes
 
@@ -5334,6 +5434,4701 @@ namespace LinkDev.AutoNumbering.Plugins
 		}
 
 		#endregion
+
+		#endregion
+	}
+
+	#endregion
+
+	#region PluginType
+
+	/// <summary>
+	/// 'PluginType'.<br />
+	/// Type that inherits from the IPlugin interface and is contained within a plug-in assembly.
+	/// </summary>
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+	[DataContract, EntityLogicalName("plugintype")]
+	public partial class PluginType : GeneratedEntity
+	{
+		
+		public PluginType() : 
+				base(EntityLogicalName)
+		{
+		}
+		
+		public const string DisplayName = "Plug-in Type";
+		public const string SchemaName = "PluginType";
+		public const string EntityLogicalName = "plugintype";
+		public const int EntityTypeCode = 4602;
+		
+		#region Attributes
+
+		[AttributeLogicalName("plugintypeid"), DataMember]
+		public override System.Guid Id
+		{
+			get
+			{
+				return (PluginTypeId == null || PluginTypeId == Guid.Empty) ? base.Id : PluginTypeId.GetValueOrDefault();
+			}
+			
+			set
+			{
+                if (value == Guid.Empty) {
+                    Attributes.Remove("plugintypeid");
+                    base.Id = value;
+                } else {
+				    PluginTypeId = value;
+                }
+			}
+		}
+
+        /// <summary>
+        /// [Required][MaximumLength=100] 
+		/// 'AssemblyName'.<br />
+        /// Full path name of the plug-in assembly.
+        /// </summary>
+		[AttributeLogicalName("assemblyname"), Required, MaxLength(100)]
+		public string AssemblyName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("assemblyname");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("assemblyname"))
+				    value = (string) backupAttributeCollection["assemblyname"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("AssemblyName");
+					SetAttributeValue("assemblyname", value);
+				OnPropertyChanged("AssemblyName");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ComponentState'.<br />
+        /// For internal use only.
+        /// </summary>
+		[AttributeLogicalName("componentstate")]
+		public ComponentStateEnum? ComponentState
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("componentstate");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("componentstate"))
+				    value = (OptionSetValue) backupAttributeCollection["componentstate"];
+                return value == null ? (ComponentStateEnum?) null : (ComponentStateEnum?) value.Value;
+			}
+			set
+			{
+				OnPropertyChanging("ComponentState");
+                if (value != null)
+				    SetAttributeValue("componentstate", new OptionSetValue((int) value.Value));
+                else
+					SetAttributeValue("componentstate", value);
+				OnPropertyChanged("ComponentState");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedBy'.<br />
+        /// Unique identifier of the user who created the plug-in type.
+        /// </summary>
+		[AttributeLogicalName("createdby")]
+		public Guid? CreatedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdby"))
+				    value = (EntityReference) backupAttributeCollection["createdby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedBy");
+                if (value != null)
+				    SetAttributeValue("createdby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("createdby", value);
+				OnPropertyChanged("CreatedBy");
+			}
+		}
+
+        public string CreatedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdby"))
+				    value = (EntityReference) backupAttributeCollection["createdby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'CreatedOn'.<br />
+        /// Date and time when the plug-in type was created.
+        /// </summary>
+		[AttributeLogicalName("createdon")]
+		public DateTime? CreatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("createdon");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdon"))
+				    value = (DateTime?) backupAttributeCollection["createdon"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedOn");
+					SetAttributeValue("createdon", value);
+				OnPropertyChanged("CreatedOn");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who created the plugintype.
+        /// </summary>
+		[AttributeLogicalName("createdonbehalfby")]
+		public Guid? CreatedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["createdonbehalfby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedByDelegate");
+                if (value != null)
+				    SetAttributeValue("createdonbehalfby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("createdonbehalfby", value);
+				OnPropertyChanged("CreatedByDelegate");
+			}
+		}
+
+        public string CreatedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["createdonbehalfby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        /// [Required][MaximumLength=32] 
+		/// 'Culture'.<br />
+        /// Culture code for the plug-in assembly.
+        /// </summary>
+		[AttributeLogicalName("culture"), Required, MaxLength(32)]
+		public string Culture
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("culture");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("culture"))
+				    value = (string) backupAttributeCollection["culture"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Culture");
+					SetAttributeValue("culture", value);
+				OnPropertyChanged("Culture");
+			}
+		}
+
+        /// <summary>
+        /// [Range(-255, 255)] 
+		/// 'CustomizationLevel'.<br />
+        /// Customization level of the plug-in type.
+        /// </summary>
+		[AttributeLogicalName("customizationlevel"), InRange("-255", "255", typeof(int))]
+		public int? CustomizationLevel
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("customizationlevel");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("customizationlevel"))
+				    value = (int?) backupAttributeCollection["customizationlevel"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CustomizationLevel");
+					SetAttributeValue("customizationlevel", value);
+				OnPropertyChanged("CustomizationLevel");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=1048576] 
+		/// 'CustomWorkflowActivityInfo'.<br />
+        /// Serialized Custom Activity Type information, including required arguments. For more information, see SandboxCustomActivityInfo.
+        /// </summary>
+		[AttributeLogicalName("customworkflowactivityinfo"), MaxLength(1048576)]
+		public string CustomWorkflowActivityInfo
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("customworkflowactivityinfo");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("customworkflowactivityinfo"))
+				    value = (string) backupAttributeCollection["customworkflowactivityinfo"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CustomWorkflowActivityInfo");
+					SetAttributeValue("customworkflowactivityinfo", value);
+				OnPropertyChanged("CustomWorkflowActivityInfo");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=256] 
+		/// 'Description'.<br />
+        /// Description of the plug-in type.
+        /// </summary>
+		[AttributeLogicalName("description"), MaxLength(256)]
+		public string Description
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("description");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("description"))
+				    value = (string) backupAttributeCollection["description"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Description");
+					SetAttributeValue("description", value);
+				OnPropertyChanged("Description");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=256] 
+		/// 'FriendlyName'.<br />
+        /// User friendly name for the plug-in.
+        /// </summary>
+		[AttributeLogicalName("friendlyname"), MaxLength(256)]
+		public string DisplayName_FriendlyName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("friendlyname");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("friendlyname"))
+				    value = (string) backupAttributeCollection["friendlyname"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("DisplayName_FriendlyName");
+					SetAttributeValue("friendlyname", value);
+				OnPropertyChanged("DisplayName_FriendlyName");
+			}
+		}
+
+		[AttributeLogicalName("ismanaged")]
+		public bool? IsManaged
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("ismanaged");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ismanaged"))
+				    value = (bool?) backupAttributeCollection["ismanaged"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("IsManaged");
+					SetAttributeValue("ismanaged", value);
+				OnPropertyChanged("IsManaged");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'IsWorkflowActivity'.<br />
+        /// Indicates if the plug-in is a custom activity for workflows.
+        /// </summary>
+		[AttributeLogicalName("isworkflowactivity")]
+		public bool? IsWorkflowActivity
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("isworkflowactivity");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("isworkflowactivity"))
+				    value = (bool?) backupAttributeCollection["isworkflowactivity"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("IsWorkflowActivity");
+					SetAttributeValue("isworkflowactivity", value);
+				OnPropertyChanged("IsWorkflowActivity");
+			}
+		}
+
+        /// <summary>
+        /// [Range(0, 65534)] 
+		/// 'Major'.<br />
+        /// Major of the version number of the assembly for the plug-in type.
+        /// </summary>
+		[AttributeLogicalName("major"), InRange("0", "65534", typeof(int))]
+		public int? Versionmajor
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("major");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("major"))
+				    value = (int?) backupAttributeCollection["major"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Versionmajor");
+					SetAttributeValue("major", value);
+				OnPropertyChanged("Versionmajor");
+			}
+		}
+
+        /// <summary>
+        /// [Range(0, 65534)] 
+		/// 'Minor'.<br />
+        /// Minor of the version number of the assembly for the plug-in type.
+        /// </summary>
+		[AttributeLogicalName("minor"), InRange("0", "65534", typeof(int))]
+		public int? Versionminor
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("minor");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("minor"))
+				    value = (int?) backupAttributeCollection["minor"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Versionminor");
+					SetAttributeValue("minor", value);
+				OnPropertyChanged("Versionminor");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedBy'.<br />
+        /// Unique identifier of the user who last modified the plug-in type.
+        /// </summary>
+		[AttributeLogicalName("modifiedby")]
+		public Guid? ModifiedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedBy");
+                if (value != null)
+				    SetAttributeValue("modifiedby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("modifiedby", value);
+				OnPropertyChanged("ModifiedBy");
+			}
+		}
+
+        public string ModifiedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOn'.<br />
+        /// Date and time when the plug-in type was last modified.
+        /// </summary>
+		[AttributeLogicalName("modifiedon")]
+		public DateTime? ModifiedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("modifiedon");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedon"))
+				    value = (DateTime?) backupAttributeCollection["modifiedon"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedOn");
+					SetAttributeValue("modifiedon", value);
+				OnPropertyChanged("ModifiedOn");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who last modified the plugintype.
+        /// </summary>
+		[AttributeLogicalName("modifiedonbehalfby")]
+		public Guid? ModifiedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedonbehalfby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedByDelegate");
+                if (value != null)
+				    SetAttributeValue("modifiedonbehalfby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("modifiedonbehalfby", value);
+				OnPropertyChanged("ModifiedByDelegate");
+			}
+		}
+
+        public string ModifiedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedonbehalfby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        /// [MaximumLength=256] 
+		/// 'Name'.<br />
+        /// Name of the plug-in type.
+        /// </summary>
+		[AttributeLogicalName("name"), MaxLength(256)]
+		public string Name
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("name");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("name"))
+				    value = (string) backupAttributeCollection["name"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Name");
+					SetAttributeValue("name", value);
+				OnPropertyChanged("Name");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'OrganizationId'.<br />
+        /// Unique identifier of the organization with which the plug-in type is associated.
+        /// </summary>
+		[AttributeLogicalName("organizationid")]
+		public Guid? OrganizationId
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("organizationid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("organizationid"))
+				    value = (EntityReference) backupAttributeCollection["organizationid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("OrganizationId");
+                if (value != null)
+				    SetAttributeValue("organizationid", new EntityReference("organization", value.Value));
+                else
+					SetAttributeValue("organizationid", value);
+				OnPropertyChanged("OrganizationId");
+			}
+		}
+
+        public string OrganizationIdName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("organizationid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("organizationid"))
+				    value = (EntityReference) backupAttributeCollection["organizationid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'OverwriteTime'.<br />
+        /// For internal use only.
+        /// </summary>
+		[AttributeLogicalName("overwritetime")]
+		public DateTime? RecordOverwriteTime
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("overwritetime");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("overwritetime"))
+				    value = (DateTime?) backupAttributeCollection["overwritetime"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("RecordOverwriteTime");
+					SetAttributeValue("overwritetime", value);
+				OnPropertyChanged("RecordOverwriteTime");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'PluginAssemblyId'.<br />
+        /// Unique identifier of the plug-in assembly that contains this plug-in type.
+        /// </summary>
+		[AttributeLogicalName("pluginassemblyid")]
+		public Guid? PluginAssembly
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("pluginassemblyid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("pluginassemblyid"))
+				    value = (EntityReference) backupAttributeCollection["pluginassemblyid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("PluginAssembly");
+                if (value != null)
+				    SetAttributeValue("pluginassemblyid", new EntityReference("pluginassembly", value.Value));
+                else
+					SetAttributeValue("pluginassemblyid", value);
+				OnPropertyChanged("PluginAssembly");
+			}
+		}
+
+        public string PluginAssemblyName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("pluginassemblyid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("pluginassemblyid"))
+				    value = (EntityReference) backupAttributeCollection["pluginassemblyid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'PluginTypeId'.<br />
+        /// Unique identifier of the plug-in type.
+        /// </summary>
+		[AttributeLogicalName("plugintypeid")]
+		public Guid? PluginTypeId
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("plugintypeid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("plugintypeid"))
+				    value = (Guid?) backupAttributeCollection["plugintypeid"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("PluginTypeId");
+                if (value != null)
+					SetAttributeValue("plugintypeid", value);
+				if (value != null)
+					base.Id = value.Value;
+				else
+					Id = System.Guid.Empty;
+				OnPropertyChanged("PluginTypeId");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'PluginTypeIdUnique'.<br />
+        /// Unique identifier of the plug-in type.
+        /// </summary>
+		[AttributeLogicalName("plugintypeidunique")]
+		public Guid? PluginTypeIdUnique
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("plugintypeidunique");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("plugintypeidunique"))
+				    value = (Guid?) backupAttributeCollection["plugintypeidunique"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("PluginTypeIdUnique");
+					SetAttributeValue("plugintypeidunique", value);
+				OnPropertyChanged("PluginTypeIdUnique");
+			}
+		}
+
+        /// <summary>
+        /// [Required][MaximumLength=32] 
+		/// 'PublicKeyToken'.<br />
+        /// Public key token of the assembly for the plug-in type.
+        /// </summary>
+		[AttributeLogicalName("publickeytoken"), Required, MaxLength(32)]
+		public string PublicKeyToken
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("publickeytoken");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("publickeytoken"))
+				    value = (string) backupAttributeCollection["publickeytoken"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("PublicKeyToken");
+					SetAttributeValue("publickeytoken", value);
+				OnPropertyChanged("PublicKeyToken");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'SolutionId'.<br />
+        /// Unique identifier of the associated solution.
+        /// </summary>
+		[AttributeLogicalName("solutionid")]
+		public Guid? Solution_SolutionId
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("solutionid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("solutionid"))
+				    value = (Guid?) backupAttributeCollection["solutionid"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Solution_SolutionId");
+					SetAttributeValue("solutionid", value);
+				OnPropertyChanged("Solution_SolutionId");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=256] 
+		/// 'TypeName'.<br />
+        /// Fully qualified type name of the plug-in type.
+        /// </summary>
+		[AttributeLogicalName("typename"), MaxLength(256)]
+		public string TypeName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("typename");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("typename"))
+				    value = (string) backupAttributeCollection["typename"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("TypeName");
+					SetAttributeValue("typename", value);
+				OnPropertyChanged("TypeName");
+			}
+		}
+
+        /// <summary>
+        /// [Required][MaximumLength=48] 
+		/// 'Version'.<br />
+        /// Version number of the assembly for the plug-in type.
+        /// </summary>
+		[AttributeLogicalName("version"), Required, MaxLength(48)]
+		public string Version
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("version");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("version"))
+				    value = (string) backupAttributeCollection["version"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Version");
+					SetAttributeValue("version", value);
+				OnPropertyChanged("Version");
+			}
+		}
+
+		[AttributeLogicalName("versionnumber")]
+		public long? VersionNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<long?>("versionnumber");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("versionnumber"))
+				    value = (long?) backupAttributeCollection["versionnumber"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("VersionNumber");
+					SetAttributeValue("versionnumber", value);
+				OnPropertyChanged("VersionNumber");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=256] 
+		/// 'WorkflowActivityGroupName'.<br />
+        /// Group name of workflow custom activity.
+        /// </summary>
+		[AttributeLogicalName("workflowactivitygroupname"), MaxLength(256)]
+		public string WorkflowActivityGroupName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("workflowactivitygroupname");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("workflowactivitygroupname"))
+				    value = (string) backupAttributeCollection["workflowactivitygroupname"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("WorkflowActivityGroupName");
+					SetAttributeValue("workflowactivitygroupname", value);
+				OnPropertyChanged("WorkflowActivityGroupName");
+			}
+		}
+
+		#endregion
+
+		#region Relationships
+
+		
+		/// <summary>
+		/// 1:N, 'plugintype_sdkmessageprocessingstep'
+		/// </summary>
+		[RelationshipSchemaName("plugintype_sdkmessageprocessingstep")]
+		public SdkMessageProcessingStep[] SdkMessageProcessingStepsOfEventHandler
+		{
+			get
+			{
+				var enumerable = GetRelatedEntities<SdkMessageProcessingStep>("plugintype_sdkmessageprocessingstep", null);
+				return enumerable != null ? enumerable.ToArray() : null;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageProcessingStepsOfEventHandler");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
+				SetRelatedEntities<SdkMessageProcessingStep>("plugintype_sdkmessageprocessingstep", null, value);
+				OnPropertyChanged("SdkMessageProcessingStepsOfEventHandler");
+			}
+		}
+		
+		/// <summary>
+		/// 1:N, 'plugintypeid_sdkmessageprocessingstep'
+		/// </summary>
+		[RelationshipSchemaName("plugintypeid_sdkmessageprocessingstep")]
+		public SdkMessageProcessingStep[] SdkMessageProcessingStepsOfPlugInType
+		{
+			get
+			{
+				var enumerable = GetRelatedEntities<SdkMessageProcessingStep>("plugintypeid_sdkmessageprocessingstep", null);
+				return enumerable != null ? enumerable.ToArray() : null;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageProcessingStepsOfPlugInType");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
+				SetRelatedEntities<SdkMessageProcessingStep>("plugintypeid_sdkmessageprocessingstep", null, value);
+				OnPropertyChanged("SdkMessageProcessingStepsOfPlugInType");
+			}
+		}
+		
+		public class RelationNames {
+			public const string SdkMessageProcessingStepsOfEventHandler = "SdkMessageProcessingStepsOfEventHandler";
+			public const string SdkMessageProcessingStepsOfPlugInType = "SdkMessageProcessingStepsOfPlugInType";
+		}
+
+
+		protected override IDictionary<string, object[]> RelationProperties { get {
+			if (relationProperties != null) return relationProperties;
+			relationProperties = new Dictionary<string, object[]>();
+			relationProperties["SdkMessageProcessingStepsOfEventHandler"] = new object[] { "SdkMessageProcessingStepsOfEventHandler", "sdkmessageprocessingstep", "plugintype", "eventhandler", "plugintypeid", "plugintypeid", "plugintypeid", "plugintype_sdkmessageprocessingstep", typeof (SdkMessageProcessingStep[]) };
+			relationProperties["SdkMessageProcessingStepsOfPlugInType"] = new object[] { "SdkMessageProcessingStepsOfPlugInType", "sdkmessageprocessingstep", "plugintype", "plugintypeid", "plugintypeid", "plugintypeid", "plugintypeid", "plugintypeid_sdkmessageprocessingstep", typeof (SdkMessageProcessingStep[]) };
+			return relationProperties; } }
+
+
+		#endregion
+
+		/// <summary>
+		/// Constructor for populating via LINQ queries given a LINQ anonymous type
+		/// <param name="anonymousType">LINQ anonymous type.</param>
+		/// </summary>
+		public PluginType(object anonymousType) : 
+				this()
+		{
+            foreach (var p in anonymousType.GetType().GetProperties())
+            {
+                var value = p.GetValue(anonymousType, null);
+                if (p.PropertyType == typeof(System.Guid))
+                {
+                    // Type is Guid, must be Id
+                    base.Id = (System.Guid)value;
+                    Attributes["plugintypeid"] = base.Id;
+               }
+                else if (p.Name == "FormattedValues")
+                {
+                    // Add Support for FormattedValues
+                    FormattedValues.AddRange((FormattedValueCollection)value);
+                }
+                else
+                {
+                    Attributes[p.Name.ToLower()] = value;
+                }
+            }
+		}
+
+		#region Label/value pairs
+
+		#region ComponentState
+
+		public enum ComponentStateEnum
+		{
+			[EnumMember]Published = 0,
+			[EnumMember]Unpublished = 1,
+			[EnumMember]Deleted = 2,
+			[EnumMember]DeletedUnpublished = 3,
+		}
+
+		#endregion
+	
+		#region IsManaged
+
+		public enum IsManagedEnum
+		{
+			[EnumMember]Managed = 1,
+			[EnumMember]Unmanaged = 0,
+		}
+
+		#endregion
+	
+		#region IsWorkflowActivity
+
+		public enum IsWorkflowActivityEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#endregion
+
+		#region Metadata
+
+		#endregion
+	}
+
+	#endregion
+
+	#region SdkMessage
+
+	/// <summary>
+	/// 'SdkMessage'.<br />
+	/// Message that is supported by the SDK.
+	/// </summary>
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+	[DataContract, EntityLogicalName("sdkmessage")]
+	public partial class SdkMessage : GeneratedEntity
+	{
+		
+		public SdkMessage() : 
+				base(EntityLogicalName)
+		{
+		}
+		
+		public const string DisplayName = "Sdk Message";
+		public const string SchemaName = "SdkMessage";
+		public const string EntityLogicalName = "sdkmessage";
+		public const int EntityTypeCode = 4606;
+		
+		#region Attributes
+
+		[AttributeLogicalName("sdkmessageid"), DataMember]
+		public override System.Guid Id
+		{
+			get
+			{
+				return (SdkMessageIdId == null || SdkMessageIdId == Guid.Empty) ? base.Id : SdkMessageIdId.GetValueOrDefault();
+			}
+			
+			set
+			{
+                if (value == Guid.Empty) {
+                    Attributes.Remove("sdkmessageid");
+                    base.Id = value;
+                } else {
+				    SdkMessageIdId = value;
+                }
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'AutoTransact'.<br />
+        /// Information about whether the SDK message is automatically transacted.
+        /// </summary>
+		[AttributeLogicalName("autotransact")]
+		public bool? AutoTransact
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("autotransact");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("autotransact"))
+				    value = (bool?) backupAttributeCollection["autotransact"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("AutoTransact");
+					SetAttributeValue("autotransact", value);
+				OnPropertyChanged("AutoTransact");
+			}
+		}
+
+        /// <summary>
+        /// [Range(-2147483648, 2147483647)] 
+		/// 'Availability'.<br />
+        /// Identifies where a method will be exposed. 0 - Server, 1 - Client, 2 - both.
+        /// </summary>
+		[AttributeLogicalName("availability"), InRange("-2147483648", "2147483647", typeof(int))]
+		public int? Availability
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("availability");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("availability"))
+				    value = (int?) backupAttributeCollection["availability"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Availability");
+					SetAttributeValue("availability", value);
+				OnPropertyChanged("Availability");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=25] 
+		/// 'CategoryName'.<br />
+        /// If this is a categorized method, this is the name, otherwise None.
+        /// </summary>
+		[AttributeLogicalName("categoryname"), MaxLength(25)]
+		public string CategoryName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("categoryname");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("categoryname"))
+				    value = (string) backupAttributeCollection["categoryname"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CategoryName");
+					SetAttributeValue("categoryname", value);
+				OnPropertyChanged("CategoryName");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedBy'.<br />
+        /// Unique identifier of the user who created the SDK message.
+        /// </summary>
+		[AttributeLogicalName("createdby")]
+		public Guid? CreatedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdby"))
+				    value = (EntityReference) backupAttributeCollection["createdby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedBy");
+                if (value != null)
+				    SetAttributeValue("createdby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("createdby", value);
+				OnPropertyChanged("CreatedBy");
+			}
+		}
+
+        public string CreatedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdby"))
+				    value = (EntityReference) backupAttributeCollection["createdby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'CreatedOn'.<br />
+        /// Date and time when the SDK message was created.
+        /// </summary>
+		[AttributeLogicalName("createdon")]
+		public DateTime? CreatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("createdon");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdon"))
+				    value = (DateTime?) backupAttributeCollection["createdon"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedOn");
+					SetAttributeValue("createdon", value);
+				OnPropertyChanged("CreatedOn");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who created the sdkmessage.
+        /// </summary>
+		[AttributeLogicalName("createdonbehalfby")]
+		public Guid? CreatedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["createdonbehalfby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedByDelegate");
+                if (value != null)
+				    SetAttributeValue("createdonbehalfby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("createdonbehalfby", value);
+				OnPropertyChanged("CreatedByDelegate");
+			}
+		}
+
+        public string CreatedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["createdonbehalfby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        /// [Range(-255, 255)] 
+		/// 'CustomizationLevel'.<br />
+        /// Customization level of the SDK message.
+        /// </summary>
+		[AttributeLogicalName("customizationlevel"), InRange("-255", "255", typeof(int))]
+		public int? CustomizationLevel
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("customizationlevel");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("customizationlevel"))
+				    value = (int?) backupAttributeCollection["customizationlevel"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CustomizationLevel");
+					SetAttributeValue("customizationlevel", value);
+				OnPropertyChanged("CustomizationLevel");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'Expand'.<br />
+        /// Indicates whether the SDK message should have its requests expanded per primary entity defined in its filters.
+        /// </summary>
+		[AttributeLogicalName("expand")]
+		public bool? Expand
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("expand");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("expand"))
+				    value = (bool?) backupAttributeCollection["expand"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Expand");
+					SetAttributeValue("expand", value);
+				OnPropertyChanged("Expand");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'IsActive'.<br />
+        /// Information about whether the SDK message is active.
+        /// </summary>
+		[AttributeLogicalName("isactive")]
+		public bool? IsActive
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("isactive");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("isactive"))
+				    value = (bool?) backupAttributeCollection["isactive"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("IsActive");
+					SetAttributeValue("isactive", value);
+				OnPropertyChanged("IsActive");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'IsPrivate'.<br />
+        /// Indicates whether the SDK message is private.
+        /// </summary>
+		[AttributeLogicalName("isprivate")]
+		public bool? IsPrivate
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("isprivate");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("isprivate"))
+				    value = (bool?) backupAttributeCollection["isprivate"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("IsPrivate");
+					SetAttributeValue("isprivate", value);
+				OnPropertyChanged("IsPrivate");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'IsReadOnly'.<br />
+        /// Identifies whether an SDK message will be ReadOnly or Read Write. false - ReadWrite, true - ReadOnly .
+        /// </summary>
+		[AttributeLogicalName("isreadonly")]
+		public bool? Intent
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("isreadonly");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("isreadonly"))
+				    value = (bool?) backupAttributeCollection["isreadonly"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Intent");
+					SetAttributeValue("isreadonly", value);
+				OnPropertyChanged("Intent");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'IsValidForExecuteAsync'.<br />
+        /// For internal use only.
+        /// </summary>
+		[AttributeLogicalName("isvalidforexecuteasync")]
+		public bool? IsValidforExecuteAsync
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("isvalidforexecuteasync");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("isvalidforexecuteasync"))
+				    value = (bool?) backupAttributeCollection["isvalidforexecuteasync"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("IsValidforExecuteAsync");
+					SetAttributeValue("isvalidforexecuteasync", value);
+				OnPropertyChanged("IsValidforExecuteAsync");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedBy'.<br />
+        /// Unique identifier of the user who last modified the SDK message.
+        /// </summary>
+		[AttributeLogicalName("modifiedby")]
+		public Guid? ModifiedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedBy");
+                if (value != null)
+				    SetAttributeValue("modifiedby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("modifiedby", value);
+				OnPropertyChanged("ModifiedBy");
+			}
+		}
+
+        public string ModifiedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOn'.<br />
+        /// Date and time when the SDK message was last modified.
+        /// </summary>
+		[AttributeLogicalName("modifiedon")]
+		public DateTime? ModifiedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("modifiedon");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedon"))
+				    value = (DateTime?) backupAttributeCollection["modifiedon"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedOn");
+					SetAttributeValue("modifiedon", value);
+				OnPropertyChanged("ModifiedOn");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who last modified the sdkmessage.
+        /// </summary>
+		[AttributeLogicalName("modifiedonbehalfby")]
+		public Guid? ModifiedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedonbehalfby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedByDelegate");
+                if (value != null)
+				    SetAttributeValue("modifiedonbehalfby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("modifiedonbehalfby", value);
+				OnPropertyChanged("ModifiedByDelegate");
+			}
+		}
+
+        public string ModifiedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedonbehalfby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        /// [MaximumLength=256] 
+		/// 'Name'.<br />
+        /// Name of the SDK message.
+        /// </summary>
+		[AttributeLogicalName("name"), MaxLength(256)]
+		public string Name
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("name");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("name"))
+				    value = (string) backupAttributeCollection["name"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Name");
+					SetAttributeValue("name", value);
+				OnPropertyChanged("Name");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'OrganizationId'.<br />
+        /// Unique identifier of the organization with which the SDK message is associated.
+        /// </summary>
+		[AttributeLogicalName("organizationid")]
+		public Guid? OrganizationId
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("organizationid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("organizationid"))
+				    value = (EntityReference) backupAttributeCollection["organizationid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("OrganizationId");
+                if (value != null)
+				    SetAttributeValue("organizationid", new EntityReference("organization", value.Value));
+                else
+					SetAttributeValue("organizationid", value);
+				OnPropertyChanged("OrganizationId");
+			}
+		}
+
+        public string OrganizationIdName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("organizationid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("organizationid"))
+				    value = (EntityReference) backupAttributeCollection["organizationid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'SdkMessageId'.<br />
+        /// Unique identifier of the SDK message entity.
+        /// </summary>
+		[AttributeLogicalName("sdkmessageid")]
+		public Guid? SdkMessageIdId
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("sdkmessageid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageid"))
+				    value = (Guid?) backupAttributeCollection["sdkmessageid"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageIdId");
+                if (value != null)
+					SetAttributeValue("sdkmessageid", value);
+				if (value != null)
+					base.Id = value.Value;
+				else
+					Id = System.Guid.Empty;
+				OnPropertyChanged("SdkMessageIdId");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'SdkMessageIdUnique'.<br />
+        /// Unique identifier of the SDK message.
+        /// </summary>
+		[AttributeLogicalName("sdkmessageidunique")]
+		public Guid? SdkMessageIdUnique
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("sdkmessageidunique");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageidunique"))
+				    value = (Guid?) backupAttributeCollection["sdkmessageidunique"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageIdUnique");
+					SetAttributeValue("sdkmessageidunique", value);
+				OnPropertyChanged("SdkMessageIdUnique");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'Template'.<br />
+        /// Indicates whether the SDK message is a template.
+        /// </summary>
+		[AttributeLogicalName("template")]
+		public bool? Template
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("template");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("template"))
+				    value = (bool?) backupAttributeCollection["template"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Template");
+					SetAttributeValue("template", value);
+				OnPropertyChanged("Template");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=512] 
+		/// 'ThrottleSettings'.<br />
+        /// For internal use only.
+        /// </summary>
+		[AttributeLogicalName("throttlesettings"), MaxLength(512)]
+		public string ThrottleSettings
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("throttlesettings");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("throttlesettings"))
+				    value = (string) backupAttributeCollection["throttlesettings"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("ThrottleSettings");
+					SetAttributeValue("throttlesettings", value);
+				OnPropertyChanged("ThrottleSettings");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'VersionNumber'.<br />
+        /// Number that identifies a specific revision of the SDK message. 
+        /// </summary>
+		[AttributeLogicalName("versionnumber")]
+		public long? VersionNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<long?>("versionnumber");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("versionnumber"))
+				    value = (long?) backupAttributeCollection["versionnumber"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("VersionNumber");
+					SetAttributeValue("versionnumber", value);
+				OnPropertyChanged("VersionNumber");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'WorkflowSdkStepEnabled'.<br />
+        /// Whether or not the SDK message can be called from a workflow.
+        /// </summary>
+		[AttributeLogicalName("workflowsdkstepenabled")]
+		public bool? WorkflowSdkStepEnabled
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("workflowsdkstepenabled");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("workflowsdkstepenabled"))
+				    value = (bool?) backupAttributeCollection["workflowsdkstepenabled"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("WorkflowSdkStepEnabled");
+					SetAttributeValue("workflowsdkstepenabled", value);
+				OnPropertyChanged("WorkflowSdkStepEnabled");
+			}
+		}
+
+		#endregion
+
+		#region Relationships
+
+		
+		/// <summary>
+		/// 1:N, 'sdkmessageid_sdkmessagefilter'
+		/// </summary>
+		[RelationshipSchemaName("sdkmessageid_sdkmessagefilter")]
+		public SdkMessageFilter[] SdkMessageFiltersOfSDKMessageID
+		{
+			get
+			{
+				var enumerable = GetRelatedEntities<SdkMessageFilter>("sdkmessageid_sdkmessagefilter", null);
+				return enumerable != null ? enumerable.ToArray() : null;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageFiltersOfSDKMessageID");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
+				SetRelatedEntities<SdkMessageFilter>("sdkmessageid_sdkmessagefilter", null, value);
+				OnPropertyChanged("SdkMessageFiltersOfSDKMessageID");
+			}
+		}
+		
+		/// <summary>
+		/// 1:N, 'sdkmessageid_sdkmessageprocessingstep'
+		/// </summary>
+		[RelationshipSchemaName("sdkmessageid_sdkmessageprocessingstep")]
+		public SdkMessageProcessingStep[] SdkMessageProcessingStepsOfSDKMessage
+		{
+			get
+			{
+				var enumerable = GetRelatedEntities<SdkMessageProcessingStep>("sdkmessageid_sdkmessageprocessingstep", null);
+				return enumerable != null ? enumerable.ToArray() : null;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageProcessingStepsOfSDKMessage");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
+				SetRelatedEntities<SdkMessageProcessingStep>("sdkmessageid_sdkmessageprocessingstep", null, value);
+				OnPropertyChanged("SdkMessageProcessingStepsOfSDKMessage");
+			}
+		}
+		
+		public class RelationNames {
+			public const string SdkMessageFiltersOfSDKMessageID = "SdkMessageFiltersOfSDKMessageID";
+			public const string SdkMessageProcessingStepsOfSDKMessage = "SdkMessageProcessingStepsOfSDKMessage";
+		}
+
+
+		protected override IDictionary<string, object[]> RelationProperties { get {
+			if (relationProperties != null) return relationProperties;
+			relationProperties = new Dictionary<string, object[]>();
+			relationProperties["SdkMessageFiltersOfSDKMessageID"] = new object[] { "SdkMessageFiltersOfSDKMessageID", "sdkmessagefilter", "sdkmessage", "sdkmessageid", "sdkmessageid", "sdkmessageid", "sdkmessageid", "sdkmessageid_sdkmessagefilter", typeof (SdkMessageFilter[]) };
+			relationProperties["SdkMessageProcessingStepsOfSDKMessage"] = new object[] { "SdkMessageProcessingStepsOfSDKMessage", "sdkmessageprocessingstep", "sdkmessage", "sdkmessageid", "sdkmessageid", "sdkmessageid", "sdkmessageid", "sdkmessageid_sdkmessageprocessingstep", typeof (SdkMessageProcessingStep[]) };
+			return relationProperties; } }
+
+
+		#endregion
+
+		/// <summary>
+		/// Constructor for populating via LINQ queries given a LINQ anonymous type
+		/// <param name="anonymousType">LINQ anonymous type.</param>
+		/// </summary>
+		public SdkMessage(object anonymousType) : 
+				this()
+		{
+            foreach (var p in anonymousType.GetType().GetProperties())
+            {
+                var value = p.GetValue(anonymousType, null);
+                if (p.PropertyType == typeof(System.Guid))
+                {
+                    // Type is Guid, must be Id
+                    base.Id = (System.Guid)value;
+                    Attributes["sdkmessageid"] = base.Id;
+               }
+                else if (p.Name == "FormattedValues")
+                {
+                    // Add Support for FormattedValues
+                    FormattedValues.AddRange((FormattedValueCollection)value);
+                }
+                else
+                {
+                    Attributes[p.Name.ToLower()] = value;
+                }
+            }
+		}
+
+		#region Label/value pairs
+
+		#region AutoTransact
+
+		public enum AutoTransactEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#region Expand
+
+		public enum ExpandEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#region IsActive
+
+		public enum IsActiveEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#region IsPrivate
+
+		public enum IsPrivateEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#region Intent
+
+		public enum IntentEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#region IsValidforExecuteAsync
+
+		public enum IsValidforExecuteAsyncEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#region Template
+
+		public enum TemplateEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#region WorkflowSdkStepEnabled
+
+		public enum WorkflowSdkStepEnabledEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#endregion
+
+		#region Metadata
+
+		#endregion
+	}
+
+	#endregion
+
+	#region SdkMessageFilter
+
+	/// <summary>
+	/// 'SdkMessageFilter'.<br />
+	/// Filter that defines which SDK messages are valid for each type of entity.
+	/// </summary>
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+	[DataContract, EntityLogicalName("sdkmessagefilter")]
+	public partial class SdkMessageFilter : GeneratedEntity
+	{
+		
+		public SdkMessageFilter() : 
+				base(EntityLogicalName)
+		{
+		}
+		
+		public const string DisplayName = "Sdk Message Filter";
+		public const string SchemaName = "SdkMessageFilter";
+		public const string EntityLogicalName = "sdkmessagefilter";
+		public const int EntityTypeCode = 4607;
+		
+		#region Attributes
+
+		[AttributeLogicalName("sdkmessagefilterid"), DataMember]
+		public override System.Guid Id
+		{
+			get
+			{
+				return (SdkMessageFilterIdId == null || SdkMessageFilterIdId == Guid.Empty) ? base.Id : SdkMessageFilterIdId.GetValueOrDefault();
+			}
+			
+			set
+			{
+                if (value == Guid.Empty) {
+                    Attributes.Remove("sdkmessagefilterid");
+                    base.Id = value;
+                } else {
+				    SdkMessageFilterIdId = value;
+                }
+			}
+		}
+
+        /// <summary>
+        /// [Range(-2147483648, 2147483647)] 
+		/// 'Availability'.<br />
+        /// Identifies where a method will be exposed. 0 - Server, 1 - Client, 2 - both.
+        /// </summary>
+		[AttributeLogicalName("availability"), InRange("-2147483648", "2147483647", typeof(int))]
+		public int? Availability
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("availability");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("availability"))
+				    value = (int?) backupAttributeCollection["availability"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Availability");
+					SetAttributeValue("availability", value);
+				OnPropertyChanged("Availability");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedBy'.<br />
+        /// Unique identifier of the user who created the SDK message filter.
+        /// </summary>
+		[AttributeLogicalName("createdby")]
+		public Guid? CreatedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdby"))
+				    value = (EntityReference) backupAttributeCollection["createdby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedBy");
+                if (value != null)
+				    SetAttributeValue("createdby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("createdby", value);
+				OnPropertyChanged("CreatedBy");
+			}
+		}
+
+        public string CreatedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdby"))
+				    value = (EntityReference) backupAttributeCollection["createdby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'CreatedOn'.<br />
+        /// Date and time when the SDK message filter was created.
+        /// </summary>
+		[AttributeLogicalName("createdon")]
+		public DateTime? CreatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("createdon");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdon"))
+				    value = (DateTime?) backupAttributeCollection["createdon"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedOn");
+					SetAttributeValue("createdon", value);
+				OnPropertyChanged("CreatedOn");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who created the sdkmessagefilter.
+        /// </summary>
+		[AttributeLogicalName("createdonbehalfby")]
+		public Guid? CreatedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["createdonbehalfby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedByDelegate");
+                if (value != null)
+				    SetAttributeValue("createdonbehalfby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("createdonbehalfby", value);
+				OnPropertyChanged("CreatedByDelegate");
+			}
+		}
+
+        public string CreatedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["createdonbehalfby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        /// [Range(-255, 255)] 
+		/// 'CustomizationLevel'.<br />
+        /// Customization level of the SDK message filter.
+        /// </summary>
+		[AttributeLogicalName("customizationlevel"), InRange("-255", "255", typeof(int))]
+		public int? CustomizationLevel
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("customizationlevel");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("customizationlevel"))
+				    value = (int?) backupAttributeCollection["customizationlevel"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CustomizationLevel");
+					SetAttributeValue("customizationlevel", value);
+				OnPropertyChanged("CustomizationLevel");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'IsCustomProcessingStepAllowed'.<br />
+        /// Indicates whether a custom SDK message processing step is allowed.
+        /// </summary>
+		[AttributeLogicalName("iscustomprocessingstepallowed")]
+		public bool? CustomProcessingStepAllowed
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("iscustomprocessingstepallowed");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("iscustomprocessingstepallowed"))
+				    value = (bool?) backupAttributeCollection["iscustomprocessingstepallowed"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CustomProcessingStepAllowed");
+					SetAttributeValue("iscustomprocessingstepallowed", value);
+				OnPropertyChanged("CustomProcessingStepAllowed");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'IsVisible'.<br />
+        /// Indicates whether the filter should be visible.
+        /// </summary>
+		[AttributeLogicalName("isvisible")]
+		public bool? IsVisible
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("isvisible");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("isvisible"))
+				    value = (bool?) backupAttributeCollection["isvisible"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("IsVisible");
+					SetAttributeValue("isvisible", value);
+				OnPropertyChanged("IsVisible");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedBy'.<br />
+        /// Unique identifier of the user who last modified the SDK message filter.
+        /// </summary>
+		[AttributeLogicalName("modifiedby")]
+		public Guid? ModifiedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedBy");
+                if (value != null)
+				    SetAttributeValue("modifiedby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("modifiedby", value);
+				OnPropertyChanged("ModifiedBy");
+			}
+		}
+
+        public string ModifiedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOn'.<br />
+        /// Date and time when the SDK message filter was last modified.
+        /// </summary>
+		[AttributeLogicalName("modifiedon")]
+		public DateTime? ModifiedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("modifiedon");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedon"))
+				    value = (DateTime?) backupAttributeCollection["modifiedon"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedOn");
+					SetAttributeValue("modifiedon", value);
+				OnPropertyChanged("ModifiedOn");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who last modified the sdkmessagefilter.
+        /// </summary>
+		[AttributeLogicalName("modifiedonbehalfby")]
+		public Guid? ModifiedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedonbehalfby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedByDelegate");
+                if (value != null)
+				    SetAttributeValue("modifiedonbehalfby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("modifiedonbehalfby", value);
+				OnPropertyChanged("ModifiedByDelegate");
+			}
+		}
+
+        public string ModifiedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedonbehalfby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'OrganizationId'.<br />
+        /// Unique identifier of the organization with which the SDK message filter is associated.
+        /// </summary>
+		[AttributeLogicalName("organizationid")]
+		public Guid? OrganizationId
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("organizationid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("organizationid"))
+				    value = (EntityReference) backupAttributeCollection["organizationid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("OrganizationId");
+                if (value != null)
+				    SetAttributeValue("organizationid", new EntityReference("organization", value.Value));
+                else
+					SetAttributeValue("organizationid", value);
+				OnPropertyChanged("OrganizationId");
+			}
+		}
+
+        public string OrganizationIdName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("organizationid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("organizationid"))
+				    value = (EntityReference) backupAttributeCollection["organizationid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'PrimaryObjectTypeCode'.<br />
+        /// Type of entity with which the SDK message filter is primarily associated.
+        /// </summary>
+		[AttributeLogicalName("primaryobjecttypecode")]
+		public string PrimaryObjectTypeCode
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("primaryobjecttypecode");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("primaryobjecttypecode"))
+				    value = (string) backupAttributeCollection["primaryobjecttypecode"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("PrimaryObjectTypeCode");
+					SetAttributeValue("primaryobjecttypecode", value);
+				OnPropertyChanged("PrimaryObjectTypeCode");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'SdkMessageFilterId'.<br />
+        /// Unique identifier of the SDK message filter entity.
+        /// </summary>
+		[AttributeLogicalName("sdkmessagefilterid")]
+		public Guid? SdkMessageFilterIdId
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("sdkmessagefilterid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessagefilterid"))
+				    value = (Guid?) backupAttributeCollection["sdkmessagefilterid"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageFilterIdId");
+                if (value != null)
+					SetAttributeValue("sdkmessagefilterid", value);
+				if (value != null)
+					base.Id = value.Value;
+				else
+					Id = System.Guid.Empty;
+				OnPropertyChanged("SdkMessageFilterIdId");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'SdkMessageFilterIdUnique'.<br />
+        /// Unique identifier of the SDK message filter.
+        /// </summary>
+		[AttributeLogicalName("sdkmessagefilteridunique")]
+		public Guid? SdkMessageFilterIdUnique
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("sdkmessagefilteridunique");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessagefilteridunique"))
+				    value = (Guid?) backupAttributeCollection["sdkmessagefilteridunique"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageFilterIdUnique");
+					SetAttributeValue("sdkmessagefilteridunique", value);
+				OnPropertyChanged("SdkMessageFilterIdUnique");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'SdkMessageId'.<br />
+        /// Unique identifier of the related SDK message.
+        /// </summary>
+		[AttributeLogicalName("sdkmessageid")]
+		public Guid? SDKMessageID
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("sdkmessageid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageid"))
+				    value = (EntityReference) backupAttributeCollection["sdkmessageid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("SDKMessageID");
+                if (value != null)
+				    SetAttributeValue("sdkmessageid", new EntityReference("sdkmessage", value.Value));
+                else
+					SetAttributeValue("sdkmessageid", value);
+				OnPropertyChanged("SDKMessageID");
+			}
+		}
+
+        public string SDKMessageIDName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("sdkmessageid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageid"))
+				    value = (EntityReference) backupAttributeCollection["sdkmessageid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'SecondaryObjectTypeCode'.<br />
+        /// Type of entity with which the SDK message filter is secondarily associated.
+        /// </summary>
+		[AttributeLogicalName("secondaryobjecttypecode")]
+		public string SecondaryObjectTypeCode
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("secondaryobjecttypecode");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("secondaryobjecttypecode"))
+				    value = (string) backupAttributeCollection["secondaryobjecttypecode"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("SecondaryObjectTypeCode");
+					SetAttributeValue("secondaryobjecttypecode", value);
+				OnPropertyChanged("SecondaryObjectTypeCode");
+			}
+		}
+
+		[AttributeLogicalName("versionnumber")]
+		public long? VersionNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<long?>("versionnumber");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("versionnumber"))
+				    value = (long?) backupAttributeCollection["versionnumber"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("VersionNumber");
+					SetAttributeValue("versionnumber", value);
+				OnPropertyChanged("VersionNumber");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'WorkflowSdkStepEnabled'.<br />
+        /// Whether or not the SDK message can be called from a workflow.
+        /// </summary>
+		[AttributeLogicalName("workflowsdkstepenabled")]
+		public bool? WorkflowSdkStepEnabled
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("workflowsdkstepenabled");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("workflowsdkstepenabled"))
+				    value = (bool?) backupAttributeCollection["workflowsdkstepenabled"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("WorkflowSdkStepEnabled");
+					SetAttributeValue("workflowsdkstepenabled", value);
+				OnPropertyChanged("WorkflowSdkStepEnabled");
+			}
+		}
+
+		#endregion
+
+		#region Relationships
+
+		
+		/// <summary>
+		/// 1:N, 'sdkmessagefilterid_sdkmessageprocessingstep'
+		/// </summary>
+		[RelationshipSchemaName("sdkmessagefilterid_sdkmessageprocessingstep")]
+		public SdkMessageProcessingStep[] SdkMessageProcessingStepsOfSdkMessageFilter
+		{
+			get
+			{
+				var enumerable = GetRelatedEntities<SdkMessageProcessingStep>("sdkmessagefilterid_sdkmessageprocessingstep", null);
+				return enumerable != null ? enumerable.ToArray() : null;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageProcessingStepsOfSdkMessageFilter");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
+				SetRelatedEntities<SdkMessageProcessingStep>("sdkmessagefilterid_sdkmessageprocessingstep", null, value);
+				OnPropertyChanged("SdkMessageProcessingStepsOfSdkMessageFilter");
+			}
+		}
+		
+		/// <summary>
+		/// N:1, 'sdkmessageid_sdkmessagefilter'
+		/// </summary>
+		[RelationshipSchemaName("sdkmessageid_sdkmessagefilter"), AttributeLogicalName("sdkmessageid")]
+		public SdkMessage SdkMessageAsSDKMessageID
+		{
+			get
+			{
+				return GetRelatedEntity<SdkMessage>("sdkmessageid_sdkmessagefilter", null);
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageAsSDKMessageID");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
+				SetRelatedEntity<SdkMessage>("sdkmessageid_sdkmessagefilter", null, value);
+				OnPropertyChanged("SdkMessageAsSDKMessageID");
+			}
+		}
+		
+		public class RelationNames {
+			public const string SdkMessageProcessingStepsOfSdkMessageFilter = "SdkMessageProcessingStepsOfSdkMessageFilter";
+			public const string SdkMessageAsSDKMessageID = "SdkMessageAsSDKMessageID";
+		}
+
+
+		protected override IDictionary<string, object[]> RelationProperties { get {
+			if (relationProperties != null) return relationProperties;
+			relationProperties = new Dictionary<string, object[]>();
+			relationProperties["SdkMessageProcessingStepsOfSdkMessageFilter"] = new object[] { "SdkMessageProcessingStepsOfSdkMessageFilter", "sdkmessageprocessingstep", "sdkmessagefilter", "sdkmessagefilterid", "sdkmessagefilterid", "sdkmessagefilterid", "sdkmessagefilterid", "sdkmessagefilterid_sdkmessageprocessingstep", typeof (SdkMessageProcessingStep[]) };
+			relationProperties["SdkMessageAsSDKMessageID"] = new object[] { "SdkMessageAsSDKMessageID", "sdkmessage", "sdkmessagefilter", "sdkmessageid", "sdkmessageid", "sdkmessagefilterid", "sdkmessagefilterid", "sdkmessageid_sdkmessagefilter", typeof (SdkMessage) };
+			return relationProperties; } }
+
+
+		#endregion
+
+		/// <summary>
+		/// Constructor for populating via LINQ queries given a LINQ anonymous type
+		/// <param name="anonymousType">LINQ anonymous type.</param>
+		/// </summary>
+		public SdkMessageFilter(object anonymousType) : 
+				this()
+		{
+            foreach (var p in anonymousType.GetType().GetProperties())
+            {
+                var value = p.GetValue(anonymousType, null);
+                if (p.PropertyType == typeof(System.Guid))
+                {
+                    // Type is Guid, must be Id
+                    base.Id = (System.Guid)value;
+                    Attributes["sdkmessagefilterid"] = base.Id;
+               }
+                else if (p.Name == "FormattedValues")
+                {
+                    // Add Support for FormattedValues
+                    FormattedValues.AddRange((FormattedValueCollection)value);
+                }
+                else
+                {
+                    Attributes[p.Name.ToLower()] = value;
+                }
+            }
+		}
+
+		#region Label/value pairs
+
+		#region CustomProcessingStepAllowed
+
+		public enum CustomProcessingStepAllowedEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#region IsVisible
+
+		public enum IsVisibleEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#region PrimaryObjectTypeCode
+
+		public enum PrimaryObjectTypeCodeEnum
+		{
+		}
+
+		#endregion
+	
+		#region SecondaryObjectTypeCode
+
+		public enum SecondaryObjectTypeCodeEnum
+		{
+		}
+
+		#endregion
+	
+		#region WorkflowSdkStepEnabled
+
+		public enum WorkflowSdkStepEnabledEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#endregion
+
+		#region Metadata
+
+		#endregion
+	}
+
+	#endregion
+
+	#region SdkMessageProcessingStep
+
+	/// <summary>
+	/// 'SdkMessageProcessingStep'.<br />
+	/// Stage in the execution pipeline that a plug-in is to execute.
+	/// </summary>
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+	[DataContract, EntityLogicalName("sdkmessageprocessingstep")]
+	public partial class SdkMessageProcessingStep : GeneratedEntity
+	{
+		
+		public SdkMessageProcessingStep() : 
+				base(EntityLogicalName)
+		{
+		}
+		
+		public const string DisplayName = "Sdk Message Processing Step";
+		public const string SchemaName = "SdkMessageProcessingStep";
+		public const string EntityLogicalName = "sdkmessageprocessingstep";
+		public const int EntityTypeCode = 4608;
+		
+		#region Attributes
+
+		[AttributeLogicalName("sdkmessageprocessingstepid"), DataMember]
+		public override System.Guid Id
+		{
+			get
+			{
+				return (SdkMessageProcessingStepIdId == null || SdkMessageProcessingStepIdId == Guid.Empty) ? base.Id : SdkMessageProcessingStepIdId.GetValueOrDefault();
+			}
+			
+			set
+			{
+                if (value == Guid.Empty) {
+                    Attributes.Remove("sdkmessageprocessingstepid");
+                    base.Id = value;
+                } else {
+				    SdkMessageProcessingStepIdId = value;
+                }
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'AsyncAutoDelete'.<br />
+        /// Indicates whether the asynchronous system job is automatically deleted on completion.
+        /// </summary>
+		[AttributeLogicalName("asyncautodelete")]
+		public bool? AsynchronousAutomaticDelete
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("asyncautodelete");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("asyncautodelete"))
+				    value = (bool?) backupAttributeCollection["asyncautodelete"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("AsynchronousAutomaticDelete");
+					SetAttributeValue("asyncautodelete", value);
+				OnPropertyChanged("AsynchronousAutomaticDelete");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CanUseReadOnlyConnection'.<br />
+        /// Identifies whether a SDK Message Processing Step type will be ReadOnly or Read Write. false - ReadWrite, true - ReadOnly 
+        /// </summary>
+		[AttributeLogicalName("canusereadonlyconnection")]
+		public bool? Intent
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("canusereadonlyconnection");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("canusereadonlyconnection"))
+				    value = (bool?) backupAttributeCollection["canusereadonlyconnection"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Intent");
+					SetAttributeValue("canusereadonlyconnection", value);
+				OnPropertyChanged("Intent");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ComponentState'.<br />
+        /// For internal use only.
+        /// </summary>
+		[AttributeLogicalName("componentstate")]
+		public ComponentStateEnum? ComponentState
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("componentstate");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("componentstate"))
+				    value = (OptionSetValue) backupAttributeCollection["componentstate"];
+                return value == null ? (ComponentStateEnum?) null : (ComponentStateEnum?) value.Value;
+			}
+			set
+			{
+				OnPropertyChanging("ComponentState");
+                if (value != null)
+				    SetAttributeValue("componentstate", new OptionSetValue((int) value.Value));
+                else
+					SetAttributeValue("componentstate", value);
+				OnPropertyChanged("ComponentState");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=1073741823] 
+		/// 'Configuration'.<br />
+        /// Step-specific configuration for the plug-in type. Passed to the plug-in constructor at run time.
+        /// </summary>
+		[AttributeLogicalName("configuration"), MaxLength(1073741823)]
+		public string Configuration
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("configuration");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("configuration"))
+				    value = (string) backupAttributeCollection["configuration"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Configuration");
+					SetAttributeValue("configuration", value);
+				OnPropertyChanged("Configuration");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedBy'.<br />
+        /// Unique identifier of the user who created the SDK message processing step.
+        /// </summary>
+		[AttributeLogicalName("createdby")]
+		public Guid? CreatedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdby"))
+				    value = (EntityReference) backupAttributeCollection["createdby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedBy");
+                if (value != null)
+				    SetAttributeValue("createdby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("createdby", value);
+				OnPropertyChanged("CreatedBy");
+			}
+		}
+
+        public string CreatedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdby"))
+				    value = (EntityReference) backupAttributeCollection["createdby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'CreatedOn'.<br />
+        /// Date and time when the SDK message processing step was created.
+        /// </summary>
+		[AttributeLogicalName("createdon")]
+		public DateTime? CreatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("createdon");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdon"))
+				    value = (DateTime?) backupAttributeCollection["createdon"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedOn");
+					SetAttributeValue("createdon", value);
+				OnPropertyChanged("CreatedOn");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who created the sdkmessageprocessingstep.
+        /// </summary>
+		[AttributeLogicalName("createdonbehalfby")]
+		public Guid? CreatedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["createdonbehalfby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedByDelegate");
+                if (value != null)
+				    SetAttributeValue("createdonbehalfby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("createdonbehalfby", value);
+				OnPropertyChanged("CreatedByDelegate");
+			}
+		}
+
+        public string CreatedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["createdonbehalfby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        /// [Range(-255, 255)] 
+		/// 'CustomizationLevel'.<br />
+        /// Customization level of the SDK message processing step.
+        /// </summary>
+		[AttributeLogicalName("customizationlevel"), InRange("-255", "255", typeof(int))]
+		public int? CustomizationLevel
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("customizationlevel");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("customizationlevel"))
+				    value = (int?) backupAttributeCollection["customizationlevel"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CustomizationLevel");
+					SetAttributeValue("customizationlevel", value);
+				OnPropertyChanged("CustomizationLevel");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=256] 
+		/// 'Description'.<br />
+        /// Description of the SDK message processing step.
+        /// </summary>
+		[AttributeLogicalName("description"), MaxLength(256)]
+		public string Description
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("description");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("description"))
+				    value = (string) backupAttributeCollection["description"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Description");
+					SetAttributeValue("description", value);
+				OnPropertyChanged("Description");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'EventHandler'.<br />
+        /// Unique identifier of the associated event handler.
+        /// </summary>
+		[AttributeLogicalName("eventhandler")]
+		public EntityReference EventHandler
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("eventhandler");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("eventhandler"))
+				    value = (EntityReference) backupAttributeCollection["eventhandler"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("EventHandler");
+					SetAttributeValue("eventhandler", value);
+				OnPropertyChanged("EventHandler");
+			}
+		}
+
+        public string EventHandlerName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("eventhandler");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("eventhandler"))
+				    value = (EntityReference) backupAttributeCollection["eventhandler"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        /// [MaximumLength=100000] 
+		/// 'FilteringAttributes'.<br />
+        /// Comma-separated list of attributes. If at least one of these attributes is modified, the plug-in should execute.
+        /// </summary>
+		[AttributeLogicalName("filteringattributes"), MaxLength(100000)]
+		public string FilteringAttributes
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("filteringattributes");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("filteringattributes"))
+				    value = (string) backupAttributeCollection["filteringattributes"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("FilteringAttributes");
+					SetAttributeValue("filteringattributes", value);
+				OnPropertyChanged("FilteringAttributes");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ImpersonatingUserId'.<br />
+        /// Unique identifier of the user to impersonate context when step is executed.
+        /// </summary>
+		[AttributeLogicalName("impersonatinguserid")]
+		public Guid? ImpersonatingUser
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("impersonatinguserid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("impersonatinguserid"))
+				    value = (EntityReference) backupAttributeCollection["impersonatinguserid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("ImpersonatingUser");
+                if (value != null)
+				    SetAttributeValue("impersonatinguserid", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("impersonatinguserid", value);
+				OnPropertyChanged("ImpersonatingUser");
+			}
+		}
+
+        public string ImpersonatingUserName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("impersonatinguserid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("impersonatinguserid"))
+				    value = (EntityReference) backupAttributeCollection["impersonatinguserid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        /// [MaximumLength=48] 
+		/// 'IntroducedVersion'.<br />
+        /// Version in which the form is introduced.
+        /// </summary>
+		[AttributeLogicalName("introducedversion"), MaxLength(48)]
+		public string IntroducedVersion
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("introducedversion");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("introducedversion"))
+				    value = (string) backupAttributeCollection["introducedversion"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("IntroducedVersion");
+					SetAttributeValue("introducedversion", value);
+				OnPropertyChanged("IntroducedVersion");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'InvocationSource'.<br />
+        /// Identifies if a plug-in should be executed from a parent pipeline, a child pipeline, or both.
+        /// </summary>
+		[AttributeLogicalName("invocationsource")]
+		[Obsolete]
+		public InvocationSourceEnum? InvocationSource
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("invocationsource");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("invocationsource"))
+				    value = (OptionSetValue) backupAttributeCollection["invocationsource"];
+                return value == null ? (InvocationSourceEnum?) null : (InvocationSourceEnum?) value.Value;
+			}
+			set
+			{
+				OnPropertyChanging("InvocationSource");
+                if (value != null)
+				    SetAttributeValue("invocationsource", new OptionSetValue((int) value.Value));
+                else
+					SetAttributeValue("invocationsource", value);
+				OnPropertyChanged("InvocationSource");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'IsCustomizable'.<br />
+        /// Information that specifies whether this component can be customized.
+        /// </summary>
+		[AttributeLogicalName("iscustomizable")]
+		public BooleanManagedProperty Customizable
+		{
+			get
+			{
+				var value = GetAttributeValue<BooleanManagedProperty>("iscustomizable");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("iscustomizable"))
+				    value = (BooleanManagedProperty) backupAttributeCollection["iscustomizable"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Customizable");
+					SetAttributeValue("iscustomizable", value);
+				OnPropertyChanged("Customizable");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'IsHidden'.<br />
+        /// Information that specifies whether this component should be hidden.
+        /// </summary>
+		[AttributeLogicalName("ishidden")]
+		public BooleanManagedProperty Hidden
+		{
+			get
+			{
+				var value = GetAttributeValue<BooleanManagedProperty>("ishidden");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ishidden"))
+				    value = (BooleanManagedProperty) backupAttributeCollection["ishidden"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Hidden");
+					SetAttributeValue("ishidden", value);
+				OnPropertyChanged("Hidden");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'IsManaged'.<br />
+        /// Information that specifies whether this component is managed.
+        /// </summary>
+		[AttributeLogicalName("ismanaged")]
+		public bool? State
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("ismanaged");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ismanaged"))
+				    value = (bool?) backupAttributeCollection["ismanaged"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("State");
+					SetAttributeValue("ismanaged", value);
+				OnPropertyChanged("State");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'Mode'.<br />
+        /// Run-time mode of execution, for example, synchronous or asynchronous.
+        /// </summary>
+		[AttributeLogicalName("mode")]
+		public ExecutionModeEnum? ExecutionMode
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("mode");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("mode"))
+				    value = (OptionSetValue) backupAttributeCollection["mode"];
+                return value == null ? (ExecutionModeEnum?) null : (ExecutionModeEnum?) value.Value;
+			}
+			set
+			{
+				OnPropertyChanging("ExecutionMode");
+                if (value != null)
+				    SetAttributeValue("mode", new OptionSetValue((int) value.Value));
+                else
+					SetAttributeValue("mode", value);
+				OnPropertyChanged("ExecutionMode");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedBy'.<br />
+        /// Unique identifier of the user who last modified the SDK message processing step.
+        /// </summary>
+		[AttributeLogicalName("modifiedby")]
+		public Guid? ModifiedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedBy");
+                if (value != null)
+				    SetAttributeValue("modifiedby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("modifiedby", value);
+				OnPropertyChanged("ModifiedBy");
+			}
+		}
+
+        public string ModifiedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOn'.<br />
+        /// Date and time when the SDK message processing step was last modified.
+        /// </summary>
+		[AttributeLogicalName("modifiedon")]
+		public DateTime? ModifiedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("modifiedon");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedon"))
+				    value = (DateTime?) backupAttributeCollection["modifiedon"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedOn");
+					SetAttributeValue("modifiedon", value);
+				OnPropertyChanged("ModifiedOn");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who last modified the sdkmessageprocessingstep.
+        /// </summary>
+		[AttributeLogicalName("modifiedonbehalfby")]
+		public Guid? ModifiedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedonbehalfby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedByDelegate");
+                if (value != null)
+				    SetAttributeValue("modifiedonbehalfby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("modifiedonbehalfby", value);
+				OnPropertyChanged("ModifiedByDelegate");
+			}
+		}
+
+        public string ModifiedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedonbehalfby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        /// [MaximumLength=256] 
+		/// 'Name'.<br />
+        /// Name of SdkMessage processing step.
+        /// </summary>
+		[AttributeLogicalName("name"), MaxLength(256)]
+		public string Name
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("name");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("name"))
+				    value = (string) backupAttributeCollection["name"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Name");
+					SetAttributeValue("name", value);
+				OnPropertyChanged("Name");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'OrganizationId'.<br />
+        /// Unique identifier of the organization with which the SDK message processing step is associated.
+        /// </summary>
+		[AttributeLogicalName("organizationid")]
+		public Guid? OrganizationId
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("organizationid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("organizationid"))
+				    value = (EntityReference) backupAttributeCollection["organizationid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("OrganizationId");
+                if (value != null)
+				    SetAttributeValue("organizationid", new EntityReference("organization", value.Value));
+                else
+					SetAttributeValue("organizationid", value);
+				OnPropertyChanged("OrganizationId");
+			}
+		}
+
+        public string OrganizationIdName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("organizationid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("organizationid"))
+				    value = (EntityReference) backupAttributeCollection["organizationid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'OverwriteTime'.<br />
+        /// For internal use only.
+        /// </summary>
+		[AttributeLogicalName("overwritetime")]
+		public DateTime? RecordOverwriteTime
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("overwritetime");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("overwritetime"))
+				    value = (DateTime?) backupAttributeCollection["overwritetime"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("RecordOverwriteTime");
+					SetAttributeValue("overwritetime", value);
+				OnPropertyChanged("RecordOverwriteTime");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'PluginTypeId'.<br />
+        /// Unique identifier of the plug-in type associated with the step.
+        /// </summary>
+		[AttributeLogicalName("plugintypeid")]
+		[Obsolete]
+		public Guid? PlugInType
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("plugintypeid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("plugintypeid"))
+				    value = (EntityReference) backupAttributeCollection["plugintypeid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("PlugInType");
+                if (value != null)
+				    SetAttributeValue("plugintypeid", new EntityReference("sdkmessagefilter", value.Value));
+                else
+					SetAttributeValue("plugintypeid", value);
+				OnPropertyChanged("PlugInType");
+			}
+		}
+
+        public string PlugInTypeName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("plugintypeid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("plugintypeid"))
+				    value = (EntityReference) backupAttributeCollection["plugintypeid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        /// [Range(-2147483648, 2147483647)] 
+		/// 'Rank'.<br />
+        /// Processing order within the stage.
+        /// </summary>
+		[AttributeLogicalName("rank"), InRange("-2147483648", "2147483647", typeof(int))]
+		public int? ExecutionOrder
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("rank");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("rank"))
+				    value = (int?) backupAttributeCollection["rank"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("ExecutionOrder");
+					SetAttributeValue("rank", value);
+				OnPropertyChanged("ExecutionOrder");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'SdkMessageFilterId'.<br />
+        /// Unique identifier of the SDK message filter.
+        /// </summary>
+		[AttributeLogicalName("sdkmessagefilterid")]
+		public Guid? SdkMessageFilter
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("sdkmessagefilterid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessagefilterid"))
+				    value = (EntityReference) backupAttributeCollection["sdkmessagefilterid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageFilter");
+                if (value != null)
+				    SetAttributeValue("sdkmessagefilterid", new EntityReference("sdkmessagefilter", value.Value));
+                else
+					SetAttributeValue("sdkmessagefilterid", value);
+				OnPropertyChanged("SdkMessageFilter");
+			}
+		}
+
+        public string SdkMessageFilterName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("sdkmessagefilterid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessagefilterid"))
+				    value = (EntityReference) backupAttributeCollection["sdkmessagefilterid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'SdkMessageId'.<br />
+        /// Unique identifier of the SDK message.
+        /// </summary>
+		[AttributeLogicalName("sdkmessageid")]
+		public Guid? SDKMessage
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("sdkmessageid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageid"))
+				    value = (EntityReference) backupAttributeCollection["sdkmessageid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("SDKMessage");
+                if (value != null)
+				    SetAttributeValue("sdkmessageid", new EntityReference("sdkmessage", value.Value));
+                else
+					SetAttributeValue("sdkmessageid", value);
+				OnPropertyChanged("SDKMessage");
+			}
+		}
+
+        public string SDKMessageName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("sdkmessageid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageid"))
+				    value = (EntityReference) backupAttributeCollection["sdkmessageid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'SdkMessageProcessingStepId'.<br />
+        /// Unique identifier of the SDK message processing step entity.
+        /// </summary>
+		[AttributeLogicalName("sdkmessageprocessingstepid")]
+		public Guid? SdkMessageProcessingStepIdId
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("sdkmessageprocessingstepid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageprocessingstepid"))
+				    value = (Guid?) backupAttributeCollection["sdkmessageprocessingstepid"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageProcessingStepIdId");
+                if (value != null)
+					SetAttributeValue("sdkmessageprocessingstepid", value);
+				if (value != null)
+					base.Id = value.Value;
+				else
+					Id = System.Guid.Empty;
+				OnPropertyChanged("SdkMessageProcessingStepIdId");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'SdkMessageProcessingStepIdUnique'.<br />
+        /// Unique identifier of the SDK message processing step.
+        /// </summary>
+		[AttributeLogicalName("sdkmessageprocessingstepidunique")]
+		public Guid? SdkMessageProcessingStepIdUnique
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("sdkmessageprocessingstepidunique");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageprocessingstepidunique"))
+				    value = (Guid?) backupAttributeCollection["sdkmessageprocessingstepidunique"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageProcessingStepIdUnique");
+					SetAttributeValue("sdkmessageprocessingstepidunique", value);
+				OnPropertyChanged("SdkMessageProcessingStepIdUnique");
+			}
+		}
+
+        /// <summary>
+        /// [Required] 
+		/// 'SdkMessageProcessingStepSecureConfigId'.<br />
+        /// Unique identifier of the Sdk message processing step secure configuration.
+        /// </summary>
+		[AttributeLogicalName("sdkmessageprocessingstepsecureconfigid"), Required]
+		public Guid? SDKMessageProcessingStepSecureConfiguration
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("sdkmessageprocessingstepsecureconfigid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageprocessingstepsecureconfigid"))
+				    value = (EntityReference) backupAttributeCollection["sdkmessageprocessingstepsecureconfigid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("SDKMessageProcessingStepSecureConfiguration");
+                if (value != null)
+				    SetAttributeValue("sdkmessageprocessingstepsecureconfigid", new EntityReference("sdkmessageprocessingstepsecureconfig", value.Value));
+                else
+					SetAttributeValue("sdkmessageprocessingstepsecureconfigid", value);
+				OnPropertyChanged("SDKMessageProcessingStepSecureConfiguration");
+			}
+		}
+
+        public string SDKMessageProcessingStepSecureConfigurationName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("sdkmessageprocessingstepsecureconfigid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageprocessingstepsecureconfigid"))
+				    value = (EntityReference) backupAttributeCollection["sdkmessageprocessingstepsecureconfigid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'SolutionId'.<br />
+        /// Unique identifier of the associated solution.
+        /// </summary>
+		[AttributeLogicalName("solutionid")]
+		public Guid? Solution_SolutionId
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("solutionid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("solutionid"))
+				    value = (Guid?) backupAttributeCollection["solutionid"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Solution_SolutionId");
+					SetAttributeValue("solutionid", value);
+				OnPropertyChanged("Solution_SolutionId");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'Stage'.<br />
+        /// Stage in the execution pipeline that the SDK message processing step is in.
+        /// </summary>
+		[AttributeLogicalName("stage")]
+		public ExecutionStageEnum? ExecutionStage
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("stage");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("stage"))
+				    value = (OptionSetValue) backupAttributeCollection["stage"];
+                return value == null ? (ExecutionStageEnum?) null : (ExecutionStageEnum?) value.Value;
+			}
+			set
+			{
+				OnPropertyChanging("ExecutionStage");
+                if (value != null)
+				    SetAttributeValue("stage", new OptionSetValue((int) value.Value));
+                else
+					SetAttributeValue("stage", value);
+				OnPropertyChanged("ExecutionStage");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'StateCode'.<br />
+        /// Status of the SDK message processing step.
+        /// </summary>
+		[AttributeLogicalName("statecode")]
+		public StatusEnum? Status
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("statecode");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("statecode"))
+				    value = (OptionSetValue) backupAttributeCollection["statecode"];
+                return value == null ? (StatusEnum?) null : (StatusEnum?) value.Value;
+			}
+			set
+			{
+				OnPropertyChanging("Status");
+                if (value != null)
+				    SetAttributeValue("statecode", new OptionSetValue((int) value.Value));
+                else
+					SetAttributeValue("statecode", value);
+				OnPropertyChanged("Status");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'StatusCode'.<br />
+        /// Reason for the status of the SDK message processing step.
+        /// </summary>
+		[AttributeLogicalName("statuscode")]
+		public StatusReasonEnum? StatusReason
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("statuscode");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("statuscode"))
+				    value = (OptionSetValue) backupAttributeCollection["statuscode"];
+                return value == null ? (StatusReasonEnum?) null : (StatusReasonEnum?) value.Value;
+			}
+			set
+			{
+				OnPropertyChanging("StatusReason");
+                if (value != null)
+				    SetAttributeValue("statuscode", new OptionSetValue((int) value.Value));
+                else
+					SetAttributeValue("statuscode", value);
+				OnPropertyChanged("StatusReason");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'SupportedDeployment'.<br />
+        /// Deployment that the SDK message processing step should be executed on; server, client, or both.
+        /// </summary>
+		[AttributeLogicalName("supporteddeployment")]
+		public DeploymentEnum? Deployment
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("supporteddeployment");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("supporteddeployment"))
+				    value = (OptionSetValue) backupAttributeCollection["supporteddeployment"];
+                return value == null ? (DeploymentEnum?) null : (DeploymentEnum?) value.Value;
+			}
+			set
+			{
+				OnPropertyChanging("Deployment");
+                if (value != null)
+				    SetAttributeValue("supporteddeployment", new OptionSetValue((int) value.Value));
+                else
+					SetAttributeValue("supporteddeployment", value);
+				OnPropertyChanged("Deployment");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'VersionNumber'.<br />
+        /// Number that identifies a specific revision of the SDK message processing step. 
+        /// </summary>
+		[AttributeLogicalName("versionnumber")]
+		public long? VersionNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<long?>("versionnumber");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("versionnumber"))
+				    value = (long?) backupAttributeCollection["versionnumber"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("VersionNumber");
+					SetAttributeValue("versionnumber", value);
+				OnPropertyChanged("VersionNumber");
+			}
+		}
+
+		#endregion
+
+		#region Relationships
+
+		
+		/// <summary>
+		/// 1:N, 'sdkmessageprocessingstepid_sdkmessageprocessingstepimage'
+		/// </summary>
+		[RelationshipSchemaName("sdkmessageprocessingstepid_sdkmessageprocessingstepimage")]
+		public SdkMessageProcessingStepImage[] SdkMessageProcessingStepImagesOfSDKMessageProcessingStep
+		{
+			get
+			{
+				var enumerable = GetRelatedEntities<SdkMessageProcessingStepImage>("sdkmessageprocessingstepid_sdkmessageprocessingstepimage", null);
+				return enumerable != null ? enumerable.ToArray() : null;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageProcessingStepImagesOfSDKMessageProcessingStep");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
+				SetRelatedEntities<SdkMessageProcessingStepImage>("sdkmessageprocessingstepid_sdkmessageprocessingstepimage", null, value);
+				OnPropertyChanged("SdkMessageProcessingStepImagesOfSDKMessageProcessingStep");
+			}
+		}
+		
+		/// <summary>
+		/// N:1, 'plugintype_sdkmessageprocessingstep'
+		/// </summary>
+		[RelationshipSchemaName("plugintype_sdkmessageprocessingstep"), AttributeLogicalName("eventhandler")]
+		public PluginType PluginTypeAsEventHandler
+		{
+			get
+			{
+				return GetRelatedEntity<PluginType>("plugintype_sdkmessageprocessingstep", null);
+			}
+			set
+			{
+				OnPropertyChanging("PluginTypeAsEventHandler");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
+				SetRelatedEntity<PluginType>("plugintype_sdkmessageprocessingstep", null, value);
+				OnPropertyChanged("PluginTypeAsEventHandler");
+			}
+		}
+		
+		/// <summary>
+		/// N:1, 'plugintypeid_sdkmessageprocessingstep'
+		/// </summary>
+		[RelationshipSchemaName("plugintypeid_sdkmessageprocessingstep"), AttributeLogicalName("plugintypeid")]
+		public PluginType PluginTypeAsPlugInType
+		{
+			get
+			{
+				return GetRelatedEntity<PluginType>("plugintypeid_sdkmessageprocessingstep", null);
+			}
+			set
+			{
+				OnPropertyChanging("PluginTypeAsPlugInType");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
+				SetRelatedEntity<PluginType>("plugintypeid_sdkmessageprocessingstep", null, value);
+				OnPropertyChanged("PluginTypeAsPlugInType");
+			}
+		}
+		
+		/// <summary>
+		/// N:1, 'sdkmessagefilterid_sdkmessageprocessingstep'
+		/// </summary>
+		[RelationshipSchemaName("sdkmessagefilterid_sdkmessageprocessingstep"), AttributeLogicalName("sdkmessagefilterid")]
+		public SdkMessageFilter SdkMessageFilterAsSdkMessageFilter
+		{
+			get
+			{
+				return GetRelatedEntity<SdkMessageFilter>("sdkmessagefilterid_sdkmessageprocessingstep", null);
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageFilterAsSdkMessageFilter");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
+				SetRelatedEntity<SdkMessageFilter>("sdkmessagefilterid_sdkmessageprocessingstep", null, value);
+				OnPropertyChanged("SdkMessageFilterAsSdkMessageFilter");
+			}
+		}
+		
+		/// <summary>
+		/// N:1, 'sdkmessageid_sdkmessageprocessingstep'
+		/// </summary>
+		[RelationshipSchemaName("sdkmessageid_sdkmessageprocessingstep"), AttributeLogicalName("sdkmessageid")]
+		public SdkMessage SdkMessageAsSDKMessage
+		{
+			get
+			{
+				return GetRelatedEntity<SdkMessage>("sdkmessageid_sdkmessageprocessingstep", null);
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageAsSDKMessage");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
+				SetRelatedEntity<SdkMessage>("sdkmessageid_sdkmessageprocessingstep", null, value);
+				OnPropertyChanged("SdkMessageAsSDKMessage");
+			}
+		}
+		
+		public class RelationNames {
+			public const string SdkMessageProcessingStepImagesOfSDKMessageProcessingStep = "SdkMessageProcessingStepImagesOfSDKMessageProcessingStep";
+			public const string PluginTypeAsEventHandler = "PluginTypeAsEventHandler";
+			public const string PluginTypeAsPlugInType = "PluginTypeAsPlugInType";
+			public const string SdkMessageFilterAsSdkMessageFilter = "SdkMessageFilterAsSdkMessageFilter";
+			public const string SdkMessageAsSDKMessage = "SdkMessageAsSDKMessage";
+		}
+
+
+		protected override IDictionary<string, object[]> RelationProperties { get {
+			if (relationProperties != null) return relationProperties;
+			relationProperties = new Dictionary<string, object[]>();
+			relationProperties["SdkMessageProcessingStepImagesOfSDKMessageProcessingStep"] = new object[] { "SdkMessageProcessingStepImagesOfSDKMessageProcessingStep", "sdkmessageprocessingstepimage", "sdkmessageprocessingstep", "sdkmessageprocessingstepid", "sdkmessageprocessingstepid", "sdkmessageprocessingstepid", "sdkmessageprocessingstepid", "sdkmessageprocessingstepid_sdkmessageprocessingstepimage", typeof (SdkMessageProcessingStepImage[]) };
+			relationProperties["PluginTypeAsEventHandler"] = new object[] { "PluginTypeAsEventHandler", "plugintype", "sdkmessageprocessingstep", "plugintypeid", "eventhandler", "sdkmessageprocessingstepid", "sdkmessageprocessingstepid", "plugintype_sdkmessageprocessingstep", typeof (PluginType) };
+			relationProperties["PluginTypeAsPlugInType"] = new object[] { "PluginTypeAsPlugInType", "plugintype", "sdkmessageprocessingstep", "plugintypeid", "plugintypeid", "sdkmessageprocessingstepid", "sdkmessageprocessingstepid", "plugintypeid_sdkmessageprocessingstep", typeof (PluginType) };
+			relationProperties["SdkMessageFilterAsSdkMessageFilter"] = new object[] { "SdkMessageFilterAsSdkMessageFilter", "sdkmessagefilter", "sdkmessageprocessingstep", "sdkmessagefilterid", "sdkmessagefilterid", "sdkmessageprocessingstepid", "sdkmessageprocessingstepid", "sdkmessagefilterid_sdkmessageprocessingstep", typeof (SdkMessageFilter) };
+			relationProperties["SdkMessageAsSDKMessage"] = new object[] { "SdkMessageAsSDKMessage", "sdkmessage", "sdkmessageprocessingstep", "sdkmessageid", "sdkmessageid", "sdkmessageprocessingstepid", "sdkmessageprocessingstepid", "sdkmessageid_sdkmessageprocessingstep", typeof (SdkMessage) };
+			return relationProperties; } }
+
+
+		#endregion
+
+		/// <summary>
+		/// Constructor for populating via LINQ queries given a LINQ anonymous type
+		/// <param name="anonymousType">LINQ anonymous type.</param>
+		/// </summary>
+		public SdkMessageProcessingStep(object anonymousType) : 
+				this()
+		{
+            foreach (var p in anonymousType.GetType().GetProperties())
+            {
+                var value = p.GetValue(anonymousType, null);
+                if (p.PropertyType == typeof(System.Guid))
+                {
+                    // Type is Guid, must be Id
+                    base.Id = (System.Guid)value;
+                    Attributes["sdkmessageprocessingstepid"] = base.Id;
+               }
+                else if (p.Name == "FormattedValues")
+                {
+                    // Add Support for FormattedValues
+                    FormattedValues.AddRange((FormattedValueCollection)value);
+                }
+                else
+                {
+                    Attributes[p.Name.ToLower()] = value;
+                }
+            }
+		}
+
+		#region Label/value pairs
+
+		#region AsynchronousAutomaticDelete
+
+		public enum AsynchronousAutomaticDeleteEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#region Intent
+
+		public enum IntentEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
+		#region ComponentState
+
+		public enum ComponentStateEnum
+		{
+			[EnumMember]Published = 0,
+			[EnumMember]Unpublished = 1,
+			[EnumMember]Deleted = 2,
+			[EnumMember]DeletedUnpublished = 3,
+		}
+
+		#endregion
+	
+		#region InvocationSource
+
+		public enum InvocationSourceEnum
+		{
+			[EnumMember]Internal = -1,
+			[EnumMember]Parent = 0,
+			[EnumMember]Child = 1,
+		}
+
+		#endregion
+	
+		#region State
+
+		public enum StateEnum
+		{
+			[EnumMember]Managed = 1,
+			[EnumMember]Unmanaged = 0,
+		}
+
+		#endregion
+	
+		#region ExecutionMode
+
+		public enum ExecutionModeEnum
+		{
+			[EnumMember]Synchronous = 0,
+			[EnumMember]Asynchronous = 1,
+		}
+
+		#endregion
+	
+		#region ExecutionStage
+
+		public enum ExecutionStageEnum
+		{
+			[EnumMember]InitialPreoperationForinternaluseonly = 5,
+			[EnumMember]Prevalidation = 10,
+			[EnumMember]InternalPreoperationBeforeExternalPluginsForinternaluseonly = 15,
+			[EnumMember]Preoperation = 20,
+			[EnumMember]InternalPreoperationAfterExternalPluginsForinternaluseonly = 25,
+			[EnumMember]MainOperationForinternaluseonly = 30,
+			[EnumMember]InternalPostoperationBeforeExternalPluginsForinternaluseonly = 35,
+			[EnumMember]Postoperation = 40,
+			[EnumMember]InternalPostoperationAfterExternalPluginsForinternaluseonly = 45,
+			[EnumMember]PostoperationDeprecated = 50,
+			[EnumMember]FinalPostoperationForinternaluseonly = 55,
+		}
+
+		#endregion
+	
+		#region Status
+
+		public enum StatusEnum
+		{
+			[EnumMember]Enabled = 0,
+			[EnumMember]Disabled = 1,
+		}
+
+		#endregion
+	
+		#region StatusReason
+
+		public enum StatusReasonEnum
+		{
+			[EnumMember]Enabled = 1,
+			[EnumMember]Disabled = 2,
+		}
+
+		#endregion
+	
+		#region Deployment
+
+		public enum DeploymentEnum
+		{
+			[EnumMember]ServerOnly = 0,
+			[EnumMember]MicrosoftDynamics365ClientforOutlookOnly = 1,
+			[EnumMember]Both = 2,
+		}
+
+		#endregion
+	
+		#endregion
+
+		#region Metadata
+
+		#endregion
+	}
+
+	#endregion
+
+	#region SdkMessageProcessingStepImage
+
+	/// <summary>
+	/// 'SdkMessageProcessingStepImage'.<br />
+	/// Copy of an entity's attributes before or after the core system operation.
+	/// </summary>
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+	[DataContract, EntityLogicalName("sdkmessageprocessingstepimage")]
+	public partial class SdkMessageProcessingStepImage : GeneratedEntity
+	{
+		
+		public SdkMessageProcessingStepImage() : 
+				base(EntityLogicalName)
+		{
+		}
+		
+		public const string DisplayName = "Sdk Message Processing Step Image";
+		public const string SchemaName = "SdkMessageProcessingStepImage";
+		public const string EntityLogicalName = "sdkmessageprocessingstepimage";
+		public const int EntityTypeCode = 4615;
+		
+		#region Attributes
+
+		[AttributeLogicalName("sdkmessageprocessingstepimageid"), DataMember]
+		public override System.Guid Id
+		{
+			get
+			{
+				return (SdkMessageProcessingStepImageIdId == null || SdkMessageProcessingStepImageIdId == Guid.Empty) ? base.Id : SdkMessageProcessingStepImageIdId.GetValueOrDefault();
+			}
+			
+			set
+			{
+                if (value == Guid.Empty) {
+                    Attributes.Remove("sdkmessageprocessingstepimageid");
+                    base.Id = value;
+                } else {
+				    SdkMessageProcessingStepImageIdId = value;
+                }
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=100000] 
+		/// 'Attributes'.<br />
+        /// Comma-separated list of attributes that are to be passed into the SDK message processing step image.
+        /// </summary>
+		[AttributeLogicalName("attributes"), MaxLength(100000)]
+		public string Attributes_Attributes1
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("attributes");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("attributes"))
+				    value = (string) backupAttributeCollection["attributes"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Attributes_Attributes1");
+					SetAttributeValue("attributes", value);
+				OnPropertyChanged("Attributes_Attributes1");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ComponentState'.<br />
+        /// For internal use only.
+        /// </summary>
+		[AttributeLogicalName("componentstate")]
+		public ComponentStateEnum? ComponentState
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("componentstate");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("componentstate"))
+				    value = (OptionSetValue) backupAttributeCollection["componentstate"];
+                return value == null ? (ComponentStateEnum?) null : (ComponentStateEnum?) value.Value;
+			}
+			set
+			{
+				OnPropertyChanging("ComponentState");
+                if (value != null)
+				    SetAttributeValue("componentstate", new OptionSetValue((int) value.Value));
+                else
+					SetAttributeValue("componentstate", value);
+				OnPropertyChanged("ComponentState");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedBy'.<br />
+        /// Unique identifier of the user who created the SDK message processing step image.
+        /// </summary>
+		[AttributeLogicalName("createdby")]
+		public Guid? CreatedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdby"))
+				    value = (EntityReference) backupAttributeCollection["createdby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedBy");
+                if (value != null)
+				    SetAttributeValue("createdby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("createdby", value);
+				OnPropertyChanged("CreatedBy");
+			}
+		}
+
+        public string CreatedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdby"))
+				    value = (EntityReference) backupAttributeCollection["createdby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'CreatedOn'.<br />
+        /// Date and time when the SDK message processing step image was created.
+        /// </summary>
+		[AttributeLogicalName("createdon")]
+		public DateTime? CreatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("createdon");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdon"))
+				    value = (DateTime?) backupAttributeCollection["createdon"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedOn");
+					SetAttributeValue("createdon", value);
+				OnPropertyChanged("CreatedOn");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who created the sdkmessageprocessingstepimage.
+        /// </summary>
+		[AttributeLogicalName("createdonbehalfby")]
+		public Guid? CreatedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["createdonbehalfby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedByDelegate");
+                if (value != null)
+				    SetAttributeValue("createdonbehalfby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("createdonbehalfby", value);
+				OnPropertyChanged("CreatedByDelegate");
+			}
+		}
+
+        public string CreatedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["createdonbehalfby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        /// [Range(-255, 255)] 
+		/// 'CustomizationLevel'.<br />
+        /// Customization level of the SDK message processing step image.
+        /// </summary>
+		[AttributeLogicalName("customizationlevel"), InRange("-255", "255", typeof(int))]
+		public int? CustomizationLevel
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("customizationlevel");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("customizationlevel"))
+				    value = (int?) backupAttributeCollection["customizationlevel"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CustomizationLevel");
+					SetAttributeValue("customizationlevel", value);
+				OnPropertyChanged("CustomizationLevel");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=256] 
+		/// 'Description'.<br />
+        /// Description of the SDK message processing step image.
+        /// </summary>
+		[AttributeLogicalName("description"), MaxLength(256)]
+		public string Description
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("description");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("description"))
+				    value = (string) backupAttributeCollection["description"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Description");
+					SetAttributeValue("description", value);
+				OnPropertyChanged("Description");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=256] 
+		/// 'EntityAlias'.<br />
+        /// Key name used to access the pre-image or post-image property bags in a step.
+        /// </summary>
+		[AttributeLogicalName("entityalias"), MaxLength(256)]
+		public string EntityAlias
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("entityalias");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("entityalias"))
+				    value = (string) backupAttributeCollection["entityalias"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("EntityAlias");
+					SetAttributeValue("entityalias", value);
+				OnPropertyChanged("EntityAlias");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ImageType'.<br />
+        /// Type of image requested.
+        /// </summary>
+		[AttributeLogicalName("imagetype")]
+		public ImageTypeEnum? ImageType
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("imagetype");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("imagetype"))
+				    value = (OptionSetValue) backupAttributeCollection["imagetype"];
+                return value == null ? (ImageTypeEnum?) null : (ImageTypeEnum?) value.Value;
+			}
+			set
+			{
+				OnPropertyChanging("ImageType");
+                if (value != null)
+				    SetAttributeValue("imagetype", new OptionSetValue((int) value.Value));
+                else
+					SetAttributeValue("imagetype", value);
+				OnPropertyChanged("ImageType");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=48] 
+		/// 'IntroducedVersion'.<br />
+        /// Version in which the form is introduced.
+        /// </summary>
+		[AttributeLogicalName("introducedversion"), MaxLength(48)]
+		public string IntroducedVersion
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("introducedversion");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("introducedversion"))
+				    value = (string) backupAttributeCollection["introducedversion"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("IntroducedVersion");
+					SetAttributeValue("introducedversion", value);
+				OnPropertyChanged("IntroducedVersion");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'IsCustomizable'.<br />
+        /// Information that specifies whether this component can be customized.
+        /// </summary>
+		[AttributeLogicalName("iscustomizable")]
+		public BooleanManagedProperty Customizable
+		{
+			get
+			{
+				var value = GetAttributeValue<BooleanManagedProperty>("iscustomizable");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("iscustomizable"))
+				    value = (BooleanManagedProperty) backupAttributeCollection["iscustomizable"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Customizable");
+					SetAttributeValue("iscustomizable", value);
+				OnPropertyChanged("Customizable");
+			}
+		}
+
+		[AttributeLogicalName("ismanaged")]
+		public bool? IsManaged
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("ismanaged");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ismanaged"))
+				    value = (bool?) backupAttributeCollection["ismanaged"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("IsManaged");
+					SetAttributeValue("ismanaged", value);
+				OnPropertyChanged("IsManaged");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=256] 
+		/// 'MessagePropertyName'.<br />
+        /// Name of the property on the Request message.
+        /// </summary>
+		[AttributeLogicalName("messagepropertyname"), MaxLength(256)]
+		public string MessagePropertyName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("messagepropertyname");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("messagepropertyname"))
+				    value = (string) backupAttributeCollection["messagepropertyname"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("MessagePropertyName");
+					SetAttributeValue("messagepropertyname", value);
+				OnPropertyChanged("MessagePropertyName");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedBy'.<br />
+        /// Unique identifier of the user who last modified the SDK message processing step.
+        /// </summary>
+		[AttributeLogicalName("modifiedby")]
+		public Guid? ModifiedBy_ModifiedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedBy_ModifiedBy");
+                if (value != null)
+				    SetAttributeValue("modifiedby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("modifiedby", value);
+				OnPropertyChanged("ModifiedBy_ModifiedBy");
+			}
+		}
+
+        public string ModifiedBy_ModifiedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOn'.<br />
+        /// Date and time when the SDK message processing step was last modified.
+        /// </summary>
+		[AttributeLogicalName("modifiedon")]
+		public DateTime? ModifiedBy_ModifiedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("modifiedon");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedon"))
+				    value = (DateTime?) backupAttributeCollection["modifiedon"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedBy_ModifiedOn");
+					SetAttributeValue("modifiedon", value);
+				OnPropertyChanged("ModifiedBy_ModifiedOn");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who last modified the sdkmessageprocessingstepimage.
+        /// </summary>
+		[AttributeLogicalName("modifiedonbehalfby")]
+		public Guid? ModifiedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedonbehalfby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedByDelegate");
+                if (value != null)
+				    SetAttributeValue("modifiedonbehalfby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("modifiedonbehalfby", value);
+				OnPropertyChanged("ModifiedByDelegate");
+			}
+		}
+
+        public string ModifiedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedonbehalfby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        /// [MaximumLength=256] 
+		/// 'Name'.<br />
+        /// Name of SdkMessage processing step image.
+        /// </summary>
+		[AttributeLogicalName("name"), MaxLength(256)]
+		public string Name
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("name");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("name"))
+				    value = (string) backupAttributeCollection["name"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Name");
+					SetAttributeValue("name", value);
+				OnPropertyChanged("Name");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'OrganizationId'.<br />
+        /// Unique identifier of the organization with which the SDK message processing step is associated.
+        /// </summary>
+		[AttributeLogicalName("organizationid")]
+		public Guid? OrganizationId
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("organizationid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("organizationid"))
+				    value = (EntityReference) backupAttributeCollection["organizationid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("OrganizationId");
+                if (value != null)
+				    SetAttributeValue("organizationid", new EntityReference("organization", value.Value));
+                else
+					SetAttributeValue("organizationid", value);
+				OnPropertyChanged("OrganizationId");
+			}
+		}
+
+        public string OrganizationIdName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("organizationid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("organizationid"))
+				    value = (EntityReference) backupAttributeCollection["organizationid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'OverwriteTime'.<br />
+        /// For internal use only.
+        /// </summary>
+		[AttributeLogicalName("overwritetime")]
+		public DateTime? RecordOverwriteTime
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("overwritetime");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("overwritetime"))
+				    value = (DateTime?) backupAttributeCollection["overwritetime"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("RecordOverwriteTime");
+					SetAttributeValue("overwritetime", value);
+				OnPropertyChanged("RecordOverwriteTime");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=256] 
+		/// 'RelatedAttributeName'.<br />
+        /// Name of the related entity.
+        /// </summary>
+		[AttributeLogicalName("relatedattributename"), MaxLength(256)]
+		public string RelatedAttributeName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("relatedattributename");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("relatedattributename"))
+				    value = (string) backupAttributeCollection["relatedattributename"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("RelatedAttributeName");
+					SetAttributeValue("relatedattributename", value);
+				OnPropertyChanged("RelatedAttributeName");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'SdkMessageProcessingStepId'.<br />
+        /// Unique identifier of the SDK message processing step.
+        /// </summary>
+		[AttributeLogicalName("sdkmessageprocessingstepid")]
+		public Guid? SDKMessageProcessingStep
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("sdkmessageprocessingstepid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageprocessingstepid"))
+				    value = (EntityReference) backupAttributeCollection["sdkmessageprocessingstepid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("SDKMessageProcessingStep");
+                if (value != null)
+				    SetAttributeValue("sdkmessageprocessingstepid", new EntityReference("sdkmessageprocessingstep", value.Value));
+                else
+					SetAttributeValue("sdkmessageprocessingstepid", value);
+				OnPropertyChanged("SDKMessageProcessingStep");
+			}
+		}
+
+        public string SDKMessageProcessingStepName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("sdkmessageprocessingstepid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageprocessingstepid"))
+				    value = (EntityReference) backupAttributeCollection["sdkmessageprocessingstepid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'SdkMessageProcessingStepImageId'.<br />
+        /// Unique identifier of the SDK message processing step image entity.
+        /// </summary>
+		[AttributeLogicalName("sdkmessageprocessingstepimageid")]
+		public Guid? SdkMessageProcessingStepImageIdId
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("sdkmessageprocessingstepimageid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageprocessingstepimageid"))
+				    value = (Guid?) backupAttributeCollection["sdkmessageprocessingstepimageid"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageProcessingStepImageIdId");
+                if (value != null)
+					SetAttributeValue("sdkmessageprocessingstepimageid", value);
+				if (value != null)
+					base.Id = value.Value;
+				else
+					Id = System.Guid.Empty;
+				OnPropertyChanged("SdkMessageProcessingStepImageIdId");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'SdkMessageProcessingStepImageIdUnique'.<br />
+        /// Unique identifier of the SDK message processing step image.
+        /// </summary>
+		[AttributeLogicalName("sdkmessageprocessingstepimageidunique")]
+		public Guid? SdkMessageProcessingStepImageIdUnique
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("sdkmessageprocessingstepimageidunique");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("sdkmessageprocessingstepimageidunique"))
+				    value = (Guid?) backupAttributeCollection["sdkmessageprocessingstepimageidunique"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageProcessingStepImageIdUnique");
+					SetAttributeValue("sdkmessageprocessingstepimageidunique", value);
+				OnPropertyChanged("SdkMessageProcessingStepImageIdUnique");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'SolutionId'.<br />
+        /// Unique identifier of the associated solution.
+        /// </summary>
+		[AttributeLogicalName("solutionid")]
+		public Guid? Solution_SolutionId
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("solutionid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("solutionid"))
+				    value = (Guid?) backupAttributeCollection["solutionid"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Solution_SolutionId");
+					SetAttributeValue("solutionid", value);
+				OnPropertyChanged("Solution_SolutionId");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'VersionNumber'.<br />
+        /// Number that identifies a specific revision of the step image. 
+        /// </summary>
+		[AttributeLogicalName("versionnumber")]
+		public long? VersionNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<long?>("versionnumber");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("versionnumber"))
+				    value = (long?) backupAttributeCollection["versionnumber"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("VersionNumber");
+					SetAttributeValue("versionnumber", value);
+				OnPropertyChanged("VersionNumber");
+			}
+		}
+
+		#endregion
+
+		#region Relationships
+
+		
+		/// <summary>
+		/// N:1, 'sdkmessageprocessingstepid_sdkmessageprocessingstepimage'
+		/// </summary>
+		[RelationshipSchemaName("sdkmessageprocessingstepid_sdkmessageprocessingstepimage"), AttributeLogicalName("sdkmessageprocessingstepid")]
+		public SdkMessageProcessingStep SdkMessageProcessingStepAsSDKMessageProcessingStep
+		{
+			get
+			{
+				return GetRelatedEntity<SdkMessageProcessingStep>("sdkmessageprocessingstepid_sdkmessageprocessingstepimage", null);
+			}
+			set
+			{
+				OnPropertyChanging("SdkMessageProcessingStepAsSDKMessageProcessingStep");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
+				SetRelatedEntity<SdkMessageProcessingStep>("sdkmessageprocessingstepid_sdkmessageprocessingstepimage", null, value);
+				OnPropertyChanged("SdkMessageProcessingStepAsSDKMessageProcessingStep");
+			}
+		}
+		
+		public class RelationNames {
+			public const string SdkMessageProcessingStepAsSDKMessageProcessingStep = "SdkMessageProcessingStepAsSDKMessageProcessingStep";
+		}
+
+
+		protected override IDictionary<string, object[]> RelationProperties { get {
+			if (relationProperties != null) return relationProperties;
+			relationProperties = new Dictionary<string, object[]>();
+			relationProperties["SdkMessageProcessingStepAsSDKMessageProcessingStep"] = new object[] { "SdkMessageProcessingStepAsSDKMessageProcessingStep", "sdkmessageprocessingstep", "sdkmessageprocessingstepimage", "sdkmessageprocessingstepid", "sdkmessageprocessingstepid", "sdkmessageprocessingstepimageid", "sdkmessageprocessingstepimageid", "sdkmessageprocessingstepid_sdkmessageprocessingstepimage", typeof (SdkMessageProcessingStep) };
+			return relationProperties; } }
+
+
+		#endregion
+
+		/// <summary>
+		/// Constructor for populating via LINQ queries given a LINQ anonymous type
+		/// <param name="anonymousType">LINQ anonymous type.</param>
+		/// </summary>
+		public SdkMessageProcessingStepImage(object anonymousType) : 
+				this()
+		{
+            foreach (var p in anonymousType.GetType().GetProperties())
+            {
+                var value = p.GetValue(anonymousType, null);
+                if (p.PropertyType == typeof(System.Guid))
+                {
+                    // Type is Guid, must be Id
+                    base.Id = (System.Guid)value;
+                    Attributes["sdkmessageprocessingstepimageid"] = base.Id;
+               }
+                else if (p.Name == "FormattedValues")
+                {
+                    // Add Support for FormattedValues
+                    FormattedValues.AddRange((FormattedValueCollection)value);
+                }
+                else
+                {
+                    Attributes[p.Name.ToLower()] = value;
+                }
+            }
+		}
+
+		#region Label/value pairs
+
+		#region ComponentState
+
+		public enum ComponentStateEnum
+		{
+			[EnumMember]Published = 0,
+			[EnumMember]Unpublished = 1,
+			[EnumMember]Deleted = 2,
+			[EnumMember]DeletedUnpublished = 3,
+		}
+
+		#endregion
+	
+		#region ImageType
+
+		public enum ImageTypeEnum
+		{
+			[EnumMember]PreImage = 0,
+			[EnumMember]PostImage = 1,
+			[EnumMember]Both = 2,
+		}
+
+		#endregion
+	
+		#region IsManaged
+
+		public enum IsManagedEnum
+		{
+			[EnumMember]Managed = 1,
+			[EnumMember]Unmanaged = 0,
+		}
+
+		#endregion
+	
+		#endregion
+
+		#region Metadata
 
 		#endregion
 	}

@@ -1,7 +1,8 @@
+# DynamicsCrm-AutoNumbering
+
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yagasoft/DynamicsCrm-AutoNumbering?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-# DynamicsCrm-AutoNumbering
-### Version: 2.1.1.1
+### Version: 2.2.1.1
 ---
 
 A CRM solution that gives a lot of flexibility in creating any pattern required for auto-numbering.
@@ -52,6 +53,8 @@ I will post a complete guide soon.
 		
 ## Changes
 
+#### _v2.2.1.1 (2018-12-04)_
++ Added: automatic registration option for the Create message plugin step
 #### _v2.1.1.1 (2018-09-05)_
 + Added: Web Resources to project
 + Changed: cleaned the project of obsolete components

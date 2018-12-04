@@ -6,9 +6,9 @@
       <LocalizedName description="Auto-Numbering" languagecode="1033" />
     </LocalizedNames>
     <Descriptions>
-      <Description description="Refer to YagaSoft.com for any enquiries." languagecode="1033" />
+      <Description description="Refer to Yagasoft.com for any enquiries." languagecode="1033" />
     </Descriptions>
-    <Version>2.1.1.1</Version>
+    <Version>2.2.1.1</Version>
     <Managed>0</Managed>
     <Publisher>
       <UniqueName>linkdevelopment</UniqueName>
@@ -93,7 +93,7 @@
     <MissingDependencies>
       <MissingDependency>
         <Required key="0" type="61" schemaName="ldv_CommonGenericJs" displayName="ldv_CommonGenericJs" solution="Active" />
-        <Dependent key="1" type="60" displayName="Auto-Numbering Config Form" parentDisplayName="Auto-Numbering" id="{eee9d255-928f-4650-8978-d02ce6f24ff6}" />
+        <Dependent key="1" type="60" displayName="Main Form" parentDisplayName="Auto-Numbering" id="{eee9d255-928f-4650-8978-d02ce6f24ff6}" />
       </MissingDependency>
     </MissingDependencies>
   </SolutionManifest>

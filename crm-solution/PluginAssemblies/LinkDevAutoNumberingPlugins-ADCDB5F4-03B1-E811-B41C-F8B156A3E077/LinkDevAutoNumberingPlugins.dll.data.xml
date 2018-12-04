@@ -11,6 +11,15 @@
     <PluginType AssemblyQualifiedName="LinkDev.AutoNumbering.Plugins.Config.Plugins.PreCreateSetIdAutoNum, LinkDev.AutoNumbering.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" Name="LinkDev.AutoNumbering.Plugins.Config.Plugins.PreCreateSetIdAutoNum">
       <FriendlyName>PreCreateSetIdAutoNum</FriendlyName>
     </PluginType>
+    <PluginType AssemblyQualifiedName="LinkDev.AutoNumbering.Plugins.Config.Register.PostCreateRegisterStep, LinkDev.AutoNumbering.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" Name="LinkDev.AutoNumbering.Plugins.Config.Register.PostCreateRegisterStep">
+      <FriendlyName>PostCreateRegisterStep</FriendlyName>
+    </PluginType>
+    <PluginType AssemblyQualifiedName="LinkDev.AutoNumbering.Plugins.Config.Register.PostUpdateRegisterStep, LinkDev.AutoNumbering.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" Name="LinkDev.AutoNumbering.Plugins.Config.Register.PostUpdateRegisterStep">
+      <FriendlyName>PostUpdateRegisterStep</FriendlyName>
+    </PluginType>
+    <PluginType AssemblyQualifiedName="LinkDev.AutoNumbering.Plugins.Config.Register.PreDeleteRegisterStep, LinkDev.AutoNumbering.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" Name="LinkDev.AutoNumbering.Plugins.Config.Register.PreDeleteRegisterStep">
+      <FriendlyName>PreDeleteRegisterStep</FriendlyName>
+    </PluginType>
     <PluginType AssemblyQualifiedName="LinkDev.AutoNumbering.Plugins.Target.Plugins.PostCreateTargetAutoNum, LinkDev.AutoNumbering.Plugins, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e8d87f7d871f19c4" Name="LinkDev.AutoNumbering.Plugins.Target.Plugins.PostCreateTargetAutoNum">
       <FriendlyName>PostCreateTargetAutoNum</FriendlyName>
     </PluginType>

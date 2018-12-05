@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using LinkDev.Libraries.Common;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
+using static LinkDev.Libraries.Common.CrmHelpers;
 
 #endregion
 
@@ -14,7 +15,7 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 {
 	/// <summary>
 	///     Author: Ahmed el-Sawalhy<br />
-	///     Version: 1.3.1
+	///     Version: 2.1.1
 	/// </summary>
 	[Log]
 	internal class Parser
@@ -32,32 +33,32 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 
 		internal string ParseAutoNumberVariable(string rawString, string indexString)
 		{
-			return rawString.Replace("{index}", indexString);
+			return Regex.Replace(rawString, @"{>index\d*?}", indexString);
 		}
 
 		internal string ParseParamVariables(string rawString, IEnumerable<string> inputParamsParam)
 		{
 			var inputParams = inputParamsParam?.ToArray();
-			var formatParamCount = Regex.Matches(rawString, @"{param\d+?}").Count;
+			var formatParamCount = Regex.Matches(rawString, @"{>param\d+?}").Count;
 
 			if (inputParams == null || formatParamCount > inputParams.Length)
 			{
 				throw new InvalidPluginExecutionException(
 					$"Param count mismatch: format string param count => {formatParamCount}, "
-				                                          + $"input param count => {inputParams?.Length ?? 0}");
+						+ $"input param count => {inputParams?.Length ?? 0}");
 			}
 
 			return Regex.Replace(
-				rawString, @"{param\d+?}",
+				rawString, @"{>param(\d+?)}",
 				match =>
 				{
 					if (match.Success)
 					{
-						var rawVariable = match.Value;
+						var rawVariable = match.Groups[1].Value;
 
 						try
 						{
-							var paramIndex = int.Parse(rawVariable.Replace("{", "").Replace("}", "").Replace("param", ""));
+							var paramIndex = int.Parse(rawVariable);
 
 							if (paramIndex < 1 || paramIndex > inputParams.Length)
 							{
@@ -76,158 +77,28 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 				});
 		}
 
-		internal string ParseAttributeVariables(string rawString, Guid userIdForTimeZone, string orgId,
-			bool isSuppressErrors = false)
+		internal string ParseAttributeVariables(string rawString, Guid userIdForTimeZone, string orgId)
 		{
+			var otherPlaceholders = new[] { ">index.*?", ">param.*?", "!.*?", "@.*?" };
 
-			var stringParsedCond = Regex.Replace(
-				rawString, @"{\?.*?\:\:.*?}",
-				match =>
-				{
-					if (match.Success)
+			foreach (var placeholder in otherPlaceholders)
+			{
+				rawString = Regex.Replace(rawString, $"{{{placeholder}}}",
+					match =>
 					{
-						var condition = match.Value.Split(new[] { "::" }, StringSplitOptions.RemoveEmptyEntries);
-
-						if (condition.Length <= 1)
+						if (match.Success)
 						{
-							return "";
+							return $"$$$$${match.Value.Substring(1, match.Value.Length - 2)}#####";
 						}
 
-						var filledVal = condition[0].Replace("{?", "");
-						// remove the ending '}'
-						var emptyVal = condition[1].Substring(0, condition[1].Length - 1);
-
-						filledVal = Regex.Replace(
-							filledVal, @"{\$.*?}",
-							match2 =>
-							{
-								if (match2.Success)
-								{
-									return $"{{{{{GetFieldValue(match2.Value, entity, userIdForTimeZone, orgId, true)}}}}}";
-								}
-
-								return "{{}}";
-							});
-
-						return filledVal.Contains("{{}}")
-								   ? emptyVal
-								   : filledVal.Replace("{{", "").Replace("}}", "");
-					}
-
-					return "";
-				});
-
-			return Regex.Replace(
-				stringParsedCond, @"{\$.*?}",
-				match =>
-				{
-					if (match.Success)
-					{
-						return GetFieldValue(match.Value, entity, userIdForTimeZone, orgId, isSuppressErrors);
-					}
-
-					return "";
-				});
-		}
-
-		private string GetFieldValue(string rawVariable, Entity entity, Guid userIdForTimeZone, string orgId,
-			bool isSuppressErrors = false)
-		{
-			// clean the variable from its delimiters
-			var variable = rawVariable.Replace("{", "").Replace("}", "").TrimStart('$');
-			var field = variable.Split('$');
-			var fieldNameRaw = field[0];
-			var fieldName = field[0].Split('@')[0];
-
-			if (!entity.Contains(fieldName))
-			{
-				if (isSuppressErrors)
-				{
-					return null;
-				}
-
-				throw new InvalidPluginExecutionException($"Couldn't parse the format string -- missing value \"{fieldName}\".");
+						return "";
+					});
 			}
 
-			// get the attribute
-			var fieldValue = entity.GetAttributeValue<object>(fieldName);
-			// will be used if there is recursive lookup
-			var column = fieldName;
+			var parsedString = Libraries.Common.CrmHelpers.ParseAttributeVariables(service, rawString, entity,
+				userIdForTimeZone, orgId);
 
-			if (fieldValue == null)
-			{
-				return null;
-			}
-
-			// variable is recursive, so we need to go deeper through the lookup
-			if (variable.Contains("$"))
-			{
-				// if the field value is not a lookup, then we can't recurse
-				var reference = fieldValue as EntityReference;
-
-				if (reference == null)
-				{
-					throw new InvalidPluginExecutionException($"Field \"{fieldName}\" is not a lookup.");
-				}
-
-				// we don't need the first value anymore, as it references the lookup itself
-				column = variable.Split('$')[1];
-
-				// get lookup entity
-				entity = service.Retrieve(reference.LogicalName, reference.Id, new ColumnSet(column));
-
-				if (!entity.Contains(column))
-				{
-					if (isSuppressErrors)
-					{
-						return null;
-					}
-
-					throw new InvalidPluginExecutionException($"Couldn't parse the format string -- missing value " +
-					                                          $"\"{column}\" in entity \"{entity.LogicalName}\".");
-				}
-
-				fieldValue = entity[column];
-
-				// it goes deeper!
-				if (variable.Split('$').Length > 2)
-				{
-					return GetFieldValue(variable.Replace(fieldName, ""), entity, userIdForTimeZone, orgId, isSuppressErrors);
-				}
-			}
-
-			#region Attribute processors
-
-			if (fieldValue is string)
-			{
-				return (string) fieldValue;
-			}
-
-			if (fieldValue is OptionSetValue)
-			{
-				var label = entity.FormattedValues.FirstOrDefault(keyVal => keyVal.Key == column).Value
-				            ?? Helper.GetOptionsSetTextForValue(service, entity.LogicalName, column,
-					            (fieldValue as OptionSetValue).Value, orgId);
-				return label ?? "";
-			}
-			
-			if (fieldValue is DateTime)
-			{
-				var dateFormatRaw = fieldNameRaw.Split('@');
-				var date = ((DateTime) fieldValue).ConvertToCrmUserTimeZone(service, userIdForTimeZone);
-				return dateFormatRaw.Length > 1 ? string.Format("{0:" + dateFormatRaw[1] + "}", date) : date.ToString();
-			}
-
-			var fieldRef = fieldValue as EntityReference;
-
-			if (fieldRef != null)
-			{
-				return fieldRef.Name ?? Helper.GetEntityPrimaryFieldValue(service, fieldRef, orgId);
-			}
-
-			#endregion
-
-			return fieldValue?.ToString();
+			return parsedString.Replace("$$$$$", "{").Replace("#####", "}");
 		}
 
 		internal string ParseRandomStringVariables(string rawString, bool isLetterStart, int numberLetterRatio = -1)

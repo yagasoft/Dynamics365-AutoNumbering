@@ -46,7 +46,7 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 			this.service = service;
 			this.orgId = orgId;
 			this.autoNumberConfig = autoNumberConfig;
-			isInlineConfig = this.autoNumberConfig.Id == Guid.Empty;
+			isInlineConfig = autoNumberConfig.Id == Guid.Empty;
 			this.target = target;
 			this.image = image;
 			this.inputParams = inputParams;
@@ -61,7 +61,7 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 				throw new InvalidPluginExecutionException("Couldn't find a format string in the auto-numbering configuration.");
 			}
 
-			var isUseIndex = !isInlineConfig && !isBackLogged && autoNumberConfig.FormatString.Contains("{index}");
+			var isUseIndex = !isInlineConfig && !isBackLogged && Regex.IsMatch(autoNumberConfig.FormatString, @"{>index\d*?}");
 
 			if (isUseIndex && autoNumberConfig.CurrentIndex == null)
 			{
@@ -173,11 +173,11 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 
 			log.Log("Preparing attribute variables ...");
 			var generatedString = parser.ParseAttributeVariables(autoNumberConfig.FormatString ?? "",
-				autoNumberConfig.Owner.Id, orgId, isInlineConfig);
+				autoNumberConfig.Owner.Id, orgId);
 
 			if (!isInlineConfig)
 			{
-				if (Regex.Matches(generatedString, @"{param\d+?}").Count > 0)
+				if (Regex.Matches(generatedString, @"{>param\d+?}").Count > 0)
 				{
 					log.Log("Preparing param variables ...");
 					generatedString = parser.ParseParamVariables(generatedString, inputParams);

@@ -2,6 +2,7 @@
 
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using LinkDev.Libraries.Common;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
@@ -30,10 +31,8 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 				{
 					return null;
 				}
-				else
-				{
-					throw new InvalidPluginExecutionException("Couldn't find an auto-numbering configuration.");
-				}
+
+				throw new InvalidPluginExecutionException("Couldn't find an auto-numbering configuration.");
 			}
 
 			// if the auto-numbering is inactive, then don't apply
@@ -65,7 +64,7 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 			}
 
 			// only lock if an index is needed
-			if (autoNumberingConfig.FormatString.Contains("{index}") && !isBackLogged)
+			if (Regex.IsMatch(autoNumberingConfig.FormatString, @"{>index\d*?}") && !isBackLogged)
 			{
 				log.Log("Locking ...", LogLevel.Debug);
 
@@ -145,7 +144,7 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 			#endregion
 
 			// only increment index if it's being used
-			if (autoNumberConfig.FormatString.Contains("{index}"))
+			if (Regex.IsMatch(autoNumberConfig.FormatString, @"{>index\d*?}"))
 			{
 				// if invalid value, reset
 				// if updating and not incrementing, then keep index, else increment index

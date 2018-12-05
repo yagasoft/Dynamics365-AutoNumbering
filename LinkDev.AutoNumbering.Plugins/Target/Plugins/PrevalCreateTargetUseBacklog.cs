@@ -4,6 +4,7 @@
 
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using LinkDev.Libraries.Common;
 using Microsoft.Xrm.Sdk;
 
@@ -74,7 +75,7 @@ namespace LinkDev.AutoNumbering.Plugins.Target.Plugins
 					+ $" with ID '{config}'.");
 			}
 
-			if (autoNumberConfig.FormatString.Contains("{index}") && autoNumberConfig.UseBacklog == true)
+			if (Regex.IsMatch(autoNumberConfig.FormatString, @"{>index\d*?}") && autoNumberConfig.UseBacklog == true)
 			{
 				var triggerId = Guid.NewGuid().ToString();
 

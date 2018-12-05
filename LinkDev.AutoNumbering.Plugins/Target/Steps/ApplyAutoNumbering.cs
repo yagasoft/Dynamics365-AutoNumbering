@@ -63,11 +63,9 @@ namespace LinkDev.AutoNumbering.Plugins.Target.Steps
 				 select autoNumberQ).FirstOrDefault();
 
 			log.Log("Getting target ...");
-			var targetObject = context.InputParameters.FirstOrDefault(keyVal => keyVal.Key == "Target").Value;
-			// the target might be an entity or entity reference
-			var targetRef = targetObject as EntityReference;
-			var target = targetObject as Entity 
-				?? (targetRef != null ? new Entity(targetRef.LogicalName) { Id = targetRef.Id } : null);
+			var target = context.InputParameters.FirstOrDefault(keyVal => keyVal.Key == "Target").Value as Entity
+				?? context.PostEntityImages.FirstOrDefault().Value
+				?? service.Retrieve(context.PrimaryEntityName, context.PrimaryEntityId, new ColumnSet(true));
 
 			var autoNumberConfig = Helper.PreValidation(service, target, autoNumberTest, log, false, false);
 
@@ -79,7 +77,7 @@ namespace LinkDev.AutoNumbering.Plugins.Target.Steps
 
 			// to avoid problems with missing fields that are needed by the parser, fetch the whole record
 			// if the format string doesn't contain an attribute reference, then skip
-			if (context.MessageName != "Create" && Regex.IsMatch(autoNumberConfig.FormatString, @"{\$.*?}"))
+			if (context.MessageName != "Create" && Regex.IsMatch(autoNumberConfig.FormatString, @"{\w*?}"))
 			{
 				if (target == null)
 				{
@@ -87,9 +85,13 @@ namespace LinkDev.AutoNumbering.Plugins.Target.Steps
 						"Couldn't find a target for the execution; make sure the action is not \"global\".");
 				}
 
-				var columns = Regex.Matches(autoNumberConfig.FormatString, @"{\$.*?}").Cast<Match>()
-					.Select(match => match.Value.Replace("{", "").Replace("}", "").TrimStart('$').Split('$')[0]).ToArray();
-				target = service.Retrieve(target.LogicalName, target.Id, new ColumnSet(columns));
+				var columns = Regex.Matches(autoNumberConfig.FormatString, @"{\w*?}").Cast<Match>()
+					.Select(match => match.Value.Replace("{", "").Replace("}", "").Split('.')[0]).ToArray();
+
+				if (target.Attributes.Keys.Intersect(columns).Count() < columns.Length)
+				{
+					target = service.Retrieve(target.LogicalName, target.Id, new ColumnSet(columns));
+				}
 			}
 
 			var autoNumbering = new AutoNumberingEngine(service, log, autoNumberConfig, target, target,

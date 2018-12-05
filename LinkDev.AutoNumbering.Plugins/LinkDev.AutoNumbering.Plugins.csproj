@@ -84,9 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\DynamicsCrm-Libraries\LinkDev.Libraries.Common\Common.cs">
-      <Link>Common.cs</Link>
-    </Compile>
+    <Compile Include="Common.cs" />
     <Compile Include="Config\Register\PreDeleteRegisterStep.cs" />
     <Compile Include="Config\Register\PostUpdateRegisterStep.cs" />
     <Compile Include="Config\Register\PostCreateRegisterStep.cs" />

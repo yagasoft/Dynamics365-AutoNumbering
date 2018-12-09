@@ -86,6 +86,7 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <Content Include="WebResLink.dat" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="..\..\DynamicsCrm-Libraries\LinkDev.Libraries.Common\Scripts\Xrm.Page.365.d.ts">

@@ -15,7 +15,7 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 {
 	/// <summary>
 	///     Author: Ahmed el-Sawalhy<br />
-	///     Version: 2.1.1
+	///     Version: 2.1.2
 	/// </summary>
 	[Log]
 	internal class Parser
@@ -29,11 +29,6 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 			this.log = log;
 			this.service = service;
 			this.entity = entity;
-		}
-
-		internal string ParseAutoNumberVariable(string rawString, string indexString)
-		{
-			return Regex.Replace(rawString, @"{>index\d*?}", indexString);
 		}
 
 		internal string ParseParamVariables(string rawString, IEnumerable<string> inputParamsParam)
@@ -79,16 +74,17 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 
 		internal string ParseAttributeVariables(string rawString, Guid userIdForTimeZone, string orgId)
 		{
-			var otherPlaceholders = new[] { ">index.*?", ">param.*?", "!.*?", "@.*?" };
+			var otherPlaceholders = new[] { ">index", ">param", "!", "@" };
 
 			foreach (var placeholder in otherPlaceholders)
 			{
-				rawString = Regex.Replace(rawString, $"{{{placeholder}}}",
+				rawString = Regex.Replace(rawString,
+					@"{(" + placeholder + @"(?:(?:(?>(?<c1>{)|[^{}]+?|(?<-c1>}))*?(?(c1)(?!))::(?>(?<c2>{)|[^{}]+?|(?<-c2>}))*?(?(c2)(?!)))|.*?))}",
 					match =>
 					{
 						if (match.Success)
 						{
-							return $"$$$$${match.Value.Substring(1, match.Value.Length - 2)}#####";
+							return $"$$$$${match.Groups[1].Value}#####";
 						}
 
 						return "";

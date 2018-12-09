@@ -15,7 +15,7 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 {
 	/// <summary>
 	///     Author: Ahmed el-Sawalhy<br />
-	///     Version: 1.3.1
+	///     Version: 2.1.1
 	/// </summary>
 	[Log]
 	internal class AutoNumberingEngine
@@ -61,30 +61,16 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 				throw new InvalidPluginExecutionException("Couldn't find a format string in the auto-numbering configuration.");
 			}
 
-			var isUseIndex = !isInlineConfig && !isBackLogged && Regex.IsMatch(autoNumberConfig.FormatString, @"{>index\d*?}");
-
-			if (isUseIndex && autoNumberConfig.CurrentIndex == null)
-			{
-				throw new InvalidPluginExecutionException("Couldn't find an index in the auto-numbering configuration.");
-			}
-
 			var updatedAutoNumbering =
 				new AutoNumbering
 				{
 					Id = autoNumberConfigId
 				};
 
-			var index = autoNumberConfig.CurrentIndex ?? -1;
-
-			if (isUseIndex)
-			{
-				index = Helper.ProcessIndex(autoNumberConfig, isUpdate, updatedAutoNumbering);
-			}
-
 			// generate a string, and make sure it's unique
 			var field = autoNumberConfig.FieldLogicalName?.Trim();
-
-			var result = GenerateUniqueString(index, field);
+			var result = GenerateUniqueString(isUpdate, updatedAutoNumbering, field);
+			log.Log($"Final auto-number: {result}");
 
 			// if target and field exist, then user wants to update the record
 			if (target != null && field != null)
@@ -107,9 +93,9 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 				}
 			}
 
-			if (isUseIndex)
+			if (!isInlineConfig && !isBackLogged)
 			{
-				log.Log($"Updating auto-numbering with index {index} ...");
+				log.Log($"Updating auto-numbering with index {updatedAutoNumbering.CurrentIndex} ...");
 				// set the new dates and index in the auto-numbering record
 				service.Update(updatedAutoNumbering);
 			}
@@ -117,7 +103,7 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 			return result;
 		}
 
-		private Result GenerateUniqueString(int index, string field = null)
+		private Result GenerateUniqueString(bool isUpdate, AutoNumbering updatedAutoNumbering, string field = null)
 		{
 			var generatedString = "";
 			bool isUnique;
@@ -146,7 +132,7 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 					throw new InvalidPluginExecutionException($"Couldn't generate a unique random string => \"{generatedString}\"");
 				}
 
-				result = GenerateString(index);
+				result = GenerateString(isUpdate, updatedAutoNumbering);
 				generatedString = result.GeneratedString;
 				log.Log($"Generated string: {generatedString}", LogLevel.Debug);
 
@@ -167,13 +153,14 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 			return result;
 		}
 
-		private Result GenerateString(int index)
+		private Result GenerateString(bool isUpdate, AutoNumbering updatedAutoNumbering)
 		{
 			var parser = new Parser(service, image, log);
 
 			log.Log("Preparing attribute variables ...");
 			var generatedString = parser.ParseAttributeVariables(autoNumberConfig.FormatString ?? "",
 				autoNumberConfig.Owner.Id, orgId);
+			log.Log($"Generated string: {generatedString}");
 
 			if (!isInlineConfig)
 			{
@@ -181,13 +168,14 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 				{
 					log.Log("Preparing param variables ...");
 					generatedString = parser.ParseParamVariables(generatedString, inputParams);
+			log.Log($"Generated string: {generatedString}");
 				}
 			}
 
-			log.Log("Preparing random string variables ...");
-
 			if (!isInlineConfig)
 			{
+				log.Log("Preparing random string variables ...");
+
 				if (autoNumberConfig.IsRandomLetterStart == null || autoNumberConfig.IsNumberLetterRatio == null)
 				{
 					throw new InvalidPluginExecutionException(
@@ -199,15 +187,15 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 				(autoNumberConfig.IsNumberLetterRatio == true && autoNumberConfig.NumberLetterRatio != null)
 					? autoNumberConfig.NumberLetterRatio.Value
 					: -1);
+			log.Log($"Generated string: {generatedString}");
 
 			log.Log("Preparing date variables ...");
 			generatedString = parser.ParseDateVariables(generatedString, autoNumberConfig.Owner.Id);
-
-			log.Log("Preparing index ...");
-			var indexString = index.ToString();
+			log.Log($"Generated string: {generatedString}");
 
 			if (!isInlineConfig)
 			{
+				log.Log("Preparing index ...");
 				log.Log("Preparing padding ...");
 
 				if (autoNumberConfig.IndexPadding == null)
@@ -218,11 +206,13 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 				var padding = autoNumberConfig.IndexPadding >= 0 ? autoNumberConfig.IndexPadding : 0;
 
 				log.Log("Preparing autonumber variable ...");
-				generatedString = parser.ParseAutoNumberVariable(generatedString, indexString.PadLeft(padding.Value, '0'));
+				generatedString = ProcessIndices(generatedString, padding.Value, isUpdate, updatedAutoNumbering);
+				log.Log($"Generated string: {generatedString}");
 			}
 
 			if (!isInlineConfig && !string.IsNullOrEmpty(autoNumberConfig.ReplacementCharacters))
 			{
+				log.Log("Replacing characters ...");
 				var pairs = autoNumberConfig.ReplacementCharacters.Split(';').Select(e => e.Split(',')).ToArray();
 
 				if (pairs.Any(e => e.Length < 2))
@@ -235,15 +225,169 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 				{
 					generatedString = Regex.Replace(generatedString, pair[0], pair[1]);
 				}
+
+				log.Log($"Generated string: {generatedString}");
 			}
 
 			return
 				new Result
 				{
-					Index = index,
-					IndexString = indexString,
+					Index = updatedAutoNumbering.CurrentIndex.GetValueOrDefault(),
+					IndexString = updatedAutoNumbering.CurrentIndex.GetValueOrDefault().ToString(),
 					GeneratedString = generatedString
 				};
+		}
+
+		private string ProcessIndices(string generatedString, int padding, bool isUpdate, AutoNumbering updatedAutoNumbering)
+		{
+			#region Date stuff
+
+			var resetInterval = autoNumberConfig.ResetInterval;
+			var resetDate = autoNumberConfig.ResetDate;
+			var lastResetDate = autoNumberConfig.LastResetDate;
+			var isReset = false;
+			var resetValue = 0;
+
+			// if index reset config is set, and the time has passed, then reset index to value set
+			if (resetDate != null
+				&& (resetInterval != AutoNumbering.ResetIntervalEnum.Never
+					&& DateTime.UtcNow >= resetDate.Value
+					&& (lastResetDate == null || lastResetDate < resetDate)))
+			{
+				lastResetDate = resetDate;
+
+				// add the interval to the reset date
+				switch (resetInterval)
+				{
+					case AutoNumbering.ResetIntervalEnum.Yearly:
+						resetDate = resetDate.Value.AddYears(1);
+						break;
+					case AutoNumbering.ResetIntervalEnum.Monthly:
+						resetDate = resetDate.Value.AddMonths(1);
+						break;
+					case AutoNumbering.ResetIntervalEnum.Daily:
+						resetDate = resetDate.Value.AddDays(1);
+						break;
+					case AutoNumbering.ResetIntervalEnum.Once:
+					case AutoNumbering.ResetIntervalEnum.Never:
+						break;
+					default:
+						throw new InvalidPluginExecutionException("Interval does not exist in code. Please contact the administrator.");
+				}
+
+				isReset = true;
+				resetValue = autoNumberConfig.ResetIndex ?? 0;
+			}
+
+			if (resetInterval == AutoNumbering.ResetIntervalEnum.Never)
+			{
+				resetDate = null;
+			}
+
+			#endregion
+
+			generatedString = Regex.Replace(generatedString, @"{>index(-(.+?)::(.*?))?}",
+				match =>
+				{
+					var index = ProcessIndex(match, isReset, resetValue, isUpdate, updatedAutoNumbering);
+					return index.ToString().PadLeft(padding, '0');
+				});
+
+			updatedAutoNumbering.ResetDate = resetDate;
+			updatedAutoNumbering.LastResetDate = lastResetDate;
+
+			return generatedString;
+		}
+
+		private int ProcessIndex(Match match, bool isReset, int resetValue, bool isUpdate, AutoNumbering updatedAutoNumbering)
+		{
+			var isDefaultIndex = match.Value == @"{>index}";
+			var currentIndex = 0;
+			AutoNumberingStream stream = null;
+
+			if (isDefaultIndex)
+			{
+				log.Log("Using default index.");
+				currentIndex = autoNumberConfig.CurrentIndex.GetValueOrDefault();
+			}
+			else
+			{
+				if (match.Success)
+				{
+					log.Log($"Parsing stream '{match.Groups[1].Value}' ...");
+					var fieldName = match.Groups[2].Value;
+					var fieldValue = match.Groups[3].Value.IsNotEmpty()
+						? match.Groups[3].Value
+						: null;
+					log.Log($"Field name: {fieldName}");
+					log.Log($"Field value: {fieldValue}");
+
+					log.Log($"Retrieving stream ...");
+					stream =
+						(from s in new XrmServiceContext(service) { MergeOption = MergeOption.NoTracking }.AutoNumberingStreamSet
+						 where s.FieldName == fieldName && s.FieldValue == fieldValue
+							 && s.AutoNumberingConfig == autoNumberConfig.Id
+						 select new AutoNumberingStream
+								{
+									Id = s.Id,
+									CurrentIndex = s.CurrentIndex
+								}).FirstOrDefault();
+
+					if (stream == null)
+					{
+						log.Log($"Couldn't find stream.");
+						stream =
+							new AutoNumberingStream
+							{
+								CurrentIndex = 0,
+								FieldName = fieldName,
+								FieldValue = fieldValue,
+								AutoNumberingConfig = autoNumberConfig.Id
+							};
+
+						log.Log("Creating new stream ...");
+						stream.Id = service.Create(stream);
+						log.Log("Finished creating new stream.");
+					}
+
+					currentIndex = stream.CurrentIndex.GetValueOrDefault();
+				}
+			}
+
+			log.Log($"Current index: {currentIndex}.");
+
+			// if invalid value, reset
+			// if updating and not incrementing, then keep index, else increment index
+			var index = currentIndex <= 0
+				? 1
+				: (isUpdate && autoNumberConfig.IncrementOnUpdate != true
+					? currentIndex
+					: currentIndex + 1);
+
+			if (isReset)
+			{
+				index = resetValue;
+			}
+
+			log.Log($"New index: {index}.");
+
+			if (isDefaultIndex)
+			{
+				updatedAutoNumbering.CurrentIndex = index;
+			}
+			else if (stream != null)
+			{
+				log.Log($"Updating stream with new index ...");
+				service.Update(
+					new AutoNumberingStream
+					{
+						Id = stream.Id,
+						CurrentIndex = index
+					});
+				log.Log($"Finished updating stream with new index.");
+			}
+
+			return index;
 		}
 	}
 }

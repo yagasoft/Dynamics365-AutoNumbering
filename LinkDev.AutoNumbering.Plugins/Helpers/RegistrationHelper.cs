@@ -53,7 +53,7 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 				}
 			}
 
-			var stage = postConfig?.RegisterStepStage;
+			var stage = postConfig?.AutoregisterStepStage;
 
 			if (stage == null)
 			{
@@ -62,7 +62,7 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 			}
 
 			var stageType = types.FirstOrDefault(t =>
-				stage == AutoNumbering.RegisterStepStageEnum.Preoperation
+				stage == AutoNumbering.AutoregisterStepStageEnum.Preoperation
 					? t.Name.Contains("PreCreateTargetAutoNum")
 					: t.Name.Contains("PostCreateTargetAutoNum"));
 
@@ -73,7 +73,7 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 
 			createMessage.PluginTypeId = stageType.PluginTypeId.GetValueOrDefault();
 			createMessage.TypeName = stageType.Name;
-			createMessage.ExecutionStage = stage == AutoNumbering.RegisterStepStageEnum.Preoperation
+			createMessage.ExecutionStage = stage == AutoNumbering.AutoregisterStepStageEnum.Preoperation
 				? SdkMessageProcessingStep.ExecutionStageEnum.Preoperation
 				: SdkMessageProcessingStep.ExecutionStageEnum.Postoperation;
 

@@ -2,7 +2,7 @@
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yagasoft/DynamicsCrm-AutoNumbering?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-### Version: 2.2.1.1
+### Version: 3.1.1.1
 ---
 
 A CRM solution that gives a lot of flexibility in creating any pattern required for auto-numbering.
@@ -22,12 +22,13 @@ A CRM solution that gives a lot of flexibility in creating any pattern required 
   + Use a backlog to avoid long DB locks
     + The solution reserves an index, and if a rollback happens, the index is saved for future use by another run
     + This might cause out-of-order indices
+  + Create different index sequence per field value
 
 ### Example
 
 #### _Format String_
 
-`Test-{?{$createdon@hh:mm}::NO_DATE}-{!un-5}-{@yyyy}-{index}-{param3}`
+`Test-{{casetypecode}==1??{createdon@hh:mm}::WRONG_TYPE}-{!un-5}-{@yyyy}-{>index-casetypecode}-{>param3}`
 
 #### _Input parameters_
   + Current index: 5
@@ -53,6 +54,9 @@ I will post a complete guide soon.
 		
 ## Changes
 
+#### _v3.1.1.1 (2018-12-05)_
++ Added: index streams
++ Improved: use more advanced placeholders
 #### _v2.2.1.1 (2018-12-04)_
 + Added: automatic registration option for the Create message plugin step
 #### _v2.1.1.1 (2018-09-05)_

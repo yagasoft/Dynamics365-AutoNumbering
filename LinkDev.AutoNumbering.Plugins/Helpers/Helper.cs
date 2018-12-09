@@ -2,7 +2,6 @@
 
 using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using LinkDev.Libraries.Common;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
@@ -17,7 +16,7 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 {
 	/// <summary>
 	///     Author: Ahmed el-Sawalhy<br />
-	///     Version: 1.1.1
+	///     Version: 1.2.1
 	/// </summary>
 	internal static class Helper
 	{
@@ -64,7 +63,7 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 			}
 
 			// only lock if an index is needed
-			if (Regex.IsMatch(autoNumberingConfig.FormatString, @"{>index\d*?}") && !isBackLogged)
+			if (autoNumberingConfig.FormatString.Contains("{>index}") && !isBackLogged)
 			{
 				log.Log("Locking ...", LogLevel.Debug);
 
@@ -91,78 +90,7 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 			return autoNumberingConfig;
 		}
 
-		internal static int ProcessIndex(AutoNumbering autoNumberConfig, bool isUpdate, AutoNumbering updatedAutoNumbering)
-		{
-			var index = autoNumberConfig.CurrentIndex.GetValueOrDefault();
-
-			#region Date stuff
-
-			var resetInterval = autoNumberConfig.ResetInterval;
-			var resetDate = autoNumberConfig.ResetDate;
-			var lastResetDate = autoNumberConfig.LastResetDate;
-
-			// if index reset config is set, and the time has passed, then reset index to value set
-			if (resetDate != null
-				&& (resetInterval != AutoNumbering.ResetIntervalEnum.Never
-					&& DateTime.UtcNow >= resetDate.Value
-					&& (lastResetDate == null || lastResetDate < resetDate)))
-			{
-				lastResetDate = resetDate;
-
-				// add the interval to the reset date
-				switch (resetInterval)
-				{
-					case AutoNumbering.ResetIntervalEnum.Yearly:
-						resetDate = resetDate.Value.AddYears(1);
-						break;
-					case AutoNumbering.ResetIntervalEnum.Monthly:
-						resetDate = resetDate.Value.AddMonths(1);
-						break;
-					case AutoNumbering.ResetIntervalEnum.Daily:
-						resetDate = resetDate.Value.AddDays(1);
-						break;
-					case AutoNumbering.ResetIntervalEnum.Once:
-					case AutoNumbering.ResetIntervalEnum.Never:
-						break;
-					default:
-						throw new InvalidPluginExecutionException("Interval does not exist in code. Please contact the administrator.");
-				}
-
-				if (autoNumberConfig.ResetIndex == null)
-				{
-					throw new InvalidPluginExecutionException("Couldn't find a reset index in the auto-numbering configuration.");
-				}
-
-				index = autoNumberConfig.ResetIndex.Value;
-			}
-
-			if (resetInterval == AutoNumbering.ResetIntervalEnum.Never)
-			{
-				resetDate = null;
-			}
-
-			#endregion
-
-			// only increment index if it's being used
-			if (Regex.IsMatch(autoNumberConfig.FormatString, @"{>index\d*?}"))
-			{
-				// if invalid value, reset
-				// if updating and not incrementing, then keep index, else increment index
-				index = index <= 0
-					? 1
-					: (isUpdate && autoNumberConfig.IncrementOnUpdate != true
-						? index
-						: index + 1);
-			}
-
-			updatedAutoNumbering.CurrentIndex = index;
-			updatedAutoNumbering.ResetDate = resetDate;
-			updatedAutoNumbering.LastResetDate = lastResetDate;
-
-			return index;
-		}
-
-		internal static AutoNumbering GetAutoNumberingConfig(Entity target, string config, 
+		internal static AutoNumbering GetAutoNumberingConfig(Entity target, string config,
 			IPluginExecutionContext context, IOrganizationService service, CrmLog log, out bool isBackLogged)
 		{
 			var xrmContext = new XrmServiceContext(service) { MergeOption = MergeOption.NoTracking };
@@ -238,7 +166,7 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 				}
 			}
 
-			return Helper.PreValidation(service, target, autoNumberConfig, log, isConditioned, isBackLogged);
+			return PreValidation(service, target, autoNumberConfig, log, isConditioned, isBackLogged);
 		}
 
 		private static AutoNumbering GetInlineConfig(string config, Guid userIdForTimezone)
@@ -286,12 +214,12 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 					 on backlogQ.AutoNumberingConfig equals autonumberQ.AutoNumberingId
 				 where backlogQ.TriggerID == triggerId
 				 select new AutoNumberingBacklog
-				 {
-					 Id = backlogQ.Id,
-					 IndexValue = backlogQ.IndexValue,
-					 AutoNumberingConfig = backlogQ.AutoNumberingConfig,
-					 AutoNumberingAsAutoNumberingConfig = autonumberQ
-				 }).FirstOrDefault();
+						{
+							Id = backlogQ.Id,
+							IndexValue = backlogQ.IndexValue,
+							AutoNumberingConfig = backlogQ.AutoNumberingConfig,
+							AutoNumberingAsAutoNumberingConfig = autonumberQ
+						}).FirstOrDefault();
 			log.Log("Finished retrieving backlog entry.");
 
 			if (triggerBacklog == null)
@@ -321,7 +249,6 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 
 			return triggerIdGuid;
 		}
-
 
 		// credit: https://community.dynamics.com/crm/b/mshelp/archive/2012/06/12/get-optionset-text-from-value-or-value-from-text
 		/// <summary>
@@ -386,6 +313,71 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 
 			return service.Retrieve(entity.LogicalName, entity.Id, new ColumnSet(primaryField))
 				.GetAttributeValue<string>(primaryField);
+		}
+
+		internal static int GetNextIndex(AutoNumbering autoNumberConfig, AutoNumbering updatedAutoNumbering)
+		{
+			#region Date stuff
+
+			var resetInterval = autoNumberConfig.ResetInterval;
+			var resetDate = autoNumberConfig.ResetDate;
+			var lastResetDate = autoNumberConfig.LastResetDate;
+			var isReset = false;
+			var resetValue = 0;
+
+			// if index reset config is set, and the time has passed, then reset index to value set
+			if (resetDate != null
+				&& (resetInterval != AutoNumbering.ResetIntervalEnum.Never
+					&& DateTime.UtcNow >= resetDate.Value
+					&& (lastResetDate == null || lastResetDate < resetDate)))
+			{
+				lastResetDate = resetDate;
+
+				// add the interval to the reset date
+				switch (resetInterval)
+				{
+					case AutoNumbering.ResetIntervalEnum.Yearly:
+						resetDate = resetDate.Value.AddYears(1);
+						break;
+					case AutoNumbering.ResetIntervalEnum.Monthly:
+						resetDate = resetDate.Value.AddMonths(1);
+						break;
+					case AutoNumbering.ResetIntervalEnum.Daily:
+						resetDate = resetDate.Value.AddDays(1);
+						break;
+					case AutoNumbering.ResetIntervalEnum.Once:
+					case AutoNumbering.ResetIntervalEnum.Never:
+						break;
+					default:
+						throw new InvalidPluginExecutionException("Interval does not exist in code. Please contact the administrator.");
+				}
+
+				isReset = true;
+				resetValue = autoNumberConfig.ResetIndex ?? 0;
+			}
+
+			if (resetInterval == AutoNumbering.ResetIntervalEnum.Never)
+			{
+				resetDate = null;
+			}
+
+			#endregion
+
+			var currentIndex = autoNumberConfig.CurrentIndex.GetValueOrDefault();
+
+			// if invalid value, reset
+			// if updating and not incrementing, then keep index, else increment index
+			var index = currentIndex <= 0 ? 1 : currentIndex + 1;
+
+			if (isReset)
+			{
+				index = resetValue;
+			}
+
+			updatedAutoNumbering.ResetDate = resetDate;
+			updatedAutoNumbering.LastResetDate = lastResetDate;
+
+			return index;
 		}
 	}
 }

@@ -67,6 +67,16 @@ namespace LinkDev.AutoNumbering.Plugins
 			}
 		}
 		/// <summary>
+		/// Gets a binding to the set of all <see cref="AutoNumberingStream"/> entities.
+		/// </summary>
+		public System.Linq.IQueryable<AutoNumberingStream> AutoNumberingStreamSet
+		{
+			get
+			{
+				return this.CreateQuery<AutoNumberingStream>();
+			}
+		}
+		/// <summary>
 		/// Gets a binding to the set of all <see cref="PluginType"/> entities.
 		/// </summary>
 		public System.Linq.IQueryable<PluginType> PluginTypeSet
@@ -3058,6 +3068,24 @@ namespace LinkDev.AutoNumbering.Plugins
 			}
 		}
 
+		[AttributeLogicalName("ldv_isuseindexstreams")]
+		public bool? UseIndexStreams
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("ldv_isuseindexstreams");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ldv_isuseindexstreams"))
+				    value = (bool?) backupAttributeCollection["ldv_isuseindexstreams"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("UseIndexStreams");
+					SetAttributeValue("ldv_isuseindexstreams", value);
+				OnPropertyChanged("UseIndexStreams");
+			}
+		}
+
 		[AttributeLogicalName("ldv_isvalidateuniquestring")]
 		public bool? ValidateUniqueString
 		{
@@ -3158,24 +3186,29 @@ namespace LinkDev.AutoNumbering.Plugins
 			}
 		}
 
+        /// <summary>
+        ///  
+		/// 'ldv_RegisterStepStageCode'.<br />
+        /// Automatically adds a plugin step for the current configuration on the Create message. Clear value to remove step.
+        /// </summary>
 		[AttributeLogicalName("ldv_registerstepstagecode")]
-		public RegisterStepStageEnum? RegisterStepStage
+		public AutoregisterStepStageEnum? AutoregisterStepStage
 		{
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("ldv_registerstepstagecode");
 				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ldv_registerstepstagecode"))
 				    value = (OptionSetValue) backupAttributeCollection["ldv_registerstepstagecode"];
-                return value == null ? (RegisterStepStageEnum?) null : (RegisterStepStageEnum?) value.Value;
+                return value == null ? (AutoregisterStepStageEnum?) null : (AutoregisterStepStageEnum?) value.Value;
 			}
 			set
 			{
-				OnPropertyChanging("RegisterStepStage");
+				OnPropertyChanging("AutoregisterStepStage");
                 if (value != null)
 				    SetAttributeValue("ldv_registerstepstagecode", new OptionSetValue((int) value.Value));
                 else
 					SetAttributeValue("ldv_registerstepstagecode", value);
-				OnPropertyChanged("RegisterStepStage");
+				OnPropertyChanged("AutoregisterStepStage");
 			}
 		}
 
@@ -3730,8 +3763,31 @@ namespace LinkDev.AutoNumbering.Plugins
 			}
 		}
 		
+		/// <summary>
+		/// 1:N, 'ldv_autonumbering_autonumberingstream_AutoNumberingConfigId'
+		/// </summary>
+		[RelationshipSchemaName("ldv_autonumbering_autonumberingstream_AutoNumberingConfigId")]
+		public AutoNumberingStream[] AutoNumberingStreamsOfAutoNumberingConfig
+		{
+			get
+			{
+				var enumerable = GetRelatedEntities<AutoNumberingStream>("ldv_autonumbering_autonumberingstream_AutoNumberingConfigId", null);
+				return enumerable != null ? enumerable.ToArray() : null;
+			}
+			set
+			{
+				OnPropertyChanging("AutoNumberingStreamsOfAutoNumberingConfig");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
+				SetRelatedEntities<AutoNumberingStream>("ldv_autonumbering_autonumberingstream_AutoNumberingConfigId", null, value);
+				OnPropertyChanged("AutoNumberingStreamsOfAutoNumberingConfig");
+			}
+		}
+		
 		public class RelationNames {
 			public const string AutoNumberingBacklogsOfAutoNumberingConfig = "AutoNumberingBacklogsOfAutoNumberingConfig";
+			public const string AutoNumberingStreamsOfAutoNumberingConfig = "AutoNumberingStreamsOfAutoNumberingConfig";
 		}
 
 
@@ -3739,6 +3795,7 @@ namespace LinkDev.AutoNumbering.Plugins
 			if (relationProperties != null) return relationProperties;
 			relationProperties = new Dictionary<string, object[]>();
 			relationProperties["AutoNumberingBacklogsOfAutoNumberingConfig"] = new object[] { "AutoNumberingBacklogsOfAutoNumberingConfig", "ldv_autonumberingbacklog", "ldv_autonumbering", "ldv_autonumberingconfigid", "ldv_autonumberingid", "ldv_autonumberingid", "ldv_autonumberingid", "ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId", typeof (AutoNumberingBacklog[]) };
+			relationProperties["AutoNumberingStreamsOfAutoNumberingConfig"] = new object[] { "AutoNumberingStreamsOfAutoNumberingConfig", "ldv_autonumberingstream", "ldv_autonumbering", "ldv_autonumberingconfigid", "ldv_autonumberingid", "ldv_autonumberingid", "ldv_autonumberingid", "ldv_autonumbering_autonumberingstream_AutoNumberingConfigId", typeof (AutoNumberingStream[]) };
 			return relationProperties; } }
 
 
@@ -3814,6 +3871,16 @@ namespace LinkDev.AutoNumbering.Plugins
 
 		#endregion
 	
+		#region UseIndexStreams
+
+		public enum UseIndexStreamsEnum
+		{
+			[EnumMember]Yes = 1,
+			[EnumMember]No = 0,
+		}
+
+		#endregion
+	
 		#region ValidateUniqueString
 
 		public enum ValidateUniqueStringEnum
@@ -3824,9 +3891,9 @@ namespace LinkDev.AutoNumbering.Plugins
 
 		#endregion
 	
-		#region RegisterStepStage
+		#region AutoregisterStepStage
 
-		public enum RegisterStepStageEnum
+		public enum AutoregisterStepStageEnum
 		{
 			[EnumMember]Preoperation = 753240000,
 			[EnumMember]Postoperation = 753240001,
@@ -3908,8 +3975,9 @@ namespace LinkDev.AutoNumbering.Plugins
 				public const string IsNumberLetterRatio = "ldv_isnumberletterratio";
 				public const string IsRandomLetterStart = "ldv_israndomletterstart";
 				public const string UseBacklog = "ldv_isusebacklog";
+				public const string UseIndexStreams = "ldv_isuseindexstreams";
 				public const string ValidateUniqueString = "ldv_isvalidateuniquestring";
-				public const string RegisterStepStage = "ldv_registerstepstagecode";
+				public const string AutoregisterStepStage = "ldv_registerstepstagecode";
 				public const string ResetInterval = "ldv_resetinterval";
 				public const string Status = "statecode";
 				public const string StatusReason = "statuscode";
@@ -3965,6 +4033,17 @@ namespace LinkDev.AutoNumbering.Plugins
 					}
 				}
 
+				public static class UseIndexStreams 
+				{
+					public const string Yes_1033 = "Yes";
+					public const string No_1033 = "No";
+
+					public static int GetValue(string label, int languageCode = 1033)
+					{
+						return CrmHelpers.GetValue(typeof(UseIndexStreams), label, languageCode);
+					}
+				}
+
 				public static class ValidateUniqueString 
 				{
 					public const string Yes_1033 = "Yes";
@@ -3976,14 +4055,14 @@ namespace LinkDev.AutoNumbering.Plugins
 					}
 				}
 
-				public static class RegisterStepStage 
+				public static class AutoregisterStepStage 
 				{
 					public const string Preoperation_1033 = "Pre-operation";
 					public const string Postoperation_1033 = "Post-operation";
 
 					public static int GetValue(string label, int languageCode = 1033)
 					{
-						return CrmHelpers.GetValue(typeof(RegisterStepStage), label, languageCode);
+						return CrmHelpers.GetValue(typeof(AutoregisterStepStage), label, languageCode);
 					}
 				}
 
@@ -4052,12 +4131,13 @@ namespace LinkDev.AutoNumbering.Plugins
 			public const string IsNumberLetterRatio = "ldv_isnumberletterratio";
 			public const string IsRandomLetterStart = "ldv_israndomletterstart";
 			public const string UseBacklog = "ldv_isusebacklog";
+			public const string UseIndexStreams = "ldv_isuseindexstreams";
 			public const string ValidateUniqueString = "ldv_isvalidateuniquestring";
 			public const string LastResetDate = "ldv_lastresetdate";
 			public const string Locking = "ldv_locking";
 			public const string Name = "ldv_name";
 			public const string NumberLetterRatio = "ldv_numberletterratio";
-			public const string RegisterStepStage = "ldv_registerstepstagecode";
+			public const string AutoregisterStepStage = "ldv_registerstepstagecode";
 			public const string ReplacementCharacters = "ldv_replacementcharacters";
 			public const string ResetDate = "ldv_resetdate";
 			public const string ResetIndex = "ldv_resetindex";
@@ -4100,12 +4180,13 @@ namespace LinkDev.AutoNumbering.Plugins
 				public const string IsNumberLetterRatio = "ldv_IsNumberLetterRatio";
 				public const string IsRandomLetterStart = "ldv_IsRandomLetterStart";
 				public const string UseBacklog = "ldv_IsUseBacklog";
+				public const string UseIndexStreams = "ldv_IsUseIndexStreams";
 				public const string ValidateUniqueString = "ldv_IsValidateUniqueString";
 				public const string LastResetDate = "ldv_LastResetDate";
 				public const string Locking = "ldv_Locking";
 				public const string Name = "ldv_name";
 				public const string NumberLetterRatio = "ldv_NumberLetterRatio";
-				public const string RegisterStepStage = "ldv_RegisterStepStageCode";
+				public const string AutoregisterStepStage = "ldv_RegisterStepStageCode";
 				public const string ReplacementCharacters = "ldv_ReplacementCharacters";
 				public const string ResetDate = "ldv_ResetDate";
 				public const string ResetIndex = "ldv_ResetIndex";
@@ -4213,6 +4294,11 @@ namespace LinkDev.AutoNumbering.Plugins
 					public const string _1033 = "Use Backlog";
 				}
 
+				public static class UseIndexStreams
+				{
+					public const string _1033 = "Use Index Streams";
+				}
+
 				public static class ValidateUniqueString
 				{
 					public const string _1033 = "Validate Unique String";
@@ -4238,9 +4324,9 @@ namespace LinkDev.AutoNumbering.Plugins
 					public const string _1033 = "Number Letter Ratio";
 				}
 
-				public static class RegisterStepStage
+				public static class AutoregisterStepStage
 				{
-					public const string _1033 = "Register Step Stage";
+					public const string _1033 = "Auto-register Step Stage";
 				}
 
 				public static class ReplacementCharacters
@@ -4352,6 +4438,7 @@ namespace LinkDev.AutoNumbering.Plugins
 			public static class OneToN
 			{
 				public const string AutoNumberingBacklogsOfAutoNumberingConfig = "ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId";
+				public const string AutoNumberingStreamsOfAutoNumberingConfig = "ldv_autonumbering_autonumberingstream_AutoNumberingConfigId";
 			}
 			
 			public static class NToOne
@@ -5434,6 +5521,809 @@ namespace LinkDev.AutoNumbering.Plugins
 		}
 
 		#endregion
+
+		#endregion
+	}
+
+	#endregion
+
+	#region AutoNumberingStream
+
+	/// <summary>
+	/// 'ldv_autonumberingstream'.<br />
+	/// 
+	/// </summary>
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+	[DataContract, EntityLogicalName("ldv_autonumberingstream")]
+	public partial class AutoNumberingStream : GeneratedEntity
+	{
+		
+		public AutoNumberingStream() : 
+				base(EntityLogicalName)
+		{
+		}
+		
+		public const string DisplayName = "Auto-Numbering Stream";
+		public const string SchemaName = "ldv_autonumberingstream";
+		public const string EntityLogicalName = "ldv_autonumberingstream";
+		public const int EntityTypeCode = 10018;
+		
+		#region Attributes
+
+		[AttributeLogicalName("ldv_autonumberingstreamid"), DataMember]
+		public override System.Guid Id
+		{
+			get
+			{
+				return (AutoNumberingStreamId == null || AutoNumberingStreamId == Guid.Empty) ? base.Id : AutoNumberingStreamId.GetValueOrDefault();
+			}
+			
+			set
+			{
+                if (value == Guid.Empty) {
+                    Attributes.Remove("ldv_autonumberingstreamid");
+                    base.Id = value;
+                } else {
+				    AutoNumberingStreamId = value;
+                }
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedBy'.<br />
+        /// Unique identifier of the user who created the record.
+        /// </summary>
+		[AttributeLogicalName("createdby")]
+		public Guid? CreatedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdby"))
+				    value = (EntityReference) backupAttributeCollection["createdby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedBy");
+                if (value != null)
+				    SetAttributeValue("createdby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("createdby", value);
+				OnPropertyChanged("CreatedBy");
+			}
+		}
+
+        public string CreatedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdby"))
+				    value = (EntityReference) backupAttributeCollection["createdby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'CreatedOn'.<br />
+        /// Date and time when the record was created.
+        /// </summary>
+		[AttributeLogicalName("createdon")]
+		public DateTime? CreatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("createdon");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdon"))
+				    value = (DateTime?) backupAttributeCollection["createdon"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedOn");
+					SetAttributeValue("createdon", value);
+				OnPropertyChanged("CreatedOn");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who created the record.
+        /// </summary>
+		[AttributeLogicalName("createdonbehalfby")]
+		public Guid? CreatedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["createdonbehalfby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("CreatedByDelegate");
+                if (value != null)
+				    SetAttributeValue("createdonbehalfby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("createdonbehalfby", value);
+				OnPropertyChanged("CreatedByDelegate");
+			}
+		}
+
+        public string CreatedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("createdonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["createdonbehalfby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        /// [Range(-2147483648, 2147483647)] 
+		/// 'ImportSequenceNumber'.<br />
+        /// Sequence number of the import that created this record.
+        /// </summary>
+		[AttributeLogicalName("importsequencenumber"), InRange("-2147483648", "2147483647", typeof(int))]
+		public int? ImportSequenceNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("importsequencenumber");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("importsequencenumber"))
+				    value = (int?) backupAttributeCollection["importsequencenumber"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("ImportSequenceNumber");
+					SetAttributeValue("importsequencenumber", value);
+				OnPropertyChanged("ImportSequenceNumber");
+			}
+		}
+
+		[AttributeLogicalName("ldv_autonumberingconfigid"), Required]
+		public Guid? AutoNumberingConfig
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("ldv_autonumberingconfigid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ldv_autonumberingconfigid"))
+				    value = (EntityReference) backupAttributeCollection["ldv_autonumberingconfigid"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("AutoNumberingConfig");
+                if (value != null)
+				    SetAttributeValue("ldv_autonumberingconfigid", new EntityReference("ldv_autonumbering", value.Value));
+                else
+					SetAttributeValue("ldv_autonumberingconfigid", value);
+				OnPropertyChanged("AutoNumberingConfig");
+			}
+		}
+
+        public string AutoNumberingConfigName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("ldv_autonumberingconfigid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ldv_autonumberingconfigid"))
+				    value = (EntityReference) backupAttributeCollection["ldv_autonumberingconfigid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'ldv_autonumberingstreamId'.<br />
+        /// Unique identifier for entity instances
+        /// </summary>
+		[AttributeLogicalName("ldv_autonumberingstreamid")]
+		public Guid? AutoNumberingStreamId
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("ldv_autonumberingstreamid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ldv_autonumberingstreamid"))
+				    value = (Guid?) backupAttributeCollection["ldv_autonumberingstreamid"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("AutoNumberingStreamId");
+                if (value != null)
+					SetAttributeValue("ldv_autonumberingstreamid", value);
+				if (value != null)
+					base.Id = value.Value;
+				else
+					Id = System.Guid.Empty;
+				OnPropertyChanged("AutoNumberingStreamId");
+			}
+		}
+
+		[AttributeLogicalName("ldv_currentindex"), Required, InRange("0", "2147483647", typeof(int))]
+		public int? CurrentIndex
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("ldv_currentindex");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ldv_currentindex"))
+				    value = (int?) backupAttributeCollection["ldv_currentindex"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("CurrentIndex");
+					SetAttributeValue("ldv_currentindex", value);
+				OnPropertyChanged("CurrentIndex");
+			}
+		}
+
+		[AttributeLogicalName("ldv_fieldname"), Required, MaxLength(4000)]
+		public string FieldName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ldv_fieldname");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ldv_fieldname"))
+				    value = (string) backupAttributeCollection["ldv_fieldname"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("FieldName");
+					SetAttributeValue("ldv_fieldname", value);
+				OnPropertyChanged("FieldName");
+			}
+		}
+
+		[AttributeLogicalName("ldv_fieldvalue"), Required, MaxLength(1048576)]
+		public string FieldValue
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ldv_fieldvalue");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ldv_fieldvalue"))
+				    value = (string) backupAttributeCollection["ldv_fieldvalue"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("FieldValue");
+					SetAttributeValue("ldv_fieldvalue", value);
+				OnPropertyChanged("FieldValue");
+			}
+		}
+
+        /// <summary>
+        /// [MaximumLength=100] 
+		/// 'ldv_name'.<br />
+        /// The name of the custom entity.
+        /// </summary>
+		[AttributeLogicalName("ldv_name"), MaxLength(100)]
+		public string Name
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ldv_name");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ldv_name"))
+				    value = (string) backupAttributeCollection["ldv_name"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Name");
+					SetAttributeValue("ldv_name", value);
+				OnPropertyChanged("Name");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedBy'.<br />
+        /// Unique identifier of the user who modified the record.
+        /// </summary>
+		[AttributeLogicalName("modifiedby")]
+		public Guid? ModifiedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedBy");
+                if (value != null)
+				    SetAttributeValue("modifiedby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("modifiedby", value);
+				OnPropertyChanged("ModifiedBy");
+			}
+		}
+
+        public string ModifiedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOn'.<br />
+        /// Date and time when the record was modified.
+        /// </summary>
+		[AttributeLogicalName("modifiedon")]
+		public DateTime? ModifiedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("modifiedon");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedon"))
+				    value = (DateTime?) backupAttributeCollection["modifiedon"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedOn");
+					SetAttributeValue("modifiedon", value);
+				OnPropertyChanged("ModifiedOn");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who modified the record.
+        /// </summary>
+		[AttributeLogicalName("modifiedonbehalfby")]
+		public Guid? ModifiedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedonbehalfby"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("ModifiedByDelegate");
+                if (value != null)
+				    SetAttributeValue("modifiedonbehalfby", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("modifiedonbehalfby", value);
+				OnPropertyChanged("ModifiedByDelegate");
+			}
+		}
+
+        public string ModifiedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("modifiedonbehalfby"))
+				    value = (EntityReference) backupAttributeCollection["modifiedonbehalfby"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'OverriddenCreatedOn'.<br />
+        /// Date and time that the record was migrated.
+        /// </summary>
+		[AttributeLogicalName("overriddencreatedon")]
+		public DateTime? RecordCreatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("overriddencreatedon");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("overriddencreatedon"))
+				    value = (DateTime?) backupAttributeCollection["overriddencreatedon"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("RecordCreatedOn");
+					SetAttributeValue("overriddencreatedon", value);
+				OnPropertyChanged("RecordCreatedOn");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'OwnerId'.<br />
+        /// Owner Id
+        /// </summary>
+		[AttributeLogicalName("ownerid")]
+		public EntityReference Owner
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("ownerid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ownerid"))
+				    value = (EntityReference) backupAttributeCollection["ownerid"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("Owner");
+					SetAttributeValue("ownerid", value);
+				OnPropertyChanged("Owner");
+			}
+		}
+
+        public string OwnerName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("ownerid");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ownerid"))
+				    value = (EntityReference) backupAttributeCollection["ownerid"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'OwningBusinessUnit'.<br />
+        /// Unique identifier for the business unit that owns the record
+        /// </summary>
+		[AttributeLogicalName("owningbusinessunit")]
+		public Guid? OwningBusinessUnit
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("owningbusinessunit"))
+				    value = (EntityReference) backupAttributeCollection["owningbusinessunit"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("OwningBusinessUnit");
+                if (value != null)
+				    SetAttributeValue("owningbusinessunit", new EntityReference("businessunit", value.Value));
+                else
+					SetAttributeValue("owningbusinessunit", value);
+				OnPropertyChanged("OwningBusinessUnit");
+			}
+		}
+
+        public string OwningBusinessUnitName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("owningbusinessunit"))
+				    value = (EntityReference) backupAttributeCollection["owningbusinessunit"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'OwningTeam'.<br />
+        /// Unique identifier for the team that owns the record.
+        /// </summary>
+		[AttributeLogicalName("owningteam")]
+		public Guid? OwningTeam
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("owningteam");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("owningteam"))
+				    value = (EntityReference) backupAttributeCollection["owningteam"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("OwningTeam");
+                if (value != null)
+				    SetAttributeValue("owningteam", new EntityReference("team", value.Value));
+                else
+					SetAttributeValue("owningteam", value);
+				OnPropertyChanged("OwningTeam");
+			}
+		}
+
+        public string OwningTeamName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("owningteam");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("owningteam"))
+				    value = (EntityReference) backupAttributeCollection["owningteam"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'OwningUser'.<br />
+        /// Unique identifier for the user that owns the record.
+        /// </summary>
+		[AttributeLogicalName("owninguser")]
+		public Guid? OwningUser
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("owninguser");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("owninguser"))
+				    value = (EntityReference) backupAttributeCollection["owninguser"];
+                return value == null ? (Guid?) null : value.Id;
+			}
+			set
+			{
+				OnPropertyChanging("OwningUser");
+                if (value != null)
+				    SetAttributeValue("owninguser", new EntityReference("systemuser", value.Value));
+                else
+					SetAttributeValue("owninguser", value);
+				OnPropertyChanged("OwningUser");
+			}
+		}
+
+        public string OwningUserName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("owninguser");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("owninguser"))
+				    value = (EntityReference) backupAttributeCollection["owninguser"];
+                return value == null ? (string) null : value.Name;
+            }
+            set
+            {}
+        }
+
+        /// <summary>
+        ///  
+		/// 'statecode'.<br />
+        /// Status of the Auto-Numbering Stream
+        /// </summary>
+		[AttributeLogicalName("statecode")]
+		public StatusEnum? Status
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("statecode");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("statecode"))
+				    value = (OptionSetValue) backupAttributeCollection["statecode"];
+                return value == null ? (StatusEnum?) null : (StatusEnum?) value.Value;
+			}
+			set
+			{
+				OnPropertyChanging("Status");
+                if (value != null)
+				    SetAttributeValue("statecode", new OptionSetValue((int) value.Value));
+                else
+					SetAttributeValue("statecode", value);
+				OnPropertyChanged("Status");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'statuscode'.<br />
+        /// Reason for the status of the Auto-Numbering Stream
+        /// </summary>
+		[AttributeLogicalName("statuscode")]
+		public StatusReasonEnum? StatusReason
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("statuscode");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("statuscode"))
+				    value = (OptionSetValue) backupAttributeCollection["statuscode"];
+                return value == null ? (StatusReasonEnum?) null : (StatusReasonEnum?) value.Value;
+			}
+			set
+			{
+				OnPropertyChanging("StatusReason");
+                if (value != null)
+				    SetAttributeValue("statuscode", new OptionSetValue((int) value.Value));
+                else
+					SetAttributeValue("statuscode", value);
+				OnPropertyChanged("StatusReason");
+			}
+		}
+
+        /// <summary>
+        /// [Range(-1, 2147483647)] 
+		/// 'TimeZoneRuleVersionNumber'.<br />
+        /// For internal use only.
+        /// </summary>
+		[AttributeLogicalName("timezoneruleversionnumber"), InRange("-1", "2147483647", typeof(int))]
+		public int? TimeZoneRuleVersionNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("timezoneruleversionnumber");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("timezoneruleversionnumber"))
+				    value = (int?) backupAttributeCollection["timezoneruleversionnumber"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("TimeZoneRuleVersionNumber");
+					SetAttributeValue("timezoneruleversionnumber", value);
+				OnPropertyChanged("TimeZoneRuleVersionNumber");
+			}
+		}
+
+        /// <summary>
+        /// [Range(-1, 2147483647)] 
+		/// 'UTCConversionTimeZoneCode'.<br />
+        /// Time zone code that was in use when the record was created.
+        /// </summary>
+		[AttributeLogicalName("utcconversiontimezonecode"), InRange("-1", "2147483647", typeof(int))]
+		public int? UTCConversionTimeZoneCode
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("utcconversiontimezonecode");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("utcconversiontimezonecode"))
+				    value = (int?) backupAttributeCollection["utcconversiontimezonecode"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("UTCConversionTimeZoneCode");
+					SetAttributeValue("utcconversiontimezonecode", value);
+				OnPropertyChanged("UTCConversionTimeZoneCode");
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'VersionNumber'.<br />
+        /// Version Number
+        /// </summary>
+		[AttributeLogicalName("versionnumber")]
+		public long? VersionNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<long?>("versionnumber");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("versionnumber"))
+				    value = (long?) backupAttributeCollection["versionnumber"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("VersionNumber");
+					SetAttributeValue("versionnumber", value);
+				OnPropertyChanged("VersionNumber");
+			}
+		}
+
+		#endregion
+
+		#region Relationships
+
+		
+		/// <summary>
+		/// N:1, 'ldv_autonumbering_autonumberingstream_AutoNumberingConfigId'
+		/// </summary>
+		[RelationshipSchemaName("ldv_autonumbering_autonumberingstream_AutoNumberingConfigId"), AttributeLogicalName("ldv_autonumberingconfigid")]
+		public AutoNumbering AutoNumberingAsAutoNumberingConfig
+		{
+			get
+			{
+				return GetRelatedEntity<AutoNumbering>("ldv_autonumbering_autonumberingstream_AutoNumberingConfigId", null);
+			}
+			set
+			{
+				OnPropertyChanging("AutoNumberingAsAutoNumberingConfig");
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null)
+                    value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
+				SetRelatedEntity<AutoNumbering>("ldv_autonumbering_autonumberingstream_AutoNumberingConfigId", null, value);
+				OnPropertyChanged("AutoNumberingAsAutoNumberingConfig");
+			}
+		}
+		
+		public class RelationNames {
+			public const string AutoNumberingAsAutoNumberingConfig = "AutoNumberingAsAutoNumberingConfig";
+		}
+
+
+		protected override IDictionary<string, object[]> RelationProperties { get {
+			if (relationProperties != null) return relationProperties;
+			relationProperties = new Dictionary<string, object[]>();
+			relationProperties["AutoNumberingAsAutoNumberingConfig"] = new object[] { "AutoNumberingAsAutoNumberingConfig", "ldv_autonumbering", "ldv_autonumberingstream", "ldv_autonumberingid", "ldv_autonumberingconfigid", "ldv_autonumberingstreamid", "ldv_autonumberingstreamid", "ldv_autonumbering_autonumberingstream_AutoNumberingConfigId", typeof (AutoNumbering) };
+			return relationProperties; } }
+
+
+		#endregion
+
+		/// <summary>
+		/// Constructor for populating via LINQ queries given a LINQ anonymous type
+		/// <param name="anonymousType">LINQ anonymous type.</param>
+		/// </summary>
+		public AutoNumberingStream(object anonymousType) : 
+				this()
+		{
+            foreach (var p in anonymousType.GetType().GetProperties())
+            {
+                var value = p.GetValue(anonymousType, null);
+                if (p.PropertyType == typeof(System.Guid))
+                {
+                    // Type is Guid, must be Id
+                    base.Id = (System.Guid)value;
+                    Attributes["ldv_autonumberingstreamid"] = base.Id;
+               }
+                else if (p.Name == "FormattedValues")
+                {
+                    // Add Support for FormattedValues
+                    FormattedValues.AddRange((FormattedValueCollection)value);
+                }
+                else
+                {
+                    Attributes[p.Name.ToLower()] = value;
+                }
+            }
+		}
+
+		#region Label/value pairs
+
+		#region Status
+
+		public enum StatusEnum
+		{
+			[EnumMember]Active = 0,
+			[EnumMember]Inactive = 1,
+		}
+
+		#endregion
+	
+		#region StatusReason
+
+		public enum StatusReasonEnum
+		{
+			[EnumMember]Active = 1,
+			[EnumMember]Inactive = 2,
+		}
+
+		#endregion
+	
+		#endregion
+
+		#region Metadata
 
 		#endregion
 	}

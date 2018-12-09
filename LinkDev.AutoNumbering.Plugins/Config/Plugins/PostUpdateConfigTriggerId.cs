@@ -62,11 +62,6 @@ namespace LinkDev.AutoNumbering.Plugins.Config.Plugins
 				return;
 			}
 
-			if (autoNumberConfig.CurrentIndex == null)
-			{
-				throw new InvalidPluginExecutionException($"Auto-Numbering index is empty.");
-			}
-
 			AllocateBacklog(autoNumberConfig);
 		}
 
@@ -115,7 +110,7 @@ namespace LinkDev.AutoNumbering.Plugins.Config.Plugins
 							Id = config.Id
 						};
 
-					backlogEntry.IndexValue = Helper.ProcessIndex(config, false, updatedAutoNumbering);
+					backlogEntry.IndexValue = Helper.GetNextIndex(config, updatedAutoNumbering);
 
 					log.Log("Incrementing auto-numbering config's index ...");
 					service.Update(updatedAutoNumbering);

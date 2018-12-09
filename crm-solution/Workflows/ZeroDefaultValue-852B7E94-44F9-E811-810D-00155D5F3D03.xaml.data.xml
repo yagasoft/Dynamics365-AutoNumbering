@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Workflow WorkflowId="{852b7e94-44f9-e811-810d-00155d5f3d03}" Name="Zero Default Value" Description="Click to add description">
+  <XamlFileName>/Workflows/ZeroDefaultValue-852B7E94-44F9-E811-810D-00155D5F3D03.xaml</XamlFileName>
+  <Type>1</Type>
+  <Subprocess>0</Subprocess>
+  <Category>2</Category>
+  <Mode>1</Mode>
+  <Scope>4</Scope>
+  <OnDemand>0</OnDemand>
+  <TriggerOnCreate>0</TriggerOnCreate>
+  <TriggerOnDelete>0</TriggerOnDelete>
+  <AsyncAutodelete>0</AsyncAutodelete>
+  <SyncWorkflowLogOnFailure>0</SyncWorkflowLogOnFailure>
+  <StateCode>1</StateCode>
+  <StatusCode>2</StatusCode>
+  <RunAs>1</RunAs>
+  <IsTransacted>1</IsTransacted>
+  <IntroducedVersion>2.2.1.1</IntroducedVersion>
+  <IsCustomizable>1</IsCustomizable>
+  <BusinessProcessType>0</BusinessProcessType>
+  <PrimaryEntity>ldv_autonumberingstream</PrimaryEntity>
+  <ProcessTriggers>
+    <ProcessTrigger processtriggerid="{862b7e94-44f9-e811-810d-00155d5f3d03}">
+      <controltype>1</controltype>
+      <scope>1</scope>
+      <controlname>ldv_currentindex</controlname>
+      <event>change</event>
+      <pipelinestage>0</pipelinestage>
+      <iscustomizable>1</iscustomizable>
+      <primaryentitytypecode>ldv_autonumberingstream</primaryentitytypecode>
+    </ProcessTrigger>
+    <ProcessTrigger processtriggerid="{872b7e94-44f9-e811-810d-00155d5f3d03}">
+      <scope>1</scope>
+      <event>load</event>
+      <pipelinestage>0</pipelinestage>
+      <iscustomizable>1</iscustomizable>
+      <primaryentitytypecode>ldv_autonumberingstream</primaryentitytypecode>
+    </ProcessTrigger>
+  </ProcessTriggers>
+</Workflow>

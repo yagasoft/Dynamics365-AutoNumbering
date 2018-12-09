@@ -73,6 +73,42 @@
           <columns>
             <column width="100%">
               <sections>
+                <section name="FormatSection" showlabel="true" showbar="true" locklevel="0" id="{67cb6917-3ebb-8a38-0577-4779929639cb}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
+                  <labels>
+                    <label description="Format" languagecode="1033" />
+                  </labels>
+                  <rows>
+                    <row>
+                      <cell id="{2da706e3-d332-6ee8-860e-84694b159d04}" showlabel="true" locklevel="0" colspan="2">
+                        <labels>
+                          <label description="Format String" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_formatstring" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_formatstring" disabled="false" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{e0a9607c-796a-d775-8096-39379e3b52e9}" showlabel="true" locklevel="0" colspan="2">
+                        <labels>
+                          <label description="Replacement Characters" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_replacementcharacters" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_replacementcharacters" disabled="false" uniqueid="{6dad9ac6-8670-0d82-6784-7d332387d55c}" />
+                      </cell>
+                    </row>
+                    <row>
+                      <cell id="{6dcec071-2d15-2936-cbbd-7d2150c26745}" showlabel="true" locklevel="0">
+                        <labels>
+                          <label description="Validate Unique String" languagecode="1033" />
+                        </labels>
+                        <control id="ldv_isvalidateuniquestring" classid="{B0C6723A-8503-4fd7-BB28-C8A06AC933C2}" datafieldname="ldv_isvalidateuniquestring" disabled="false" />
+                      </cell>
+                      <cell id="{05d2a3a1-a649-609c-e7c9-a9b68c5c0b51}" showlabel="false">
+                        <labels>
+                          <label description="" languagecode="1033" />
+                        </labels>
+                      </cell>
+                    </row>
+                  </rows>
+                </section>
                 <section name="IndexSection" showlabel="true" showbar="true" locklevel="0" id="{dd7b525e-be44-59e8-931c-aa2da9aed0d4}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
                   <labels>
                     <label description="Index" languagecode="1033" />
@@ -83,7 +119,7 @@
                         <labels>
                           <label description="Current Index" languagecode="1033" />
                         </labels>
-                        <control id="ldv_currentindex" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="ldv_currentindex" disabled="false" />
+                        <control id="ldv_currentindex" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="ldv_currentindex" disabled="false" uniqueid="{85ee792c-8709-3a27-1b37-3ce481bb4c72}" />
                       </cell>
                       <cell id="{a01517e9-8ad5-3c88-911a-e9484a44bb4d}" showlabel="true" locklevel="0">
                         <labels>
@@ -113,7 +149,7 @@
                         </labels>
                         <control id="ldv_isincrementonupdate" classid="{B0C6723A-8503-4fd7-BB28-C8A06AC933C2}" datafieldname="ldv_isincrementonupdate" disabled="false" />
                       </cell>
-                      <cell id="{12598c52-18cd-2336-637a-759a021ceb08}" showlabel="false">
+                      <cell id="{9a1d6b9d-c2ed-73c1-ac07-ac97a5eccbc4}" showlabel="false">
                         <labels>
                           <label description="" languagecode="1033" />
                         </labels>
@@ -121,40 +157,39 @@
                     </row>
                   </rows>
                 </section>
-                <section name="FormatSection" showlabel="true" showbar="true" locklevel="0" id="{67cb6917-3ebb-8a38-0577-4779929639cb}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
+                <section name="tab_2_section_5" showlabel="false" showbar="false" locklevel="0" id="{eb6341a0-549c-2833-46a8-91901959a849}" IsUserDefined="0" layout="varwidth" columns="1" labelwidth="115" height="auto">
                   <labels>
-                    <label description="Format" languagecode="1033" />
+                    <label description="Section" languagecode="1033" />
                   </labels>
                   <rows>
                     <row>
-                      <cell id="{2da706e3-d332-6ee8-860e-84694b159d04}" showlabel="true" locklevel="0" colspan="2">
+                      <cell id="{e09c52ba-9e7a-a461-c18d-0e166a03a416}" showlabel="true" colspan="1" rowspan="4" auto="true">
                         <labels>
-                          <label description="Format String" languagecode="1033" />
+                          <label description="Index Streams" languagecode="1033" />
                         </labels>
-                        <control id="ldv_formatstring" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_formatstring" disabled="false" />
+                        <control id="IndexStreamsGrid" classid="{E7A81278-8635-4d9e-8D4D-59480B391C5B}" indicationOfSubgrid="true" uniqueid="{2dea2476-400a-bdb0-d229-4b27d1a99ea0}">
+                          <parameters>
+                            <ViewId>{06715F13-42F9-E811-810D-00155D5F3D03}</ViewId>
+                            <IsUserView>false</IsUserView>
+                            <RelationshipName>ldv_autonumbering_autonumberingstream_AutoNumberingConfigId</RelationshipName>
+                            <TargetEntityType>ldv_autonumberingstream</TargetEntityType>
+                            <AutoExpand>Auto</AutoExpand>
+                            <EnableQuickFind>true</EnableQuickFind>
+                            <EnableViewPicker>false</EnableViewPicker>
+                            <ViewIds>{06715F13-42F9-E811-810D-00155D5F3D03}</ViewIds>
+                            <EnableJumpBar>false</EnableJumpBar>
+                            <ChartGridMode>Grid</ChartGridMode>
+                            <VisualizationId></VisualizationId>
+                            <IsUserChart>false</IsUserChart>
+                            <EnableChartPicker>false</EnableChartPicker>
+                            <RecordsPerPage>250</RecordsPerPage>
+                          </parameters>
+                        </control>
                       </cell>
                     </row>
-                    <row>
-                      <cell id="{e0a9607c-796a-d775-8096-39379e3b52e9}" showlabel="true" locklevel="0" colspan="2">
-                        <labels>
-                          <label description="Replacement Characters" languagecode="1033" />
-                        </labels>
-                        <control id="ldv_replacementcharacters" classid="{4273EDBD-AC1D-40d3-9FB2-095C621B552D}" datafieldname="ldv_replacementcharacters" disabled="false" uniqueid="{6dad9ac6-8670-0d82-6784-7d332387d55c}" />
-                      </cell>
-                    </row>
-                    <row>
-                      <cell id="{6dcec071-2d15-2936-cbbd-7d2150c26745}" showlabel="true" locklevel="0">
-                        <labels>
-                          <label description="Validate Unique String" languagecode="1033" />
-                        </labels>
-                        <control id="ldv_isvalidateuniquestring" classid="{B0C6723A-8503-4fd7-BB28-C8A06AC933C2}" datafieldname="ldv_isvalidateuniquestring" disabled="false" />
-                      </cell>
-                      <cell id="{cc5d92ab-0605-9473-5527-e13048d29452}" showlabel="false">
-                        <labels>
-                          <label description="" languagecode="1033" />
-                        </labels>
-                      </cell>
-                    </row>
+                    <row></row>
+                    <row></row>
+                    <row height="auto"></row>
                   </rows>
                 </section>
                 <section name="RandomStringSection" showlabel="true" showbar="true" locklevel="0" id="{03296a7b-b6d6-4273-a613-0167dbbe885e}" IsUserDefined="0" layout="varwidth" columns="11" labelwidth="150" celllabelalignment="Left" celllabelposition="Left">
@@ -183,7 +218,7 @@
                         </labels>
                         <control id="ldv_numberletterratio" classid="{C6D124CA-7EDA-4a60-AEA9-7FB8D318B68F}" datafieldname="ldv_numberletterratio" disabled="false" />
                       </cell>
-                      <cell id="{dab877ec-b5b1-3407-86e7-c40a7a960128}" showlabel="false">
+                      <cell id="{1572a865-72ea-db9a-8e0e-edc5167cc030}" showlabel="false">
                         <labels>
                           <label description="" languagecode="1033" />
                         </labels>
@@ -247,7 +282,7 @@
                         <labels>
                           <label description="Condition" languagecode="1033" />
                         </labels>
-                        <control id="ldv_condition" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ldv_condition" disabled="false" />
+                        <control id="ldv_condition" classid="{E0DECE4B-6FC8-4a8f-A065-082708572369}" datafieldname="ldv_condition" disabled="false" uniqueid="{58321c1a-8465-d5b3-6eb6-3d4b19d80b64}" />
                       </cell>
                     </row>
                     <row></row>

@@ -5,4 +5,9 @@
     <EntityTarget>ldv_autonumberingbacklog</EntityTarget>
     <AttributeMaps />
   </EntityMap>
+  <EntityMap>
+    <EntitySource>ldv_autonumbering</EntitySource>
+    <EntityTarget>ldv_autonumberingstream</EntityTarget>
+    <AttributeMaps />
+  </EntityMap>
 </EntityMaps>

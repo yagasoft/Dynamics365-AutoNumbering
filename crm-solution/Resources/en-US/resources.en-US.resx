@@ -136,6 +136,10 @@
     <value />
     <comment>ldv_autonumberingbacklog CustomLabel for EntityRelationship 'ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId'</comment>
   </data>
+  <data name="10:CustomLabel,ldv_autonumbering_autonumberingstream_AutoNumberingConfigId" xml:space="preserve">
+    <value />
+    <comment>ldv_autonumberingstream CustomLabel for EntityRelationship 'ldv_autonumbering_autonumberingstream_AutoNumberingConfigId'</comment>
+  </data>
   <data name="10:Description,business_unit_ldv_autonumbering" xml:space="preserve">
     <value>Unique identifier for the business unit that owns the record</value>
     <comment>ldv_autonumbering Description for EntityRelationship 'business_unit_ldv_autonumbering'</comment>
@@ -144,9 +148,17 @@
     <value>Unique identifier for the business unit that owns the record</value>
     <comment>ldv_autonumberingbacklog Description for EntityRelationship 'business_unit_ldv_autonumberingbacklog'</comment>
   </data>
+  <data name="10:Description,business_unit_ldv_autonumberingstream" xml:space="preserve">
+    <value>Unique identifier for the business unit that owns the record</value>
+    <comment>ldv_autonumberingstream Description for EntityRelationship 'business_unit_ldv_autonumberingstream'</comment>
+  </data>
   <data name="10:Description,ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId" xml:space="preserve">
     <value />
     <comment>ldv_autonumberingbacklog Description for EntityRelationship 'ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId'</comment>
+  </data>
+  <data name="10:Description,ldv_autonumbering_autonumberingstream_AutoNumberingConfigId" xml:space="preserve">
+    <value />
+    <comment>ldv_autonumberingstream Description for EntityRelationship 'ldv_autonumbering_autonumberingstream_AutoNumberingConfigId'</comment>
   </data>
   <data name="10:Description,lk_ldv_autonumberingbacklog_createdby" xml:space="preserve">
     <value>Unique identifier of the user who created the record.</value>
@@ -155,6 +167,14 @@
   <data name="10:Description,lk_ldv_autonumberingbacklog_modifiedby" xml:space="preserve">
     <value>Unique identifier of the user who modified the record.</value>
     <comment>ldv_autonumberingbacklog Description for EntityRelationship 'lk_ldv_autonumberingbacklog_modifiedby'</comment>
+  </data>
+  <data name="10:Description,lk_ldv_autonumberingstream_createdby" xml:space="preserve">
+    <value>Unique identifier of the user who created the record.</value>
+    <comment>ldv_autonumberingstream Description for EntityRelationship 'lk_ldv_autonumberingstream_createdby'</comment>
+  </data>
+  <data name="10:Description,lk_ldv_autonumberingstream_modifiedby" xml:space="preserve">
+    <value>Unique identifier of the user who modified the record.</value>
+    <comment>ldv_autonumberingstream Description for EntityRelationship 'lk_ldv_autonumberingstream_modifiedby'</comment>
   </data>
   <data name="10:Description,lk_ldv_autonumbering_createdby" xml:space="preserve">
     <value>Unique identifier of the user who created the record.</value>
@@ -172,6 +192,10 @@
     <value>Owner Id</value>
     <comment>ldv_autonumberingbacklog Description for EntityRelationship 'owner_ldv_autonumberingbacklog'</comment>
   </data>
+  <data name="10:Description,owner_ldv_autonumberingstream" xml:space="preserve">
+    <value>Owner Id</value>
+    <comment>ldv_autonumberingstream Description for EntityRelationship 'owner_ldv_autonumberingstream'</comment>
+  </data>
   <data name="10:Description,team_ldv_autonumbering" xml:space="preserve">
     <value>Unique identifier for the team that owns the record.</value>
     <comment>ldv_autonumbering Description for EntityRelationship 'team_ldv_autonumbering'</comment>
@@ -180,6 +204,10 @@
     <value>Unique identifier for the team that owns the record.</value>
     <comment>ldv_autonumberingbacklog Description for EntityRelationship 'team_ldv_autonumberingbacklog'</comment>
   </data>
+  <data name="10:Description,team_ldv_autonumberingstream" xml:space="preserve">
+    <value>Unique identifier for the team that owns the record.</value>
+    <comment>ldv_autonumberingstream Description for EntityRelationship 'team_ldv_autonumberingstream'</comment>
+  </data>
   <data name="10:Description,user_ldv_autonumbering" xml:space="preserve">
     <value>Unique identifier for the user that owns the record.</value>
     <comment>ldv_autonumbering Description for EntityRelationship 'user_ldv_autonumbering'</comment>
@@ -187,6 +215,10 @@
   <data name="10:Description,user_ldv_autonumberingbacklog" xml:space="preserve">
     <value>Unique identifier for the user that owns the record.</value>
     <comment>ldv_autonumberingbacklog Description for EntityRelationship 'user_ldv_autonumberingbacklog'</comment>
+  </data>
+  <data name="10:Description,user_ldv_autonumberingstream" xml:space="preserve">
+    <value>Unique identifier for the user that owns the record.</value>
+    <comment>ldv_autonumberingstream Description for EntityRelationship 'user_ldv_autonumberingstream'</comment>
   </data>
   <data name="15062:Description,AutoNumbering" xml:space="preserve">
     <value>Refer to Yagasoft.com for any enquiries.</value>
@@ -223,6 +255,26 @@
   <data name="1:Description,Auto-Numbering Backlog{f5346a02-3725-47cf-ab91-99cc7fbefc0e}" xml:space="preserve">
     <value>This is the form that is displayed for the CRM for phones express application.</value>
     <comment>'Auto-Numbering Backlog' : Description for systemform in Entity FormXml ID: '{f5346a02-3725-47cf-ab91-99cc7fbefc0e}'</comment>
+  </data>
+  <data name="1:Description,Auto-Numbering Stream{1ddbec18-e258-4787-8bf4-48635e32dfd7}" xml:space="preserve">
+    <value>A form for this entity.</value>
+    <comment>'Auto-Numbering Stream' : Description for systemform in Entity FormXml ID: '{1ddbec18-e258-4787-8bf4-48635e32dfd7}'</comment>
+  </data>
+  <data name="1:Description,Auto-Numbering Stream{548f2a2c-6bf8-e811-810c-00155d5f3d03}" xml:space="preserve">
+    <value>Active Auto-Numbering Streams owned by me</value>
+    <comment>'Auto-Numbering Stream' : Description for SavedQuery on Entity QueryId: '{548f2a2c-6bf8-e811-810c-00155d5f3d03}'</comment>
+  </data>
+  <data name="1:Description,Auto-Numbering Stream{88467514-1757-420d-b28d-89603a6ecf01}" xml:space="preserve">
+    <value>This is the form that is displayed for the CRM for phones express application.</value>
+    <comment>'Auto-Numbering Stream' : Description for systemform in Entity FormXml ID: '{88467514-1757-420d-b28d-89603a6ecf01}'</comment>
+  </data>
+  <data name="1:Description,Auto-Numbering Stream{d3b5d997-d1cf-45a8-8313-b92dab7dbafc}" xml:space="preserve">
+    <value>A form for this entity.</value>
+    <comment>'Auto-Numbering Stream' : Description for systemform in Entity FormXml ID: '{d3b5d997-d1cf-45a8-8313-b92dab7dbafc}'</comment>
+  </data>
+  <data name="1:Description,Auto-Numbering Stream{f4c0c879-a4af-4848-939c-336a65bb73fe}" xml:space="preserve">
+    <value>A card form for this entity.</value>
+    <comment>'Auto-Numbering Stream' : Description for systemform in Entity FormXml ID: '{f4c0c879-a4af-4848-939c-336a65bb73fe}'</comment>
   </data>
   <data name="1:Description,Auto-Numbering{7d10c280-8ea0-4cba-9814-65ff80ace72e}" xml:space="preserve">
     <value>This is the form that is displayed for the CRM Mobile application.</value>
@@ -275,6 +327,14 @@
   <data name="1:Description,ldv_autonumberingbacklogldv_name" xml:space="preserve">
     <value>The name of the custom entity.</value>
     <comment>'ldv_autonumberingbacklog' : Description for Attribute 'ldv_name' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingbacklogldv_StreamFieldName" xml:space="preserve">
+    <value />
+    <comment>'ldv_autonumberingbacklog' : Description for Attribute 'ldv_StreamFieldName' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingbacklogldv_StreamFieldValue" xml:space="preserve">
+    <value />
+    <comment>'ldv_autonumberingbacklog' : Description for Attribute 'ldv_StreamFieldValue' on Entity</comment>
   </data>
   <data name="1:Description,ldv_autonumberingbacklogldv_TriggerID" xml:space="preserve">
     <value />
@@ -380,6 +440,10 @@
     <value />
     <comment>'ldv_autonumbering' : Description for OptionSet 'ldv_autonumbering_ldv_isusebacklog' on Entity</comment>
   </data>
+  <data name="1:Description,ldv_autonumberingldv_autonumbering_ldv_isuseindexstreams" xml:space="preserve">
+    <value />
+    <comment>'ldv_autonumbering' : Description for OptionSet 'ldv_autonumbering_ldv_isuseindexstreams' on Entity</comment>
+  </data>
   <data name="1:Description,ldv_autonumberingldv_autonumbering_ldv_isvalidateuniquestring" xml:space="preserve">
     <value />
     <comment>'ldv_autonumbering' : Description for OptionSet 'ldv_autonumbering_ldv_isvalidateuniquestring' on Entity</comment>
@@ -443,6 +507,10 @@
   <data name="1:Description,ldv_autonumberingldv_IsUseBacklog" xml:space="preserve">
     <value />
     <comment>'ldv_autonumbering' : Description for Attribute 'ldv_IsUseBacklog' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingldv_IsUseIndexStreams" xml:space="preserve">
+    <value />
+    <comment>'ldv_autonumbering' : Description for Attribute 'ldv_IsUseIndexStreams' on Entity</comment>
   </data>
   <data name="1:Description,ldv_autonumberingldv_IsValidateUniqueString" xml:space="preserve">
     <value />
@@ -544,6 +612,118 @@
     <value>Reason for the status of the Auto-Numbering</value>
     <comment>'ldv_autonumbering' : Description for Attribute 'statuscode' on Entity</comment>
   </data>
+  <data name="1:Description,ldv_autonumberingstreamCreatedBy" xml:space="preserve">
+    <value>Unique identifier of the user who created the record.</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'CreatedBy' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamCreatedOn" xml:space="preserve">
+    <value>Date and time when the record was created.</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'CreatedOn' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamCreatedOnBehalfBy" xml:space="preserve">
+    <value>Unique identifier of the delegate user who created the record.</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'CreatedOnBehalfBy' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamentityldv_autonumberingstream" xml:space="preserve">
+    <value />
+    <comment> 'ldv_autonumberingstream' : Description for Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamImportSequenceNumber" xml:space="preserve">
+    <value>Sequence number of the import that created this record.</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'ImportSequenceNumber' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamldv_AutoNumberingConfigId" xml:space="preserve">
+    <value />
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'ldv_AutoNumberingConfigId' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamldv_autonumberingstreamId" xml:space="preserve">
+    <value>Unique identifier for entity instances</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'ldv_autonumberingstreamId' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamldv_autonumberingstream_statecode" xml:space="preserve">
+    <value>Status of the Auto-Numbering Stream</value>
+    <comment>'ldv_autonumberingstream' : Description for OptionSet 'ldv_autonumberingstream_statecode' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamldv_autonumberingstream_statuscode" xml:space="preserve">
+    <value>Reason for the status of the Auto-Numbering Stream</value>
+    <comment>'ldv_autonumberingstream' : Description for OptionSet 'ldv_autonumberingstream_statuscode' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamldv_CurrentIndex" xml:space="preserve">
+    <value />
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'ldv_CurrentIndex' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamldv_FieldName" xml:space="preserve">
+    <value />
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'ldv_FieldName' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamldv_FieldValue" xml:space="preserve">
+    <value />
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'ldv_FieldValue' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamldv_name" xml:space="preserve">
+    <value>The name of the custom entity.</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'ldv_name' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamModifiedBy" xml:space="preserve">
+    <value>Unique identifier of the user who modified the record.</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'ModifiedBy' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamModifiedOn" xml:space="preserve">
+    <value>Date and time when the record was modified.</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'ModifiedOn' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamModifiedOnBehalfBy" xml:space="preserve">
+    <value>Unique identifier of the delegate user who modified the record.</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'ModifiedOnBehalfBy' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamOverriddenCreatedOn" xml:space="preserve">
+    <value>Date and time that the record was migrated.</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'OverriddenCreatedOn' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamOwnerId" xml:space="preserve">
+    <value>Owner Id</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'OwnerId' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamOwnerIdName" xml:space="preserve">
+    <value>Name of the owner</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'OwnerIdName' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamOwnerIdType" xml:space="preserve">
+    <value>Owner Id Type</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'OwnerIdType' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamOwnerIdYomiName" xml:space="preserve">
+    <value>Yomi name of the owner</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'OwnerIdYomiName' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamOwningBusinessUnit" xml:space="preserve">
+    <value>Unique identifier for the business unit that owns the record</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'OwningBusinessUnit' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamOwningTeam" xml:space="preserve">
+    <value>Unique identifier for the team that owns the record.</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'OwningTeam' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamOwningUser" xml:space="preserve">
+    <value>Unique identifier for the user that owns the record.</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'OwningUser' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamstatecode" xml:space="preserve">
+    <value>Status of the Auto-Numbering Stream</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'statecode' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamstatuscode" xml:space="preserve">
+    <value>Reason for the status of the Auto-Numbering Stream</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'statuscode' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamTimeZoneRuleVersionNumber" xml:space="preserve">
+    <value>For internal use only.</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'TimeZoneRuleVersionNumber' on Entity</comment>
+  </data>
+  <data name="1:Description,ldv_autonumberingstreamUTCConversionTimeZoneCode" xml:space="preserve">
+    <value>Time zone code that was in use when the record was created.</value>
+    <comment>'ldv_autonumberingstream' : Description for Attribute 'UTCConversionTimeZoneCode' on Entity</comment>
+  </data>
   <data name="1:Description,ldv_autonumberingTimeZoneRuleVersionNumber" xml:space="preserve">
     <value>For internal use only.</value>
     <comment>'ldv_autonumbering' : Description for Attribute 'TimeZoneRuleVersionNumber' on Entity</comment>
@@ -591,6 +771,14 @@
   <data name="1:displayname,ldv_autonumberingbacklogldv_name" xml:space="preserve">
     <value>Name</value>
     <comment>'ldv_autonumberingbacklog' : displayname for Attribute 'ldv_name' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingbacklogldv_StreamFieldName" xml:space="preserve">
+    <value>Stream Field Name</value>
+    <comment>'ldv_autonumberingbacklog' : displayname for Attribute 'ldv_StreamFieldName' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingbacklogldv_StreamFieldValue" xml:space="preserve">
+    <value>Stream Field Value</value>
+    <comment>'ldv_autonumberingbacklog' : displayname for Attribute 'ldv_StreamFieldValue' on Entity</comment>
   </data>
   <data name="1:displayname,ldv_autonumberingbacklogldv_TriggerID" xml:space="preserve">
     <value>Trigger ID</value>
@@ -680,6 +868,10 @@
     <value>Use Backlog</value>
     <comment>'ldv_autonumbering' : displayname for OptionSet 'ldv_autonumbering_ldv_isusebacklog' on Entity</comment>
   </data>
+  <data name="1:displayname,ldv_autonumberingldv_autonumbering_ldv_isuseindexstreams" xml:space="preserve">
+    <value>Use Index Streams</value>
+    <comment>'ldv_autonumbering' : displayname for OptionSet 'ldv_autonumbering_ldv_isuseindexstreams' on Entity</comment>
+  </data>
   <data name="1:displayname,ldv_autonumberingldv_autonumbering_ldv_isvalidateuniquestring" xml:space="preserve">
     <value>Validate Unique String</value>
     <comment>'ldv_autonumbering' : displayname for OptionSet 'ldv_autonumbering_ldv_isvalidateuniquestring' on Entity</comment>
@@ -743,6 +935,10 @@
   <data name="1:displayname,ldv_autonumberingldv_IsUseBacklog" xml:space="preserve">
     <value>Use Backlog</value>
     <comment>'ldv_autonumbering' : displayname for Attribute 'ldv_IsUseBacklog' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingldv_IsUseIndexStreams" xml:space="preserve">
+    <value>Use Index Streams</value>
+    <comment>'ldv_autonumbering' : displayname for Attribute 'ldv_IsUseIndexStreams' on Entity</comment>
   </data>
   <data name="1:displayname,ldv_autonumberingldv_IsValidateUniqueString" xml:space="preserve">
     <value>Validate Unique String</value>
@@ -831,6 +1027,102 @@
   <data name="1:displayname,ldv_autonumberingstatuscode" xml:space="preserve">
     <value>Status Reason</value>
     <comment>'ldv_autonumbering' : displayname for Attribute 'statuscode' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamCreatedBy" xml:space="preserve">
+    <value>Created By</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'CreatedBy' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamCreatedOn" xml:space="preserve">
+    <value>Created On</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'CreatedOn' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamCreatedOnBehalfBy" xml:space="preserve">
+    <value>Created By (Delegate)</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'CreatedOnBehalfBy' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamImportSequenceNumber" xml:space="preserve">
+    <value>Import Sequence Number</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'ImportSequenceNumber' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamldv_AutoNumberingConfigId" xml:space="preserve">
+    <value>Auto-Numbering Config</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'ldv_AutoNumberingConfigId' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamldv_autonumberingstreamId" xml:space="preserve">
+    <value>Auto-Numbering Stream</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'ldv_autonumberingstreamId' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamldv_autonumberingstream_statecode" xml:space="preserve">
+    <value>Status</value>
+    <comment>'ldv_autonumberingstream' : displayname for OptionSet 'ldv_autonumberingstream_statecode' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamldv_autonumberingstream_statuscode" xml:space="preserve">
+    <value>Status Reason</value>
+    <comment>'ldv_autonumberingstream' : displayname for OptionSet 'ldv_autonumberingstream_statuscode' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamldv_CurrentIndex" xml:space="preserve">
+    <value>Current Index</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'ldv_CurrentIndex' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamldv_FieldName" xml:space="preserve">
+    <value>Field Name</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'ldv_FieldName' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamldv_FieldValue" xml:space="preserve">
+    <value>Field Value</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'ldv_FieldValue' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamldv_name" xml:space="preserve">
+    <value>Name</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'ldv_name' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamModifiedBy" xml:space="preserve">
+    <value>Modified By</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'ModifiedBy' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamModifiedOn" xml:space="preserve">
+    <value>Modified On</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'ModifiedOn' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamModifiedOnBehalfBy" xml:space="preserve">
+    <value>Modified By (Delegate)</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'ModifiedOnBehalfBy' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamOverriddenCreatedOn" xml:space="preserve">
+    <value>Record Created On</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'OverriddenCreatedOn' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamOwnerId" xml:space="preserve">
+    <value>Owner</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'OwnerId' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamOwningBusinessUnit" xml:space="preserve">
+    <value>Owning Business Unit</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'OwningBusinessUnit' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamOwningTeam" xml:space="preserve">
+    <value>Owning Team</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'OwningTeam' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamOwningUser" xml:space="preserve">
+    <value>Owning User</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'OwningUser' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamstatecode" xml:space="preserve">
+    <value>Status</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'statecode' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamstatuscode" xml:space="preserve">
+    <value>Status Reason</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'statuscode' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamTimeZoneRuleVersionNumber" xml:space="preserve">
+    <value>Time Zone Rule Version Number</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'TimeZoneRuleVersionNumber' on Entity</comment>
+  </data>
+  <data name="1:displayname,ldv_autonumberingstreamUTCConversionTimeZoneCode" xml:space="preserve">
+    <value>UTC Conversion Time Zone Code</value>
+    <comment>'ldv_autonumberingstream' : displayname for Attribute 'UTCConversionTimeZoneCode' on Entity</comment>
   </data>
   <data name="1:displayname,ldv_autonumberingTimeZoneRuleVersionNumber" xml:space="preserve">
     <value>Time Zone Rule Version Number</value>
@@ -984,6 +1276,186 @@
     <value>Owner</value>
     <comment>'Auto-Numbering Backlog' : label for cell in Entity FormXml ID: '{f45b26e0-2c95-4b80-90e8-a2553dfa1af2}'</comment>
   </data>
+  <data name="1:label,Auto-Numbering Stream{0af6a1d1-0b5e-412c-9c3a-fd5b62f93b5d}" xml:space="preserve">
+    <value>Owner</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{0af6a1d1-0b5e-412c-9c3a-fd5b62f93b5d}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{0c14bd10-e2e9-aba5-67a2-c74e9680343e}" xml:space="preserve">
+    <value>Auto-Numbering Config</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{0c14bd10-e2e9-aba5-67a2-c74e9680343e}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{160b66fd-ca87-4535-a6b2-9b29f70e1773}" xml:space="preserve">
+    <value>TIMELINE</value>
+    <comment>'Auto-Numbering Stream' : label for section in Entity FormXml ID: '{160b66fd-ca87-4535-a6b2-9b29f70e1773}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{1b71f173-c50a-4af8-af4d-579ca5a508b9}" xml:space="preserve">
+    <value>General Info</value>
+    <comment>'Auto-Numbering Stream' : label for tab in Entity FormXml ID: '{1b71f173-c50a-4af8-af4d-579ca5a508b9}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{1e72d288-3864-424b-b2d4-67c8b8731d28}" xml:space="preserve">
+    <value>Conversation Tabs</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{1e72d288-3864-424b-b2d4-67c8b8731d28}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{211c77b0-37c8-4344-968e-bfc84c6fffc8}" xml:space="preserve">
+    <value />
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{211c77b0-37c8-4344-968e-bfc84c6fffc8}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{303d7d68-931e-9a07-7963-b8e7b51aea4e}" xml:space="preserve">
+    <value>Field Name</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{303d7d68-931e-9a07-7963-b8e7b51aea4e}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{34bd8826-7dad-4667-1bbc-b5bd5ce164dc}" xml:space="preserve">
+    <value>Field Value</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{34bd8826-7dad-4667-1bbc-b5bd5ce164dc}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{34db1214-9085-4401-8f36-5b5ed80e8bfd}" xml:space="preserve">
+    <value>section</value>
+    <comment>'Auto-Numbering Stream' : label for section in Entity FormXml ID: '{34db1214-9085-4401-8f36-5b5ed80e8bfd}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{363757b3-b6a5-46d6-b2c8-1bab8c9d244c}" xml:space="preserve">
+    <value>Footer</value>
+    <comment>'Auto-Numbering Stream' : label for section in Entity FormXml ID: '{363757b3-b6a5-46d6-b2c8-1bab8c9d244c}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{3da96bdf-4d96-47f7-bd65-3b34d0f79b69}" xml:space="preserve">
+    <value>Status</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{3da96bdf-4d96-47f7-bd65-3b34d0f79b69}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{467af448-30b7-4a87-9d06-7e78babe8c4b}" xml:space="preserve">
+    <value>Status Reason</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{467af448-30b7-4a87-9d06-7e78babe8c4b}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{4d0199c2-433f-46cc-aa31-f5b265286082}" xml:space="preserve">
+    <value>GENERAL</value>
+    <comment>'Auto-Numbering Stream' : label for section in Entity FormXml ID: '{4d0199c2-433f-46cc-aa31-f5b265286082}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{5571fabc-4fab-4cf0-8ea8-e5e6891d6e9b}" xml:space="preserve">
+    <value>Name</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{5571fabc-4fab-4cf0-8ea8-e5e6891d6e9b}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{581867f4-4a2d-4bc6-9dee-ba34d08a7b66}" xml:space="preserve">
+    <value>Owner</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{581867f4-4a2d-4bc6-9dee-ba34d08a7b66}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{5b4a9f05-050f-4576-9913-d24ee40aeb2b}" xml:space="preserve">
+    <value>General</value>
+    <comment>'Auto-Numbering Stream' : label for tab in Entity FormXml ID: '{5b4a9f05-050f-4576-9913-d24ee40aeb2b}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{611e97bd-7eb1-4dcb-bb65-0b1e6f053744}" xml:space="preserve">
+    <value>General</value>
+    <comment>'Auto-Numbering Stream' : label for section in Entity FormXml ID: '{611e97bd-7eb1-4dcb-bb65-0b1e6f053744}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{69f80e03-a85a-4911-ad65-aced801436d7}" xml:space="preserve">
+    <value>section</value>
+    <comment>'Auto-Numbering Stream' : label for section in Entity FormXml ID: '{69f80e03-a85a-4911-ad65-aced801436d7}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{6aed2330-5716-7c15-cb73-061c20169288}" xml:space="preserve">
+    <value>Field Value</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{6aed2330-5716-7c15-cb73-061c20169288}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{752239cd-e336-4cf9-899b-be8c5dc2c775}" xml:space="preserve">
+    <value />
+    <comment>'Auto-Numbering Stream' : label for tab in Entity FormXml ID: '{752239cd-e336-4cf9-899b-be8c5dc2c775}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{754a6e45-1453-4942-92dd-9ad950cf1faa}" xml:space="preserve">
+    <value>Name</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{754a6e45-1453-4942-92dd-9ad950cf1faa}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{77ad465c-78c2-473c-b5a8-8ad05b564dd5}" xml:space="preserve">
+    <value>Created On</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{77ad465c-78c2-473c-b5a8-8ad05b564dd5}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{835c4b82-976a-e16d-9a9b-d86664b0866d}" xml:space="preserve">
+    <value>Field Name</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{835c4b82-976a-e16d-9a9b-d86664b0866d}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{83913be6-40bc-4af6-beef-8a8961d52e58}" xml:space="preserve">
+    <value>Name</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{83913be6-40bc-4af6-beef-8a8961d52e58}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{84eaa2f9-fbea-4bfd-b045-53e858598290}" xml:space="preserve">
+    <value />
+    <comment>'Auto-Numbering Stream' : label for tab in Entity FormXml ID: '{84eaa2f9-fbea-4bfd-b045-53e858598290}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{91618407-b162-91d4-58ee-0137be80ecbc}" xml:space="preserve">
+    <value>Name</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{91618407-b162-91d4-58ee-0137be80ecbc}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{926c4933-c8f5-47b9-9ea6-3b725fb48d46}" xml:space="preserve">
+    <value />
+    <comment>'Auto-Numbering Stream' : label for tab in Entity FormXml ID: '{926c4933-c8f5-47b9-9ea6-3b725fb48d46}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{97726005-b445-e0a2-6112-3765d9317d43}" xml:space="preserve">
+    <value>Current Index</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{97726005-b445-e0a2-6112-3765d9317d43}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{9c2ac465-9b53-4ef1-9f57-2b4a74e5bdf3}" xml:space="preserve">
+    <value />
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{9c2ac465-9b53-4ef1-9f57-2b4a74e5bdf3}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{a0ec41b2-d344-4df4-a7bb-cca60defd5da}" xml:space="preserve">
+    <value />
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{a0ec41b2-d344-4df4-a7bb-cca60defd5da}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{a6246b1c-50bf-4c15-aea0-b906966b1566}" xml:space="preserve">
+    <value>General</value>
+    <comment>'Auto-Numbering Stream' : label for section in Entity FormXml ID: '{a6246b1c-50bf-4c15-aea0-b906966b1566}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{b19b29aa-8bc1-4b70-ba37-5983d61d6a55}" xml:space="preserve">
+    <value>Owner</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{b19b29aa-8bc1-4b70-ba37-5983d61d6a55}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{c5486a0c-462a-456e-ba6f-03de7ba46551}" xml:space="preserve">
+    <value>Owner</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{c5486a0c-462a-456e-ba6f-03de7ba46551}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{cc2b06e0-8ebb-4aac-be40-e12ddc9077a3}" xml:space="preserve">
+    <value>Name</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{cc2b06e0-8ebb-4aac-be40-e12ddc9077a3}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{d5dffc4b-e5cb-4e11-9154-045e00fbf7b9}" xml:space="preserve">
+    <value>Header</value>
+    <comment>'Auto-Numbering Stream' : label for section in Entity FormXml ID: '{d5dffc4b-e5cb-4e11-9154-045e00fbf7b9}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{dd9f099a-a04c-4e4e-b6d0-164b9988761e}" xml:space="preserve">
+    <value>ColorStrip</value>
+    <comment>'Auto-Numbering Stream' : label for section in Entity FormXml ID: '{dd9f099a-a04c-4e4e-b6d0-164b9988761e}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{df7fd691-79e4-41f1-acb0-1a261e58a201}" xml:space="preserve">
+    <value>section</value>
+    <comment>'Auto-Numbering Stream' : label for section in Entity FormXml ID: '{df7fd691-79e4-41f1-acb0-1a261e58a201}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{e42dc4ca-b53b-4570-98b1-143a0965c9f3}" xml:space="preserve">
+    <value>Name</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{e42dc4ca-b53b-4570-98b1-143a0965c9f3}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{e526b289-b0b5-449f-a1c5-4107860c40ad}" xml:space="preserve">
+    <value>Tab</value>
+    <comment>'Auto-Numbering Stream' : label for tab in Entity FormXml ID: '{e526b289-b0b5-449f-a1c5-4107860c40ad}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{e770b904-dcea-4f6a-b3a5-9668d0620d4e}" xml:space="preserve">
+    <value>RELATED</value>
+    <comment>'Auto-Numbering Stream' : label for section in Entity FormXml ID: '{e770b904-dcea-4f6a-b3a5-9668d0620d4e}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{eb50c70c-2140-2abe-7c9a-0a49756a370b}" xml:space="preserve">
+    <value>Current Index</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{eb50c70c-2140-2abe-7c9a-0a49756a370b}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{ec71ae18-508e-4bc4-80f4-238f6fbdbb37}" xml:space="preserve">
+    <value />
+    <comment>'Auto-Numbering Stream' : label for section in Entity FormXml ID: '{ec71ae18-508e-4bc4-80f4-238f6fbdbb37}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{f067bd1d-6fbb-4b65-97b0-64de9a1020ea}" xml:space="preserve">
+    <value>Owner</value>
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{f067bd1d-6fbb-4b65-97b0-64de9a1020ea}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{f3919075-51b3-4d55-b300-36f8b74c4254}" xml:space="preserve">
+    <value>Details</value>
+    <comment>'Auto-Numbering Stream' : label for section in Entity FormXml ID: '{f3919075-51b3-4d55-b300-36f8b74c4254}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering Stream{f85f7177-316d-4a1c-816f-233eada05ca0}" xml:space="preserve">
+    <value />
+    <comment>'Auto-Numbering Stream' : label for cell in Entity FormXml ID: '{f85f7177-316d-4a1c-816f-233eada05ca0}'</comment>
+  </data>
   <data name="1:label,Auto-Numbering{028811eb-2792-db96-3640-e3bc01236200}" xml:space="preserve">
     <value>Created On</value>
     <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{028811eb-2792-db96-3640-e3bc01236200}'</comment>
@@ -991,6 +1463,10 @@
   <data name="1:label,Auto-Numbering{03296a7b-b6d6-4273-a613-0167dbbe885e}" xml:space="preserve">
     <value>Random String</value>
     <comment>'Auto-Numbering' : label for section in Entity FormXml ID: '{03296a7b-b6d6-4273-a613-0167dbbe885e}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering{05d2a3a1-a649-609c-e7c9-a9b68c5c0b51}" xml:space="preserve">
+    <value />
+    <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{05d2a3a1-a649-609c-e7c9-a9b68c5c0b51}'</comment>
   </data>
   <data name="1:label,Auto-Numbering{0a092aca-d3ec-cbcb-66ec-4a0b5cdb23b0}" xml:space="preserve">
     <value>Reset Index</value>
@@ -1000,9 +1476,9 @@
     <value>General</value>
     <comment>'Auto-Numbering' : label for section in Entity FormXml ID: '{123f2dd1-225f-4cb3-9bdd-26463f41355d}'</comment>
   </data>
-  <data name="1:label,Auto-Numbering{12598c52-18cd-2336-637a-759a021ceb08}" xml:space="preserve">
+  <data name="1:label,Auto-Numbering{1572a865-72ea-db9a-8e0e-edc5167cc030}" xml:space="preserve">
     <value />
-    <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{12598c52-18cd-2336-637a-759a021ceb08}'</comment>
+    <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{1572a865-72ea-db9a-8e0e-edc5167cc030}'</comment>
   </data>
   <data name="1:label,Auto-Numbering{167d4955-b7d4-e212-9c7d-cba0b0c092cb}" xml:space="preserve">
     <value>Reset On</value>
@@ -1092,6 +1568,10 @@
     <value>Entity Logical Name</value>
     <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{9974d103-b500-4614-5d0a-6539ed82412c}'</comment>
   </data>
+  <data name="1:label,Auto-Numbering{9a1d6b9d-c2ed-73c1-ac07-ac97a5eccbc4}" xml:space="preserve">
+    <value />
+    <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{9a1d6b9d-c2ed-73c1-ac07-ac97a5eccbc4}'</comment>
+  </data>
   <data name="1:label,Auto-Numbering{9ad43611-a44c-3b16-9737-80a38009307c}" xml:space="preserve">
     <value>Reset</value>
     <comment>'Auto-Numbering' : label for section in Entity FormXml ID: '{9ad43611-a44c-3b16-9737-80a38009307c}'</comment>
@@ -1116,10 +1596,6 @@
     <value>Last Reset Date</value>
     <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{bc47e862-7c76-4acb-106d-89482ada2611}'</comment>
   </data>
-  <data name="1:label,Auto-Numbering{cc5d92ab-0605-9473-5527-e13048d29452}" xml:space="preserve">
-    <value />
-    <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{cc5d92ab-0605-9473-5527-e13048d29452}'</comment>
-  </data>
   <data name="1:label,Auto-Numbering{d17e7bb5-98b8-5589-69c1-6aca4edb1462}" xml:space="preserve">
     <value>Plugin Apply Condition</value>
     <comment>'Auto-Numbering' : label for section in Entity FormXml ID: '{d17e7bb5-98b8-5589-69c1-6aca4edb1462}'</comment>
@@ -1136,10 +1612,6 @@
     <value>Increment OnUpdate</value>
     <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{d5ba762c-9c49-7e54-dc1a-0139c81d9691}'</comment>
   </data>
-  <data name="1:label,Auto-Numbering{dab877ec-b5b1-3407-86e7-c40a7a960128}" xml:space="preserve">
-    <value />
-    <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{dab877ec-b5b1-3407-86e7-c40a7a960128}'</comment>
-  </data>
   <data name="1:label,Auto-Numbering{dd7b525e-be44-59e8-931c-aa2da9aed0d4}" xml:space="preserve">
     <value>Index</value>
     <comment>'Auto-Numbering' : label for section in Entity FormXml ID: '{dd7b525e-be44-59e8-931c-aa2da9aed0d4}'</comment>
@@ -1148,6 +1620,10 @@
     <value>Auto-register Step Stage</value>
     <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{de48d434-0627-4248-3bac-1b6dad440cdb}'</comment>
   </data>
+  <data name="1:label,Auto-Numbering{e09c52ba-9e7a-a461-c18d-0e166a03a416}" xml:space="preserve">
+    <value>Index Streams</value>
+    <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{e09c52ba-9e7a-a461-c18d-0e166a03a416}'</comment>
+  </data>
   <data name="1:label,Auto-Numbering{e0a9607c-796a-d775-8096-39379e3b52e9}" xml:space="preserve">
     <value>Replacement Characters</value>
     <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{e0a9607c-796a-d775-8096-39379e3b52e9}'</comment>
@@ -1155,6 +1631,10 @@
   <data name="1:label,Auto-Numbering{e9b7b6df-a6bd-4042-802d-37095911c384}" xml:space="preserve">
     <value>Owner</value>
     <comment>'Auto-Numbering' : label for cell in Entity FormXml ID: '{e9b7b6df-a6bd-4042-802d-37095911c384}'</comment>
+  </data>
+  <data name="1:label,Auto-Numbering{eb6341a0-549c-2833-46a8-91901959a849}" xml:space="preserve">
+    <value>Section</value>
+    <comment>'Auto-Numbering' : label for section in Entity FormXml ID: '{eb6341a0-549c-2833-46a8-91901959a849}'</comment>
   </data>
   <data name="1:label,Auto-Numbering{ed3bddcb-d033-4429-a451-3946df927f24}" xml:space="preserve">
     <value>Status</value>
@@ -1212,6 +1692,14 @@
     <value>Yes</value>
     <comment>'ldv_autonumbering' : label for option '1' on Entity</comment>
   </data>
+  <data name="1:label,ldv_autonumberingldv_autonumbering_ldv_isuseindexstreams0" xml:space="preserve">
+    <value>No</value>
+    <comment>'ldv_autonumbering' : label for option '0' on Entity</comment>
+  </data>
+  <data name="1:label,ldv_autonumberingldv_autonumbering_ldv_isuseindexstreams1" xml:space="preserve">
+    <value>Yes</value>
+    <comment>'ldv_autonumbering' : label for option '1' on Entity</comment>
+  </data>
   <data name="1:label,ldv_autonumberingldv_autonumbering_ldv_isvalidateuniquestring0" xml:space="preserve">
     <value>No</value>
     <comment>'ldv_autonumbering' : label for option '0' on Entity</comment>
@@ -1264,6 +1752,22 @@
     <value>Inactive</value>
     <comment>'ldv_autonumbering' : label for status '2' on Entity</comment>
   </data>
+  <data name="1:label,ldv_autonumberingstreamldv_autonumberingstream_statecode0" xml:space="preserve">
+    <value>Active</value>
+    <comment>'ldv_autonumberingstream' : label for state '0' on Entity</comment>
+  </data>
+  <data name="1:label,ldv_autonumberingstreamldv_autonumberingstream_statecode1" xml:space="preserve">
+    <value>Inactive</value>
+    <comment>'ldv_autonumberingstream' : label for state '1' on Entity</comment>
+  </data>
+  <data name="1:label,ldv_autonumberingstreamldv_autonumberingstream_statuscode1" xml:space="preserve">
+    <value>Active</value>
+    <comment>'ldv_autonumberingstream' : label for status '1' on Entity</comment>
+  </data>
+  <data name="1:label,ldv_autonumberingstreamldv_autonumberingstream_statuscode2" xml:space="preserve">
+    <value>Inactive</value>
+    <comment>'ldv_autonumberingstream' : label for status '2' on Entity</comment>
+  </data>
   <data name="1:LocalizedCollectionName,ldv_autonumberingbacklogentityldv_autonumberingbacklog" xml:space="preserve">
     <value>Auto-Numbering Backlogs</value>
     <comment> 'ldv_autonumberingbacklog' : LocalizedCollectionName for Entity</comment>
@@ -1271,6 +1775,10 @@
   <data name="1:LocalizedCollectionName,ldv_autonumberingentityldv_autonumbering" xml:space="preserve">
     <value>Auto-Numberings</value>
     <comment> 'ldv_autonumbering' : LocalizedCollectionName for Entity</comment>
+  </data>
+  <data name="1:LocalizedCollectionName,ldv_autonumberingstreamentityldv_autonumberingstream" xml:space="preserve">
+    <value>Auto-Numbering Streams</value>
+    <comment> 'ldv_autonumberingstream' : LocalizedCollectionName for Entity</comment>
   </data>
   <data name="1:LocalizedName,Auto-Numbering Backlog{1de42d2c-e0fd-e711-80e5-00155d5f3d03}" xml:space="preserve">
     <value>My Auto-Numbering Backlogs</value>
@@ -1305,7 +1813,7 @@
     <comment>'Auto-Numbering Backlog' : LocalizedName for SavedQuery on Entity QueryId: '{8d6d1c8d-b725-464e-8e4d-7c8901909ff5}'</comment>
   </data>
   <data name="1:LocalizedName,Auto-Numbering Backlog{bc58d537-82dd-4478-b8ba-6d493aa1a285}" xml:space="preserve">
-    <value>Auto-Numering Backlog Form</value>
+    <value>Main Form</value>
     <comment>'Auto-Numbering Backlog' : LocalizedName for systemform in Entity FormXml ID: '{bc58d537-82dd-4478-b8ba-6d493aa1a285}'</comment>
   </data>
   <data name="1:LocalizedName,Auto-Numbering Backlog{cbb10577-ec3e-438c-90b2-a5b76a9d22a3}" xml:space="preserve">
@@ -1319,6 +1827,62 @@
   <data name="1:LocalizedName,Auto-Numbering Backlog{f5346a02-3725-47cf-ab91-99cc7fbefc0e}" xml:space="preserve">
     <value>Information</value>
     <comment>'Auto-Numbering Backlog' : LocalizedName for systemform in Entity FormXml ID: '{f5346a02-3725-47cf-ab91-99cc7fbefc0e}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{06715f13-42f9-e811-810d-00155d5f3d03}" xml:space="preserve">
+    <value>Auto-Numbering Streams Grid</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for SavedQuery on Entity QueryId: '{06715f13-42f9-e811-810d-00155d5f3d03}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{1ddbec18-e258-4787-8bf4-48635e32dfd7}" xml:space="preserve">
+    <value>Main Form</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for systemform in Entity FormXml ID: '{1ddbec18-e258-4787-8bf4-48635e32dfd7}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{4a165fcc-5fce-4a82-a326-a7f19a3c162c}" xml:space="preserve">
+    <value>Auto-Numbering Stream Lookup View</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for SavedQuery on Entity QueryId: '{4a165fcc-5fce-4a82-a326-a7f19a3c162c}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{548f2a2c-6bf8-e811-810c-00155d5f3d03}" xml:space="preserve">
+    <value>My Auto-Numbering Streams</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for SavedQuery on Entity QueryId: '{548f2a2c-6bf8-e811-810c-00155d5f3d03}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{834034e4-3144-4b82-9ca8-5239f0b0ded1}" xml:space="preserve">
+    <value>Quick Find Active Auto-Numbering Streams</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for SavedQuery on Entity QueryId: '{834034e4-3144-4b82-9ca8-5239f0b0ded1}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{88467514-1757-420d-b28d-89603a6ecf01}" xml:space="preserve">
+    <value>Information</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for systemform in Entity FormXml ID: '{88467514-1757-420d-b28d-89603a6ecf01}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{8e675c4e-69e0-47f2-af46-a5f3e4196666}" xml:space="preserve">
+    <value>Auto-Numbering Stream Advanced Find View</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for SavedQuery on Entity QueryId: '{8e675c4e-69e0-47f2-af46-a5f3e4196666}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{d3b5d997-d1cf-45a8-8313-b92dab7dbafc}" xml:space="preserve">
+    <value>Information</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for systemform in Entity FormXml ID: '{d3b5d997-d1cf-45a8-8313-b92dab7dbafc}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{d44228c3-5c28-4699-9a1d-ef053e5b8434}" xml:space="preserve">
+    <value>Inactive Auto-Numbering Streams</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for SavedQuery on Entity QueryId: '{d44228c3-5c28-4699-9a1d-ef053e5b8434}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{d9a6e24f-c09a-4a5e-a5a8-a856c146c4ba}" xml:space="preserve">
+    <value>Auto-Numbering Stream Associated View</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for SavedQuery on Entity QueryId: '{d9a6e24f-c09a-4a5e-a5a8-a856c146c4ba}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{e257cba1-6776-4649-b639-3e6b6be216ab}" xml:space="preserve">
+    <value>Quick Create Form</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for systemform in Entity FormXml ID: '{e257cba1-6776-4649-b639-3e6b6be216ab}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{ea5ccac1-dd73-460e-bde6-6603687d6b94}" xml:space="preserve">
+    <value>Information</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for systemform in Entity FormXml ID: '{ea5ccac1-dd73-460e-bde6-6603687d6b94}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{f4c0c879-a4af-4848-939c-336a65bb73fe}" xml:space="preserve">
+    <value>Information</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for systemform in Entity FormXml ID: '{f4c0c879-a4af-4848-939c-336a65bb73fe}'</comment>
+  </data>
+  <data name="1:LocalizedName,Auto-Numbering Stream{ffdcf873-18fb-4064-afc0-51c2bc6f24f8}" xml:space="preserve">
+    <value>Active Auto-Numbering Streams</value>
+    <comment>'Auto-Numbering Stream' : LocalizedName for SavedQuery on Entity QueryId: '{ffdcf873-18fb-4064-afc0-51c2bc6f24f8}'</comment>
   </data>
   <data name="1:LocalizedName,Auto-Numbering{1a23be44-9322-477a-8f7a-989db7fa3f7d}" xml:space="preserve">
     <value>Auto-Numbering Associated View</value>
@@ -1364,6 +1928,10 @@
     <value>Auto-Numbering</value>
     <comment> 'ldv_autonumbering' : LocalizedName for Entity</comment>
   </data>
+  <data name="1:LocalizedName,ldv_autonumberingstreamentityldv_autonumberingstream" xml:space="preserve">
+    <value>Auto-Numbering Stream</value>
+    <comment> 'ldv_autonumberingstream' : LocalizedName for Entity</comment>
+  </data>
   <data name="1:Title,Auto-Numbering BacklogInfo{bc58d537-82dd-4478-b8ba-6d493aa1a285}" xml:space="preserve">
     <value>Common</value>
     <comment>'Auto-Numbering Backlog' : Title for NavBarArea in Entity FormXml ID: 'Info'</comment>
@@ -1383,6 +1951,26 @@
   <data name="1:Title,Auto-Numbering BacklogService{bc58d537-82dd-4478-b8ba-6d493aa1a285}" xml:space="preserve">
     <value>Service</value>
     <comment>'Auto-Numbering Backlog' : Title for NavBarArea in Entity FormXml ID: 'Service'</comment>
+  </data>
+  <data name="1:Title,Auto-Numbering StreamInfo{1ddbec18-e258-4787-8bf4-48635e32dfd7}" xml:space="preserve">
+    <value>Common</value>
+    <comment>'Auto-Numbering Stream' : Title for NavBarArea in Entity FormXml ID: 'Info'</comment>
+  </data>
+  <data name="1:Title,Auto-Numbering StreamMarketing{1ddbec18-e258-4787-8bf4-48635e32dfd7}" xml:space="preserve">
+    <value>Marketing</value>
+    <comment>'Auto-Numbering Stream' : Title for NavBarArea in Entity FormXml ID: 'Marketing'</comment>
+  </data>
+  <data name="1:Title,Auto-Numbering StreamProcessCenter{1ddbec18-e258-4787-8bf4-48635e32dfd7}" xml:space="preserve">
+    <value>Process Sessions</value>
+    <comment>'Auto-Numbering Stream' : Title for NavBarArea in Entity FormXml ID: 'ProcessCenter'</comment>
+  </data>
+  <data name="1:Title,Auto-Numbering StreamSales{1ddbec18-e258-4787-8bf4-48635e32dfd7}" xml:space="preserve">
+    <value>Sales</value>
+    <comment>'Auto-Numbering Stream' : Title for NavBarArea in Entity FormXml ID: 'Sales'</comment>
+  </data>
+  <data name="1:Title,Auto-Numbering StreamService{1ddbec18-e258-4787-8bf4-48635e32dfd7}" xml:space="preserve">
+    <value>Service</value>
+    <comment>'Auto-Numbering Stream' : Title for NavBarArea in Entity FormXml ID: 'Service'</comment>
   </data>
   <data name="1:Title,Auto-NumberingInfo{eee9d255-928f-4650-8978-d02ce6f24ff6}" xml:space="preserve">
     <value>Common</value>

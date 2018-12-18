@@ -63,7 +63,7 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 			}
 
 			// only lock if an index is needed
-			if (autoNumberingConfig.FormatString.Contains("{>index}") && !isBackLogged)
+			if (autoNumberingConfig.FormatString.Contains("{!index!}") && !isBackLogged)
 			{
 				log.Log("Locking ...", LogLevel.Debug);
 

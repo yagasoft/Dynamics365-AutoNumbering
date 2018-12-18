@@ -4732,6 +4732,42 @@ namespace LinkDev.AutoNumbering.Plugins
 			}
 		}
 
+		[AttributeLogicalName("ldv_streamfieldname"), MaxLength(4000)]
+		public string StreamFieldName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ldv_streamfieldname");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ldv_streamfieldname"))
+				    value = (string) backupAttributeCollection["ldv_streamfieldname"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("StreamFieldName");
+					SetAttributeValue("ldv_streamfieldname", value);
+				OnPropertyChanged("StreamFieldName");
+			}
+		}
+
+		[AttributeLogicalName("ldv_streamfieldvalue"), MaxLength(1048576)]
+		public string StreamFieldValue
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ldv_streamfieldvalue");
+				if (value == null && backupAttributeCollection != null && backupAttributeCollection.Contains("ldv_streamfieldvalue"))
+				    value = (string) backupAttributeCollection["ldv_streamfieldvalue"];
+			    return value;
+			}
+			set
+			{
+				OnPropertyChanging("StreamFieldValue");
+					SetAttributeValue("ldv_streamfieldvalue", value);
+				OnPropertyChanged("StreamFieldValue");
+			}
+		}
+
 		[AttributeLogicalName("ldv_triggerid"), Required, MaxLength(36)]
 		public string TriggerID
 		{
@@ -5328,6 +5364,8 @@ namespace LinkDev.AutoNumbering.Plugins
 			public const string AutoNumberingConfig = "ldv_autonumberingconfigid";
 			public const string IndexValue = "ldv_indexvalue";
 			public const string Name = "ldv_name";
+			public const string StreamFieldName = "ldv_streamfieldname";
+			public const string StreamFieldValue = "ldv_streamfieldvalue";
 			public const string TriggerID = "ldv_triggerid";
 			public const string ModifiedBy = "modifiedby";
 			public const string ModifiedOn = "modifiedon";
@@ -5357,6 +5395,8 @@ namespace LinkDev.AutoNumbering.Plugins
 				public const string AutoNumberingConfig = "ldv_AutoNumberingConfigId";
 				public const string IndexValue = "ldv_IndexValue";
 				public const string Name = "ldv_name";
+				public const string StreamFieldName = "ldv_StreamFieldName";
+				public const string StreamFieldValue = "ldv_StreamFieldValue";
 				public const string TriggerID = "ldv_TriggerID";
 				public const string ModifiedBy = "ModifiedBy";
 				public const string ModifiedOn = "ModifiedOn";
@@ -5417,6 +5457,16 @@ namespace LinkDev.AutoNumbering.Plugins
 				public static class Name
 				{
 					public const string _1033 = "Name";
+				}
+
+				public static class StreamFieldName
+				{
+					public const string _1033 = "Stream Field Name";
+				}
+
+				public static class StreamFieldValue
+				{
+					public const string _1033 = "Stream Field Value";
 				}
 
 				public static class TriggerID

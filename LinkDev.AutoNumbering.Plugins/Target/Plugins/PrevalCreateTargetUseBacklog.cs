@@ -75,7 +75,7 @@ namespace LinkDev.AutoNumbering.Plugins.Target.Plugins
 					+ $" with ID '{config}'.");
 			}
 
-			if (autoNumberConfig.FormatString.Contains("{>index}") && autoNumberConfig.UseBacklog == true)
+			if (autoNumberConfig.FormatString.Contains("{!index!}") && autoNumberConfig.UseBacklog == true)
 			{
 				var triggerId = Guid.NewGuid().ToString();
 

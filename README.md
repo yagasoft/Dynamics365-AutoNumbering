@@ -2,7 +2,7 @@
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yagasoft/DynamicsCrm-AutoNumbering?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-### Version: 3.1.1.1
+### Version: 3.2.1.1
 ---
 
 A CRM solution that gives a lot of flexibility in creating any pattern required for auto-numbering.
@@ -28,7 +28,7 @@ A CRM solution that gives a lot of flexibility in creating any pattern required 
 
 #### _Format String_
 
-`Test-{{casetypecode}==1??{createdon@hh:mm}::WRONG_TYPE}-{!un-5}-{@yyyy}-{>index-casetypecode}-{>param3}`
+`Test-{{createdon}??{createdon@hh:mm}::NO_DATE}-{!rand!$un:5}-{!now!yyyy}-{!index!casetypecode}-{!param!3}`
 
 #### _Input parameters_
   + Current index: 5
@@ -43,7 +43,6 @@ A CRM solution that gives a lot of flexibility in creating any pattern required 
 ### Guide
 
 Please check the 'docs' folder for a guide PDF.
-I will post a complete guide soon.
 
 ### Dependencies
 
@@ -54,6 +53,8 @@ I will post a complete guide soon.
 		
 ## Changes
 
+#### _v3.2.1.1 (2018-12-18)_
++ Changed: upgraded to the new placeholder system
 #### _v3.1.1.1 (2018-12-05)_
 + Added: index streams
 + Improved: use more advanced placeholders

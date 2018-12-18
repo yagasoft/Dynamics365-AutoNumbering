@@ -24,140 +24,127 @@ namespace LinkDev.AutoNumbering.Plugins.Helpers
 		private readonly Entity entity;
 		private readonly CrmLog log;
 
-		internal Parser(IOrganizationService service, Entity entity, CrmLog log)
+		private readonly Guid userIdForTimeZone;
+		private readonly string orgId;
+
+		private readonly IDictionary<string, string> cachedValues;
+
+
+		internal Parser(IOrganizationService service, Entity entity, CrmLog log, Guid userIdForTimeZone, string orgId, 
+			IDictionary<string, string> cachedValues)
 		{
 			this.log = log;
 			this.service = service;
 			this.entity = entity;
+			this.userIdForTimeZone = userIdForTimeZone;
+			this.orgId = orgId;
+			this.cachedValues = cachedValues;
 		}
 
 		internal string ParseParamVariables(string rawString, IEnumerable<string> inputParamsParam)
 		{
 			var inputParams = inputParamsParam?.ToArray();
-			var formatParamCount = Regex.Matches(rawString, @"{>param\d+?}").Count;
-
-			if (inputParams == null || formatParamCount > inputParams.Length)
-			{
-				throw new InvalidPluginExecutionException(
-					$"Param count mismatch: format string param count => {formatParamCount}, "
-						+ $"input param count => {inputParams?.Length ?? 0}");
-			}
+			inputParams.Require(nameof(inputParams));
 
 			return Regex.Replace(
-				rawString, @"{>param(\d+?)}",
+				rawString, @"{!param!((?>(?<c1>{)|[^{}]+?|(?<-c1>}))*?)(?(c1)(?!))}",
 				match =>
 				{
-					if (match.Success)
+					if (!match.Success)
 					{
-						var rawVariable = match.Groups[1].Value;
+						return "";
+					}
 
-						try
-						{
-							var paramIndex = int.Parse(rawVariable);
+					var rawVariable = match.Groups[1].Value;
 
-							if (paramIndex < 1 || paramIndex > inputParams.Length)
-							{
-								throw new InvalidPluginExecutionException($"Parameter number is invalid => \"{rawVariable}\"");
-							}
+					try
+					{
+						rawVariable = Libraries.Common.CrmHelpers.ParseAttributeVariables(service, rawVariable, entity,
+							userIdForTimeZone, orgId, cachedValues);
 
-							return inputParams[paramIndex - 1];
-						}
-						catch (FormatException)
+						var paramIndex = int.Parse(rawVariable);
+
+						if (paramIndex < 1 || paramIndex > inputParams.Length)
 						{
 							throw new InvalidPluginExecutionException($"Parameter number is invalid => \"{rawVariable}\"");
 						}
-					}
 
-					return "";
+						return inputParams[paramIndex - 1];
+					}
+					catch (FormatException)
+					{
+						throw new InvalidPluginExecutionException($"Parameter number is invalid => \"{rawVariable}\"");
+					}
 				});
 		}
 
-		internal string ParseAttributeVariables(string rawString, Guid userIdForTimeZone, string orgId)
+		internal string ParseAttributeVariables(string rawString)
 		{
-			var otherPlaceholders = new[] { ">index", ">param", "!", "@" };
-
-			foreach (var placeholder in otherPlaceholders)
-			{
-				rawString = Regex.Replace(rawString,
-					@"{(" + placeholder + @"(?:(?:(?>(?<c1>{)|[^{}]+?|(?<-c1>}))*?(?(c1)(?!))::(?>(?<c2>{)|[^{}]+?|(?<-c2>}))*?(?(c2)(?!)))|.*?))}",
-					match =>
-					{
-						if (match.Success)
-						{
-							return $"$$$$${match.Groups[1].Value}#####";
-						}
-
-						return "";
-					});
-			}
-
-			var parsedString = Libraries.Common.CrmHelpers.ParseAttributeVariables(service, rawString, entity,
-				userIdForTimeZone, orgId);
-
-			return parsedString.Replace("$$$$$", "{").Replace("#####", "}");
+			return Libraries.Common.CrmHelpers.ParseAttributeVariables(service, rawString, entity,
+				userIdForTimeZone, orgId, cachedValues);
 		}
 
 		internal string ParseRandomStringVariables(string rawString, bool isLetterStart, int numberLetterRatio = -1)
 		{
 			return Regex.Replace(
-				rawString, @"{!.*?}",
-				match =>
+				rawString, @"{!rand!((?>(?<c1>{)|[^{}]+?|(?<-c1>}))*?)(?(c1)(?!))}",
+				matchT =>
 				{
-					if (match.Success)
+					if (!matchT.Success)
 					{
-						var rawVariable = match.Value;
-
-						// clean the variables from their delimiters, and extract its sections
-						var variable = rawVariable.Replace("{", "").Replace("}", "").TrimStart('!').Split('-');
-
-						if (variable.Length < 2)
-						{
-							throw new InvalidPluginExecutionException("Couldn't parse the random string! => " + rawVariable);
-						}
-
-						// if a pool of symbols was already supplied
-						if (variable[0].Contains(","))
-						{
-							return RandomGenerator.GetRandomString(int.Parse(variable[1]), isLetterStart,numberLetterRatio,
-								variable[0].Split(','));
-						}
-						else
-						{
-							if (!variable[0].Contains("u") && !variable[0].Contains("l") && !variable[0].Contains("n"))
-							{
-								throw new InvalidPluginExecutionException("Couldn't parse the random string! => " + rawVariable);
-							}
-
-							const string flagIndexer = "uln";
-							var flags = variable[0].Select(flag => (RandomGenerator.SymbolFlag) flagIndexer.IndexOf(flag))
-								.ToList();
-
-							return RandomGenerator.GetRandomString(int.Parse(variable[1]), isLetterStart,numberLetterRatio,
-								flags.ToArray());
-						}
+						return "";
 					}
 
-					return "";
+					var rawVariable = matchT.Groups[1].Value;
+					rawVariable = Libraries.Common.CrmHelpers.ParseAttributeVariables(service, rawVariable, entity,
+						userIdForTimeZone, orgId, cachedValues);
+
+					return Regex.Replace(
+						rawVariable, @"^(?:\$((?:u|l|n){1,3})|([^$](?:.*?,?)*))-(\d+)$",
+						match =>
+						{
+							if (!match.Success)
+							{
+								return "";
+							}
+
+							var rawPools = match.Groups[1].Value;
+							var customPool = match.Groups[2].Value;
+							var length = int.Parse(match.Groups[3].Value);
+
+							if (rawPools.IsNotEmpty())
+							{
+								const string flagIndexer = "uln";
+								var flags = rawPools.Select(flag => (RandomGenerator.SymbolFlag)flagIndexer.IndexOf(flag))
+									.ToList();
+
+								return RandomGenerator.GetRandomString(length, isLetterStart, numberLetterRatio,
+									flags.ToArray());
+							}
+
+							return RandomGenerator.GetRandomString(length, isLetterStart, numberLetterRatio,
+								customPool.Split(','));
+						});
 				});
 		}
 
-		internal string ParseDateVariables(string rawString, Guid userIdForTimeZone)
+		internal string ParseDateVariables(string rawString)
 		{
 			return Regex.Replace(
-				rawString, @"{@.*?}",
+				rawString, @"{!now!((?>(?<c1>{)|[^{}]+?|(?<-c1>}))*?)(?(c1)(?!))}",
 				match =>
 				{
-					if (match.Success)
+					if (!match.Success)
 					{
-						var rawVariable = match.Value;
-
-						// clean the variables from their delimiters, and format it as a date
-						var variable = rawVariable.Replace("{", "").Replace("}", "").TrimStart('@');
-						var date = DateTime.UtcNow.ConvertToCrmUserTimeZone(service, userIdForTimeZone);
-						return string.Format("{0:" + variable + "}", date);
+						return "";
 					}
 
-					return "";
+					var rawVariable = match.Groups[1].Value;
+					rawVariable = Libraries.Common.CrmHelpers.ParseAttributeVariables(service, rawVariable, entity,
+						userIdForTimeZone, orgId, cachedValues);
+
+					var date = DateTime.UtcNow.ConvertToCrmUserTimeZone(service, userIdForTimeZone);
+					return string.Format("{0:" + rawVariable + "}", date);
 				});
 		}
 	}

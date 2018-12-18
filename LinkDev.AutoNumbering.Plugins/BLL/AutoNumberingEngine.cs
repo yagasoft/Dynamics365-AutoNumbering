@@ -38,6 +38,8 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 
 		private readonly string orgId;
 
+		private readonly IDictionary<string, string> cachedValues = new Dictionary<string, string>();
+
 		internal AutoNumberingEngine(IOrganizationService service, CrmLog log,
 			AutoNumbering autoNumberConfig, Entity target, Entity image, string orgId,
 			IEnumerable<string> inputParams = null)
@@ -155,20 +157,19 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 
 		private Result GenerateString(bool isUpdate, AutoNumbering updatedAutoNumbering)
 		{
-			var parser = new Parser(service, image, log);
+			var parser = new Parser(service, image, log, autoNumberConfig.Owner.Id, orgId, cachedValues);
 
 			log.Log("Preparing attribute variables ...");
-			var generatedString = parser.ParseAttributeVariables(autoNumberConfig.FormatString ?? "",
-				autoNumberConfig.Owner.Id, orgId);
+			var generatedString = parser.ParseAttributeVariables(autoNumberConfig.FormatString ?? "");
 			log.Log($"Generated string: {generatedString}");
 
 			if (!isInlineConfig)
 			{
-				if (Regex.Matches(generatedString, @"{>param\d+?}").Count > 0)
+				if (Regex.Matches(generatedString, @"{!param!.+?}").Count > 0)
 				{
 					log.Log("Preparing param variables ...");
 					generatedString = parser.ParseParamVariables(generatedString, inputParams);
-			log.Log($"Generated string: {generatedString}");
+					log.Log($"Generated string: {generatedString}");
 				}
 			}
 
@@ -190,7 +191,7 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 			log.Log($"Generated string: {generatedString}");
 
 			log.Log("Preparing date variables ...");
-			generatedString = parser.ParseDateVariables(generatedString, autoNumberConfig.Owner.Id);
+			generatedString = parser.ParseDateVariables(generatedString);
 			log.Log($"Generated string: {generatedString}");
 
 			if (!isInlineConfig)
@@ -286,7 +287,7 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 
 			#endregion
 
-			generatedString = Regex.Replace(generatedString, @"{>index(-(.+?)::(.*?))?}",
+			generatedString = Regex.Replace(generatedString, @"{!index!(?:(\w+?)(?::(.*?))?)?}",
 				match =>
 				{
 					var index = ProcessIndex(match, isReset, resetValue, isUpdate, updatedAutoNumbering);
@@ -301,7 +302,9 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 
 		private int ProcessIndex(Match match, bool isReset, int resetValue, bool isUpdate, AutoNumbering updatedAutoNumbering)
 		{
-			var isDefaultIndex = match.Value == @"{>index}";
+			var fieldName = match.Groups[1].Value;
+			var fieldValue = match.Groups[2].Value;
+			var isDefaultIndex = !fieldName.IsNotEmpty();
 			var currentIndex = 0;
 			AutoNumberingStream stream = null;
 
@@ -310,48 +313,44 @@ namespace LinkDev.AutoNumbering.Plugins.BLL
 				log.Log("Using default index.");
 				currentIndex = autoNumberConfig.CurrentIndex.GetValueOrDefault();
 			}
-			else
+			else if (match.Success)
 			{
-				if (match.Success)
-				{
-					log.Log($"Parsing stream '{match.Groups[1].Value}' ...");
-					var fieldName = match.Groups[2].Value;
-					var fieldValue = match.Groups[3].Value.IsNotEmpty()
-						? match.Groups[3].Value
-						: null;
-					log.Log($"Field name: {fieldName}");
-					log.Log($"Field value: {fieldValue}");
+				fieldValue = fieldValue.IsNotEmpty()
+					? fieldValue
+					: Libraries.Common.CrmHelpers.GetAttributeStringValue(image.GetAttributeValue<object>(fieldName));
+				log.Log($"Parsing stream '{match.Value}' ...");
+				log.Log($"Field name: {fieldName}");
+				log.Log($"Field value: {fieldValue}");
 
-					log.Log($"Retrieving stream ...");
-					stream =
-						(from s in new XrmServiceContext(service) { MergeOption = MergeOption.NoTracking }.AutoNumberingStreamSet
-						 where s.FieldName == fieldName && s.FieldValue == fieldValue
-							 && s.AutoNumberingConfig == autoNumberConfig.Id
-						 select new AutoNumberingStream
-								{
-									Id = s.Id,
-									CurrentIndex = s.CurrentIndex
-								}).FirstOrDefault();
-
-					if (stream == null)
-					{
-						log.Log($"Couldn't find stream.");
-						stream =
-							new AutoNumberingStream
+				log.Log($"Retrieving stream ...");
+				stream =
+					(from s in new XrmServiceContext(service) { MergeOption = MergeOption.NoTracking }.AutoNumberingStreamSet
+					 where s.FieldName == fieldName && s.FieldValue == fieldValue
+						 && s.AutoNumberingConfig == autoNumberConfig.Id
+					 select new AutoNumberingStream
 							{
-								CurrentIndex = 0,
-								FieldName = fieldName,
-								FieldValue = fieldValue,
-								AutoNumberingConfig = autoNumberConfig.Id
-							};
+								Id = s.Id,
+								CurrentIndex = s.CurrentIndex
+							}).FirstOrDefault();
 
-						log.Log("Creating new stream ...");
-						stream.Id = service.Create(stream);
-						log.Log("Finished creating new stream.");
-					}
+				if (stream == null)
+				{
+					log.Log($"Couldn't find stream.");
+					stream =
+						new AutoNumberingStream
+						{
+							CurrentIndex = 0,
+							FieldName = fieldName,
+							FieldValue = fieldValue,
+							AutoNumberingConfig = autoNumberConfig.Id
+						};
 
-					currentIndex = stream.CurrentIndex.GetValueOrDefault();
+					log.Log("Creating new stream ...");
+					stream.Id = service.Create(stream);
+					log.Log("Finished creating new stream.");
 				}
+
+				currentIndex = stream.CurrentIndex.GetValueOrDefault();
 			}
 
 			log.Log($"Current index: {currentIndex}.");

@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "licence", "licence", "{CE4B8CCD-907E-433D-BD13-32A0A2D134EE}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yagasoft.AutoNumbering.WebResources", "Yagasoft.AutoNumbering.WebResources\Yagasoft.AutoNumbering.WebResources.csproj", "{68AE4F81-2A1B-40CC-B182-1178C03E69AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yagasoft.AutoNumbering.Plugins", "Yagasoft.AutoNumbering.Plugins\Yagasoft.AutoNumbering.Plugins.csproj", "{94B1719A-FE4B-4B1A-97B1-61BB30AEB11D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{68AE4F81-2A1B-40CC-B182-1178C03E69AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68AE4F81-2A1B-40CC-B182-1178C03E69AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68AE4F81-2A1B-40CC-B182-1178C03E69AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68AE4F81-2A1B-40CC-B182-1178C03E69AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94B1719A-FE4B-4B1A-97B1-61BB30AEB11D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94B1719A-FE4B-4B1A-97B1-61BB30AEB11D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94B1719A-FE4B-4B1A-97B1-61BB30AEB11D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94B1719A-FE4B-4B1A-97B1-61BB30AEB11D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5C764B43-87C0-4535-93CE-22C37D60DF8A}
+	EndGlobalSection
+EndGlobal

@@ -2,7 +2,7 @@
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yagasoft/DynamicsCrm-AutoNumbering?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-### Version: 3.2.2.1
+### Version: 4.1.1.1
 ---
 
 A CRM solution that gives a lot of flexibility in creating any pattern required for auto-numbering.
@@ -53,6 +53,8 @@ Please check the 'docs' folder for a guide PDF.
 		
 ## Changes
 
+#### _v4.1.1.1 (2019-02-27)_
++ Changed: moved to a new namespace
 #### _v3.2.2.1 (2018-12-19)_
 + Changed: upgraded to the new placeholder system
 #### _v3.1.1.1 (2018-12-05)_
@@ -65,4 +67,4 @@ Please check the 'docs' folder for a guide PDF.
 + Changed: cleaned the project of obsolete components
 
 ---
-**Copyright &copy; by Ahmed el-Sawalhy ([Yagasoft](http://yagasoft.com))** -- _GPL v3 Licence_
+**Copyright &copy; by Ahmed Elsawalhy ([Yagasoft](http://yagasoft.com))** -- _GPL v3 Licence_

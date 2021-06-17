@@ -93,6 +93,8 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 		internal static AutoNumbering GetAutoNumberingConfig(Entity target, string config,
 			IPluginExecutionContext context, IOrganizationService service, CrmLog log, out bool isBackLogged)
 		{
+			context.Require(nameof(context));
+
 			var xrmContext = new XrmServiceContext(service) { MergeOption = MergeOption.NoTracking };
 
 			var configIds = config.Split(',').Select(item => item.Trim()).ToArray();

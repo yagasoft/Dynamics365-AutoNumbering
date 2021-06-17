@@ -37,28 +37,28 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
 		protected override void ExecuteLogic()
 		{
 			// get the triggering record
-			var target = (Entity)context.InputParameters["Target"];
+			var target = (Entity)Context.InputParameters["Target"];
 
-			if (log.MaxLogLevel >= LogLevel.Debug)
+			if (Log.MaxLogLevel >= LogLevel.Debug)
 			{
-				Libraries.Common.CrmHelpers.LogAttributeValues(target.Attributes, target, log, "Target Attributes");
+				Libraries.Common.CrmHelpers.LogAttributeValues(target.Attributes, target, Log, "Target Attributes");
 			}
 
-			var autoNumberConfig = context.PostEntityImages.FirstOrDefault().Value?.ToEntity<AutoNumbering>();
+			var autoNumberConfig = Context.PostEntityImages.FirstOrDefault().Value?.ToEntity<AutoNumbering>();
 
 			if (autoNumberConfig == null)
 			{
 				throw new InvalidPluginExecutionException($"Must register a full post image on step.");
 			}
 
-			if (log.MaxLogLevel >= LogLevel.Debug)
+			if (Log.MaxLogLevel >= LogLevel.Debug)
 			{
-				Libraries.Common.CrmHelpers.LogAttributeValues(autoNumberConfig.Attributes, autoNumberConfig, log, "Post Image Attributes");
+				Libraries.Common.CrmHelpers.LogAttributeValues(autoNumberConfig.Attributes, autoNumberConfig, Log, "Post Image Attributes");
 			}
 
 			if (string.IsNullOrEmpty(autoNumberConfig.TriggerID))
 			{
-				log.LogWarning($"Trigger ID is empty.");
+				Log.LogWarning($"Trigger ID is empty.");
 				return;
 			}
 
@@ -78,7 +78,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
 					AutoNumberingConfig = config.Id,
 				};
 
-			// get an old backlog, if not, then create a new one
+			// get an old backLog, if not, then create a new one
 			if (threshold.HasValue)
 			{
 				var queryXml =
@@ -94,15 +94,15 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
     <order attribute='ldv_indexvalue' />
   </entity>
 </fetch>";
-				log.LogDebug("Query XML", queryXml);
+				Log.LogDebug("Query XML", queryXml);
 
-				log.Log($"Retrieving first old backlog entry older than {threshold.Value} ...");
-				var backlogEntryTemp = service.RetrieveMultiple(new FetchExpression(queryXml)).Entities.FirstOrDefault();
-				log.Log($"Finished retrieving first old backlog entry.");
+				Log.Log($"Retrieving first old backlog entry older than {threshold.Value} ...");
+				var backlogEntryTemp = Service.RetrieveMultiple(new FetchExpression(queryXml)).Entities.FirstOrDefault();
+				Log.Log($"Finished retrieving first old backlog entry.");
 
 				if (backlogEntryTemp == null)
 				{
-					log.Log($"Couldn't find any old backlog entries.");
+					Log.Log($"Couldn't find any old backlog entries.");
 
 					var updatedAutoNumbering =
 						new AutoNumbering
@@ -112,9 +112,9 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
 
 					backlogEntry.IndexValue = Helper.GetNextIndex(config, updatedAutoNumbering);
 
-					log.Log("Incrementing auto-numbering config's index ...");
-					service.Update(updatedAutoNumbering);
-					log.Log("Finished incrementing auto-numbering config's index.");
+					Log.Log("Incrementing auto-numbering config's index ...");
+					Service.Update(updatedAutoNumbering);
+					Log.Log("Finished incrementing auto-numbering config's index.");
 				}
 				else
 				{
@@ -125,13 +125,13 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
 			backlogEntry.TriggerID = triggerId;
 			backlogEntry.KeyAttributes.Add(AutoNumberingBacklog.Fields.TriggerID, triggerId);
 
-			log.Log($"Upserting backlog with trigger ID '{triggerId}' and index {index} ...");
-			service.Execute(
+			Log.Log($"Upserting backlog with trigger ID '{triggerId}' and index {index} ...");
+			Service.Execute(
 				new UpsertRequest
 				{
 					Target = backlogEntry
 				});
-			log.Log($"Finished Upserting backlog.");
+			Log.Log($"Finished Upserting backLog.");
 		}
 	}
 }

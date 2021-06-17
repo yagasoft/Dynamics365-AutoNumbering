@@ -50,15 +50,15 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 		protected override void ExecuteLogic()
 		{
 			// get the triggering record
-			var target = (Entity)context.InputParameters["Target"];
+			var target = (Entity)Context.InputParameters["Target"];
 
-			if (log.MaxLogLevel >= LogLevel.Debug)
+			if (Log.MaxLogLevel >= LogLevel.Debug)
 			{
-				Libraries.Common.CrmHelpers.LogAttributeValues(target.Attributes, target, log, "Target Attributes");
+				Libraries.Common.CrmHelpers.LogAttributeValues(target.Attributes, target, Log, "Target Attributes");
 			}
 
 			var autoNumberConfig =
-				(from autoNumberQ in new XrmServiceContext(service).AutoNumberingSet
+				(from autoNumberQ in new XrmServiceContext(Service).AutoNumberingSet
 				 where autoNumberQ.UniqueID == config
 					 && autoNumberQ.Status == AutoNumbering.StatusEnum.Active
 				 select new AutoNumbering
@@ -79,17 +79,17 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 			{
 				var triggerId = Guid.NewGuid().ToString();
 
-				log.Log($"Updating config with trigger ID '{triggerId}' ...");
-				service.Update(
+				Log.Log($"Updating config with trigger ID '{triggerId}' ...");
+				Service.Update(
 					new AutoNumbering
 					{
 						Id = autoNumberConfig.Id,
 						TriggerID = triggerId
 					});
-				log.Log($"Finished updating config with trigger ID.");
+				Log.Log($"Finished updating config with trigger ID.");
 
-				context.SharedVariables["AutoNumberingTriggerId"] = triggerId;
-				log.Log($"Added trigger ID to shared variables.");
+				Context.SharedVariables["AutoNumberingTriggerId"] = triggerId;
+				Log.Log($"Added trigger ID to shared variables.");
 			}
 		}
 	}

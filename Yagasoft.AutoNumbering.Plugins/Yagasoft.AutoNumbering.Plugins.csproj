@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Yagasoft.AutoNumbering.Plugins</RootNamespace>
     <AssemblyName>Yagasoft.AutoNumbering.Plugins</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <SccProjectName>SAK</SccProjectName>
@@ -47,18 +47,14 @@
       <HintPath>..\packages\CrmLogger.Fody.1.3.4\lib\net452\CrmLogger.Fody.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.8.2.0.2\lib\net452\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
+    <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.12\lib\net462\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.IdentityModel, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.6.1.7600.16394\lib\net35\Microsoft.IdentityModel.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Xrm.Sdk, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.9.0.2.12\lib\net462\Microsoft.Xrm.Sdk.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Xrm.Sdk, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CrmSdk.CoreAssemblies.8.2.0.2\lib\net452\Microsoft.Xrm.Sdk.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Xrm.Sdk.Workflow, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CrmSdk.Workflow.8.2.0.2\lib\net452\Microsoft.Xrm.Sdk.Workflow.dll</HintPath>
+    <Reference Include="Microsoft.Xrm.Sdk.Workflow, Version=9.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CrmSdk.Workflow.9.0.2.12\lib\net462\Microsoft.Xrm.Sdk.Workflow.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -95,6 +91,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CrmSchema.tt</DependentUpon>
     </Compile>
+    <Compile Include="CrmSchemaBase.cs">
+      <DependentUpon>CrmSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CrmSchemaContracts.cs">
+      <DependentUpon>CrmSchema.tt</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\RegistrationHelper.cs" />
     <Compile Include="Target\Plugins\PostUpdateTargetAutoNum.cs" />
     <Compile Include="Target\Plugins\PostCreateTargetAutoNum.cs" />
@@ -108,14 +110,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CrmSchema.dat" />
+    <None Include="CrmSchema-Config.json" />
     <None Include="CrmSchema.tt">
       <Generator>CrmCodeGenerator2011</Generator>
       <LastGenOutput>CrmSchema.cs</LastGenOutput>
     </None>
     <None Include="key.snk" />
     <None Include="packages.config" />
-    <None Include="PluginRegExt.dat" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

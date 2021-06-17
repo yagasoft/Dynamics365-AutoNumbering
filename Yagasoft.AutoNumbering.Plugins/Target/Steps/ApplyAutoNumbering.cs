@@ -51,36 +51,36 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Steps
 		[NoLog]
 		protected override void ExecuteLogic()
 		{
-			var inputParams = codeActivity.InputParam.Get(executionContext)?.Split(';').Select(param => param.Trim());
-			var autoNumberId = codeActivity.AutoNumberRef.Get(executionContext).Id;
+			var inputParams = codeActivity.InputParam.Get(ExecutionContext)?.Split(';').Select(param => param.Trim());
+			var autoNumberId = codeActivity.AutoNumberRef.Get(ExecutionContext).Id;
 
 			// get it once to check for generator field update below
-			log.Log("Getting auto-numbering config ...");
+			Log.Log("Getting auto-numbering config ...");
 			var autoNumberTest =
-				(from autoNumberQ in new XrmServiceContext(service).AutoNumberingSet
+				(from autoNumberQ in new XrmServiceContext(Service).AutoNumberingSet
 				 where autoNumberQ.AutoNumberingId == autoNumberId
 					 && autoNumberQ.Status == AutoNumbering.StatusEnum.Active
 				 select autoNumberQ).FirstOrDefault();
 
-			log.Log("Getting target ...");
-			var target = context.PostEntityImages.FirstOrDefault().Value
-				?? service.Retrieve(context.PrimaryEntityName, context.PrimaryEntityId, new ColumnSet(true));
+			Log.Log("Getting target ...");
+			var target = Context.PostEntityImages.FirstOrDefault().Value
+				?? Service.Retrieve(Context.PrimaryEntityName, Context.PrimaryEntityId, new ColumnSet(true));
 
-			var autoNumberConfig = Helper.PreValidation(service, target, autoNumberTest, log, false, false);
+			var autoNumberConfig = Helper.PreValidation(Service, target, autoNumberTest, Log, false, false);
 
 			if (autoNumberConfig == null)
 			{
-				log.Log("Couldn't find auto-numbering record.", LogLevel.Warning);
+				Log.Log("Couldn't find auto-numbering record.", LogLevel.Warning);
 				return;
 			}
 
-			var autoNumbering = new AutoNumberingEngine(service, log, autoNumberConfig, target, target,
-				context.OrganizationId.ToString(), inputParams);
-			var result = autoNumbering.GenerateAndUpdateRecord(isUpdate: context.MessageName == "Update");
+			var autoNumbering = new AutoNumberingEngine(Service, Log, autoNumberConfig, target, target,
+				Context.OrganizationId.ToString(), inputParams);
+			var result = autoNumbering.GenerateAndUpdateRecord(isUpdate: Context.MessageName == "Update");
 
-			codeActivity.Index.Set(executionContext, result.Index);
-			codeActivity.IndexString.Set(executionContext, result.IndexString);
-			codeActivity.GeneratedString.Set(executionContext, result.GeneratedString);
+			codeActivity.Index.Set(ExecutionContext, result.Index);
+			codeActivity.IndexString.Set(ExecutionContext, result.IndexString);
+			codeActivity.GeneratedString.Set(ExecutionContext, result.GeneratedString);
 		}
 	}
 }

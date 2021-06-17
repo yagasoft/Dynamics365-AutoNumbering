@@ -1,8 +1,8 @@
-# DynamicsCrm-AutoNumbering
+# Dynamics365-AutoNumbering
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yagasoft/DynamicsCrm-AutoNumbering?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-### Version: 4.1.1.1
+### Version: 4.2.1.1
 ---
 
 A CRM solution that gives a lot of flexibility in creating any pattern required for auto-numbering.
@@ -48,11 +48,12 @@ Please check the 'docs' folder for a guide PDF.
 
   + Common.cs
     + Can be found in the [DynamicsCrm-Libraries](https://github.com/yagasoft/DynamicsCrm-Libraries) repository
-  + Generic Base solution ([DynamicsCrm-BaseSolution](https://github.com/yagasoft/DynamicsCrm-BaseSolution))
-  + CRM Logger solution ([DynamicsCrm-CrmLogger](https://github.com/yagasoft/DynamicsCrm-CrmLogger))
+  + YS Common solution ([Dynamics365-YsCommonSolution](https://github.com/yagasoft/Dynamics365-YsCommonSolution))
 		
 ## Changes
 
+#### _v4.2.1.1 (2021-04-21)_
++ Changed: moved to a managed solution with dependency on a new base solution
 #### _v4.1.1.1 (2019-02-27)_
 + Changed: moved to a new namespace
 #### _v3.2.2.1 (2018-12-19)_
@@ -67,4 +68,4 @@ Please check the 'docs' folder for a guide PDF.
 + Changed: cleaned the project of obsolete components
 
 ---
-**Copyright &copy; by Ahmed Elsawalhy ([Yagasoft](http://yagasoft.com))** -- _GPL v3 Licence_
+**Copyright &copy; by Ahmed Elsawalhy ([Yagasoft](https://yagasoft.com))** -- _GPL v3 Licence_

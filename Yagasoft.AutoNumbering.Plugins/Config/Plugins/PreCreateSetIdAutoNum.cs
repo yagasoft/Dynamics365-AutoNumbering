@@ -28,7 +28,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
 
 		protected override void ExecuteLogic()
 		{
-			var target = (Entity) context.InputParameters["Target"];
+			var target = (Entity) Context.InputParameters["Target"];
 			target[AutoNumbering.Fields.UniqueID] = target.Id.ToString();
 		}
 	}

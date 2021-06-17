@@ -28,9 +28,9 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Register
 		[NoLog]
 		protected override void ExecuteLogic()
 		{
-			var preImage = context.PreEntityImages.FirstOrDefault().Value?.ToEntity<AutoNumbering>();
-			var postImage = context.PostEntityImages.FirstOrDefault().Value?.ToEntity<AutoNumbering>();
-			new RegistrationHelper(service, log).RegisterStageConfigSteps(preImage, postImage);
+			var preImage = Context.PreEntityImages.FirstOrDefault().Value?.ToEntity<AutoNumbering>();
+			var postImage = Context.PostEntityImages.FirstOrDefault().Value?.ToEntity<AutoNumbering>();
+			new RegistrationHelper(Service, Log).RegisterStageConfigSteps(preImage, postImage);
 		}
 	}
 }

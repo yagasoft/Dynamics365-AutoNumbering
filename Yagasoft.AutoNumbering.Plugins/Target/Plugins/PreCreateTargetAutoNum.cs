@@ -49,17 +49,18 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 
 		protected override void ExecuteLogic()
 		{
-			xrmContext = new XrmServiceContext(service) {MergeOption = MergeOption.NoTracking};
+			xrmContext = new XrmServiceContext(Service) {MergeOption = MergeOption.NoTracking};
 
-			log.Log("Getting target ...");
-			var target = (Entity)context.InputParameters["Target"];
+			Log.Log("Getting target ...");
+			var target = (Entity)Context.InputParameters["Target"];
 
 
-			var autoNumberConfig = Helper.GetAutoNumberingConfig(target, config, context, service, log, out var isBackLogged);
+			var autoNumberConfig = Helper.GetAutoNumberingConfig(target, config,
+                Context as IPluginExecutionContext, Service, Log, out var isBackLogged);
 
 			if (autoNumberConfig == null)
 			{
-				log.Log($"Exiting.", LogLevel.Warning);
+				Log.Log($"Exiting.", LogLevel.Warning);
 				return;
 			}
 
@@ -71,8 +72,8 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 
 			var image = target;
 
-			var autoNumbering = new AutoNumberingEngine(service, log, autoNumberConfig, target, image,
-				context.OrganizationId.ToString());
+			var autoNumbering = new AutoNumberingEngine(Service, Log, autoNumberConfig, target, image,
+				Context.OrganizationId.ToString());
 			autoNumbering.GenerateAndUpdateRecord(false, false, isBackLogged);
 		}
 	}

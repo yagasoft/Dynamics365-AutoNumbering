@@ -50,17 +50,18 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 
 		protected override void ExecuteLogic()
 		{
-			xrmContext = new XrmServiceContext(service) { MergeOption = MergeOption.NoTracking };
+			xrmContext = new XrmServiceContext(Service) { MergeOption = MergeOption.NoTracking };
 
-			log.Log("Getting target ...");
-			var target = (Entity)context.InputParameters["Target"];
+			Log.Log("Getting target ...");
+			var target = (Entity)Context.InputParameters["Target"];
 
 
-			var autoNumberConfig = Helper.GetAutoNumberingConfig(target, config, context, service, log, out var isBackLogged);
+			var autoNumberConfig = Helper.GetAutoNumberingConfig(target, config,
+                Context as IPluginExecutionContext, Service, Log, out var isBackLogged);
 
 			if (autoNumberConfig == null)
 			{
-				log.Log($"Exiting.", LogLevel.Warning);
+				Log.Log($"Exiting.", LogLevel.Warning);
 				return;
 			}
 
@@ -70,15 +71,15 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 					"Target field must be specified in the config record for plugin execution.");
 			}
 
-			if (!context.PostEntityImages.Any())
+			if (!Context.PostEntityImages.Any())
 			{
 				throw new InvalidPluginExecutionException("Couldn't find post-image for record.");
 			}
 
-			var image = context.PostEntityImages.First().Value;
+			var image = Context.PostEntityImages.First().Value;
 
-			var autoNumbering = new AutoNumberingEngine(service, log, autoNumberConfig, target, image,
-				context.OrganizationId.ToString());
+			var autoNumbering = new AutoNumberingEngine(Service, Log, autoNumberConfig, target, image,
+				Context.OrganizationId.ToString());
 			autoNumbering.GenerateAndUpdateRecord(true, true, isBackLogged);
 		}
 	}

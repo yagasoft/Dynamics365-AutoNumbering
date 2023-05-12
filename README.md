@@ -2,14 +2,13 @@
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yagasoft/DynamicsCrm-AutoNumbering?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-### Version: 4.2.1.1
 ---
 
 A CRM solution that gives a lot of flexibility in creating any pattern required for auto-numbering.
 
 ### Features
 
-  + String, date, parameter, and attribute patterns
+  + All features of the CRM Parser ([CRM Parser](https://github.com/yagasoft/Dynamics365-CrmTextParser))
   + Run numbering on a condition
   + Random strings, with number-to-letter ratios, and "start with a letter" flag
   + Optional numbering sequence, with padding
@@ -28,7 +27,7 @@ A CRM solution that gives a lot of flexibility in creating any pattern required 
 
 #### _Format String_
 
-`Test-{{createdon}??{createdon@hh:mm}::NO_DATE}-{!rand!$un:5}-{!now!yyyy}-{!index!casetypecode}-{!param!3}`
+`Test-{{c|createdon@date(`hh:mm`)@|c}??NO_DATE}-{*(5,un)||*}-{d|@date(yyyy)@|d}-{j||j}-{m|3|m}`
 
 #### _Input parameters_
   + Current index: 5
@@ -51,7 +50,7 @@ Please check the 'docs' folder for a guide PDF.
   + YS Common solution ([Dynamics365-YsCommonSolution](https://github.com/yagasoft/Dynamics365-YsCommonSolution))
 		
 ## Changes
-
++ Check Releases page for the later changes
 #### _v4.2.1.1 (2021-04-21)_
 + Changed: moved to a managed solution with dependency on a new base solution
 #### _v4.1.1.1 (2019-02-27)_

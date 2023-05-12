@@ -56,8 +56,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 
 			Log.Log("Getting target ...");
 			var target = (Entity)Context.InputParameters["Target"];
-
-
+			
 			var autoNumberConfig = Helper.GetAutoNumberingConfig(target, config,
                 Context as IPluginExecutionContext, Service, Log, out var isBackLogged);
 
@@ -73,26 +72,10 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 					"Target field must be specified in the config record for plugin execution.");
 			}
 
-			var image = target;
+			var image = BuildPostFromPreImage<Entity>();
 
-			// to avoid problems with missing fields that are needed by the parser, fetch the whole record
-			// if the format string doesn't contain an attribute reference, then skip
-			if (Regex.IsMatch(autoNumberConfig.FormatString, @"{\$.*?}"))
-			{
-				var columns = Regex.Matches(autoNumberConfig.FormatString, @"{\$.*?}").Cast<Match>()
-					.Select(match => match.Value.Replace("{", "").Replace("}", "").TrimStart('$').Split('$')[0]).ToArray();
-				image = Service.Retrieve(target.LogicalName, target.Id, new ColumnSet(columns));
-
-				// update with new values in the pipeline
-				foreach (var keyValuePair in target.Attributes)
-				{
-					image[keyValuePair.Key] = keyValuePair.Value;
-				}
-			}
-
-			var autoNumbering = new AutoNumberingEngine(Service, Log, autoNumberConfig, target, image,
-				Context.OrganizationId.ToString());
-			autoNumbering.GenerateAndUpdateRecord(false, true, isBackLogged);
+			var autoNumbering = new AutoNumberingEngine(Service, Log, autoNumberConfig, target, image, Context.OrganizationId, true);
+			autoNumbering.GenerateAndUpdateRecord(false, isBackLogged);
 		}
 	}
 }

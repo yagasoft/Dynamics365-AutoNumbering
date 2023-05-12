@@ -78,9 +78,8 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 
 			var image = Context.PostEntityImages.First().Value;
 
-			var autoNumbering = new AutoNumberingEngine(Service, Log, autoNumberConfig, target, image,
-				Context.OrganizationId.ToString());
-			autoNumbering.GenerateAndUpdateRecord(true, true, isBackLogged);
+			var autoNumbering = new AutoNumberingEngine(Service, Log, autoNumberConfig, target, image, Context.OrganizationId, true);
+			autoNumbering.GenerateAndUpdateRecord(true, isBackLogged);
 		}
 	}
 }

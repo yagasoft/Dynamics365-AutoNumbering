@@ -73,8 +73,8 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 			var image = target;
 
 			var autoNumbering = new AutoNumberingEngine(Service, Log, autoNumberConfig, target, image,
-				Context.OrganizationId.ToString());
-			autoNumbering.GenerateAndUpdateRecord(true, false, isBackLogged);
+				Context.OrganizationId);
+			autoNumbering.GenerateAndUpdateRecord(true, isBackLogged);
 		}
 	}
 }

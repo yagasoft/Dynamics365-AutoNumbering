@@ -1,15 +1,5 @@
-function OnLoad()
+function EntityLogicalName_OnChange(executionContext)
 {
-    LoadAutoAdvancedFind('ldv_condition', 'ldv_entitylogicalname', 200, function(isValid)
-    {
-        if (isValid)
-        {
-            SetupFieldNameAutoComplete(GetFieldValue('ldv_entitylogicalname'), 'ldv_fieldlogicalname', 10, null, true);
-        }
-        else
-        {
-            ClearAutoComplete('ldv_fieldlogicalname');
-            ClearFieldValue('ldv_fieldlogicalname', true);
-        }
-    });
+    SetAnchoredExecutionContext(executionContext);
+    LoadAdvancedFind('ldv_condition', null, 200, 'ldv_entitylogicalname');
 }

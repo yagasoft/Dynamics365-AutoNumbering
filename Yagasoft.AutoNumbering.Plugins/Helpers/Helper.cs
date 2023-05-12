@@ -21,7 +21,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 	internal static class Helper
 	{
 		internal static AutoNumbering PreValidation(IOrganizationService service, Entity target,
-			AutoNumbering autoNumberingConfig, CrmLog log, bool isConditioned, bool isBackLogged)
+			AutoNumbering autoNumberingConfig, ILogger log, bool isConditioned, bool isBackLogged)
 		{
 			if (autoNumberingConfig == null)
 			{
@@ -91,7 +91,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 		}
 
 		internal static AutoNumbering GetAutoNumberingConfig(Entity target, string config,
-			IPluginExecutionContext context, IOrganizationService service, CrmLog log, out bool isBackLogged)
+			IPluginExecutionContext context, IOrganizationService service, ILogger log, out bool isBackLogged)
 		{
 			context.Require(nameof(context));
 
@@ -141,10 +141,8 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 						{
 							isConditioned = true;
 							log.Log($"Checking condition for '{autoNumberConfigTemp.Name}':'{autoNumberConfigTemp.Id}' ...");
-							var parsedCondition = ParseAttributeVariables(service, autoNumberConfigTemp.Condition, target,
-								context.UserId, context.OrganizationId.ToString());
-							var isConditionMet = IsConditionMet(service, parsedCondition,
-								target.ToEntityReference(), context.OrganizationId.ToString());
+							var parsedCondition = CrmParser.Parse(autoNumberConfigTemp.Condition, service, null, context.OrganizationId);
+							var isConditionMet = IsConditionMet(service, parsedCondition, target.ToEntityReference(), context.OrganizationId);
 
 							if (isConditionMet)
 							{
@@ -193,7 +191,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 		}
 
 		private static AutoNumbering GetBackloggedConfig(IPluginExecutionContext currentContext,
-			IOrganizationService service, CrmLog log)
+			IOrganizationService service, ILogger log)
 		{
 			var xrmContext = new XrmServiceContext(service) { MergeOption = MergeOption.NoTracking };
 

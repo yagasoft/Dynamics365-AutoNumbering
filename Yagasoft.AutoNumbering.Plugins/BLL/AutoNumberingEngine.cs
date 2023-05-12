@@ -28,33 +28,38 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 		}
 
 		private readonly IOrganizationService service;
-		private readonly CrmLog log;
+		internal readonly ILogger Log;
 
-		private readonly bool isInlineConfig;
+		internal readonly bool IsInlineConfig;
 		private readonly Entity target;
 		private readonly Entity image;
 		private readonly AutoNumbering autoNumberConfig;
 		private readonly IEnumerable<string> inputParams;
 
-		private readonly string orgId;
+		private int padding;
+		
+		private readonly Guid orgId;
+		private readonly bool isUpdate;
+		private AutoNumbering updatedAutoNumbering;
 
 		private readonly IDictionary<string, string> cachedValues = new Dictionary<string, string>();
 
-		internal AutoNumberingEngine(IOrganizationService service, CrmLog log,
-			AutoNumbering autoNumberConfig, Entity target, Entity image, string orgId,
-			IEnumerable<string> inputParams = null)
+		internal AutoNumberingEngine(IOrganizationService service, ILogger log,
+			AutoNumbering autoNumberConfig, Entity target, Entity image, Guid orgId,
+			bool isUpdate = false, IEnumerable<string> inputParams = null)
 		{
-			this.log = log;
+			Log = log;
 			this.service = service;
 			this.orgId = orgId;
+			this.isUpdate = isUpdate;
 			this.autoNumberConfig = autoNumberConfig;
-			isInlineConfig = autoNumberConfig.Id == Guid.Empty;
+			IsInlineConfig = autoNumberConfig.Id == Guid.Empty;
 			this.target = target;
 			this.image = image;
 			this.inputParams = inputParams;
 		}
 
-		internal Result GenerateAndUpdateRecord(bool useService = true, bool isUpdate = false, bool isBackLogged = false)
+		internal Result GenerateAndUpdateRecord(bool useService = true, bool isBackLogged = false)
 		{
 			var autoNumberConfigId = autoNumberConfig.Id;
 
@@ -63,7 +68,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 				throw new InvalidPluginExecutionException("Couldn't find a format string in the auto-numbering configuration.");
 			}
 
-			var updatedAutoNumbering =
+			updatedAutoNumbering =
 				new AutoNumbering
 				{
 					Id = autoNumberConfigId
@@ -71,13 +76,13 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 
 			// generate a string, and make sure it's unique
 			var field = autoNumberConfig.FieldLogicalName?.Trim();
-			var result = GenerateUniqueString(isUpdate, updatedAutoNumbering, field);
-			log.Log($"Final auto-number: {result}");
+			var result = GenerateUniqueString(field);
+			Log.Log($"Final auto-number: {result}");
 
 			// if target and field exist, then user wants to update the record
 			if (target != null && field != null)
 			{
-				log.Log($"Adding generated number: '{result.GeneratedString}', to field: '{field}' ...");
+				Log.Log($"Adding generated number: '{result.GeneratedString}', to field: '{field}' ...");
 
 				if (useService)
 				{
@@ -95,9 +100,9 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 				}
 			}
 
-			if (!isInlineConfig && !isBackLogged)
+			if (!IsInlineConfig && !isBackLogged)
 			{
-				log.Log($"Updating auto-numbering with index {updatedAutoNumbering.CurrentIndex} ...");
+				Log.Log($"Updating auto-numbering with index {updatedAutoNumbering.CurrentIndex} ...");
 				// set the new dates and index in the auto-numbering record
 				service.Update(updatedAutoNumbering);
 			}
@@ -105,7 +110,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 			return result;
 		}
 
-		private Result GenerateUniqueString(bool isUpdate, AutoNumbering updatedAutoNumbering, string field = null)
+		private Result GenerateUniqueString(string field = null)
 		{
 			var generatedString = "";
 			bool isUnique;
@@ -134,9 +139,9 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 					throw new InvalidPluginExecutionException($"Couldn't generate a unique random string => \"{generatedString}\"");
 				}
 
-				result = GenerateString(isUpdate, updatedAutoNumbering);
+				result = GenerateString();
 				generatedString = result.GeneratedString;
-				log.Log($"Generated string: {generatedString}", LogLevel.Debug);
+				Log.Log($"Generated string: {generatedString}", LogLevel.Debug);
 
 				isUnique = autoNumberConfig.ValidateUniqueString != false
 					&& field != null && target != null
@@ -150,70 +155,33 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 			}
 			while (autoNumberConfig.ValidateUniqueString != false && !isUnique);
 
-			log.Log($"Accepted generated string: {generatedString}");
+			Log.Log($"Accepted generated string: {generatedString}");
 
 			return result;
 		}
 
-		private Result GenerateString(bool isUpdate, AutoNumbering updatedAutoNumbering)
+		private Result GenerateString()
 		{
-			var parser = new Parser(service, image, log, autoNumberConfig.Owner.Id, orgId, cachedValues);
-
-			log.Log("Preparing attribute variables ...");
-			var generatedString = parser.ParseAttributeVariables(autoNumberConfig.FormatString ?? "");
-			log.Log($"Generated string: {generatedString}");
-
-			if (!isInlineConfig)
+			if (!IsInlineConfig)
 			{
-				if (Regex.Matches(generatedString, @"{!param!.+?}").Count > 0)
-				{
-					log.Log("Preparing param variables ...");
-					generatedString = parser.ParseParamVariables(generatedString, inputParams);
-					log.Log($"Generated string: {generatedString}");
-				}
-			}
-
-			if (!isInlineConfig)
-			{
-				log.Log("Preparing random string variables ...");
-
-				if (autoNumberConfig.IsRandomLetterStart == null || autoNumberConfig.IsNumberLetterRatio == null)
-				{
-					throw new InvalidPluginExecutionException(
-						"Couldn't find a setting for the ratio or letter start in the auto-numbering configuration.");
-				}
-			}
-
-			generatedString = parser.ParseRandomStringVariables(generatedString, autoNumberConfig.IsRandomLetterStart == true,
-				(autoNumberConfig.IsNumberLetterRatio == true && autoNumberConfig.NumberLetterRatio != null)
-					? autoNumberConfig.NumberLetterRatio.Value
-					: -1);
-			log.Log($"Generated string: {generatedString}");
-
-			log.Log("Preparing date variables ...");
-			generatedString = parser.ParseDateVariables(generatedString);
-			log.Log($"Generated string: {generatedString}");
-
-			if (!isInlineConfig)
-			{
-				log.Log("Preparing index ...");
-				log.Log("Preparing padding ...");
+				Log.Log("Preparing index ...");
+				Log.Log("Preparing padding ...");
 
 				if (autoNumberConfig.IndexPadding == null)
 				{
 					throw new InvalidPluginExecutionException("Couldn't find the padding in the auto-numbering configuration.");
 				}
 
-				var padding = autoNumberConfig.IndexPadding >= 0 ? autoNumberConfig.IndexPadding : 0;
-
-				log.Log("Preparing autonumber variable ...");
-				generatedString = ProcessIndices(generatedString, padding.Value, isUpdate, updatedAutoNumbering);
-				log.Log($"Generated string: {generatedString}");
+				padding = autoNumberConfig.IndexPadding >= 0 ? autoNumberConfig.IndexPadding.Value : 0;
 			}
 
-			if (!isInlineConfig && !string.IsNullOrEmpty(autoNumberConfig.ReplacementCharacters))
+			Log.Log("Preparing attribute variables ...");
+			var generatedString = ParseAttributeVariables(autoNumberConfig.FormatString ?? "");
+			Log.Log($"Generated string: {generatedString}");
+
+			if (!IsInlineConfig && !string.IsNullOrEmpty(autoNumberConfig.ReplacementCharacters))
 			{
-				log.Log("Replacing characters ...");
+				Log.Log("Replacing characters ...");
 				var pairs = autoNumberConfig.ReplacementCharacters.Split(';').Select(e => e.Split(',')).ToArray();
 
 				if (pairs.Any(e => e.Length < 2))
@@ -227,7 +195,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 					generatedString = Regex.Replace(generatedString, pair[0], pair[1]);
 				}
 
-				log.Log($"Generated string: {generatedString}");
+				Log.Log($"Generated string: {generatedString}");
 			}
 
 			return
@@ -239,7 +207,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 				};
 		}
 
-		private string ProcessIndices(string generatedString, int padding, bool isUpdate, AutoNumbering updatedAutoNumbering)
+		internal string ProcessIndices(string value)
 		{
 			#region Date stuff
 
@@ -287,42 +255,40 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 
 			#endregion
 
-			generatedString = Regex.Replace(generatedString, @"{!index!(?:(\w+?)(?::(.*?))?)?}",
+			value = Regex.Replace(value, @"^(?:([^:]+?)(?::(.*?))?)?$",
 				match =>
 				{
-					var index = ProcessIndex(match, isReset, resetValue, isUpdate, updatedAutoNumbering);
+					var index = ProcessIndex(match, isReset, resetValue);
 					return index.ToString().PadLeft(padding, '0');
 				});
 
 			updatedAutoNumbering.ResetDate = resetDate;
 			updatedAutoNumbering.LastResetDate = lastResetDate;
 
-			return generatedString;
+			return value;
 		}
 
-		private int ProcessIndex(Match match, bool isReset, int resetValue, bool isUpdate, AutoNumbering updatedAutoNumbering)
+		private int ProcessIndex(Match match, bool isReset, int resetValue)
 		{
 			var fieldName = match.Groups[1].Value;
 			var fieldValue = match.Groups[2].Value;
+			fieldValue = fieldValue.IsEmpty() ? null : fieldValue;
 			var isDefaultIndex = !fieldName.IsNotEmpty();
 			var currentIndex = 0;
 			AutoNumberingStream stream = null;
 
 			if (isDefaultIndex)
 			{
-				log.Log("Using default index.");
+				Log.Log("Using default index.");
 				currentIndex = autoNumberConfig.CurrentIndex.GetValueOrDefault();
 			}
 			else if (match.Success)
 			{
-				fieldValue = fieldValue.IsNotEmpty()
-					? fieldValue
-					: Libraries.Common.CrmHelpers.GetAttributeStringValue(image.GetAttributeValue<object>(fieldName));
-				log.Log($"Parsing stream '{match.Value}' ...");
-				log.Log($"Field name: {fieldName}");
-				log.Log($"Field value: {fieldValue}");
+				Log.Log($"Parsing stream '{match.Value}' ...");
+				Log.Log($"Field name: {fieldName}");
+				Log.Log($"Field value: {fieldValue}");
 
-				log.Log($"Retrieving stream ...");
+				Log.Log($"Retrieving stream ...");
 				stream =
 					(from s in new XrmServiceContext(service) { MergeOption = MergeOption.NoTracking }.AutoNumberingStreamSet
 					 where s.FieldName == fieldName && s.FieldValue == fieldValue
@@ -335,7 +301,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 
 				if (stream == null)
 				{
-					log.Log($"Couldn't find stream.");
+					Log.Log($"Couldn't find stream.");
 					stream =
 						new AutoNumberingStream
 						{
@@ -345,15 +311,15 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 							AutoNumberingConfig = autoNumberConfig.Id
 						};
 
-					log.Log("Creating new stream ...");
+					Log.Log("Creating new stream ...");
 					stream.Id = service.Create(stream);
-					log.Log("Finished creating new stream.");
+					Log.Log("Finished creating new stream.");
 				}
 
 				currentIndex = stream.CurrentIndex.GetValueOrDefault();
 			}
 
-			log.Log($"Current index: {currentIndex}.");
+			Log.Log($"Current index: {currentIndex}.");
 
 			// if invalid value, reset
 			// if updating and not incrementing, then keep index, else increment index
@@ -368,7 +334,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 				index = resetValue;
 			}
 
-			log.Log($"New index: {index}.");
+			Log.Log($"New index: {index}.");
 
 			if (isDefaultIndex)
 			{
@@ -376,17 +342,54 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 			}
 			else if (stream != null)
 			{
-				log.Log($"Updating stream with new index ...");
+				Log.Log($"Updating stream with new index ...");
 				service.Update(
 					new AutoNumberingStream
 					{
 						Id = stream.Id,
 						CurrentIndex = index
 					});
-				log.Log($"Finished updating stream with new index.");
+				Log.Log($"Finished updating stream with new index.");
 			}
 
 			return index;
+		}
+
+		internal string ParseParamVariables(int paramIndex)
+		{
+			var inputParamsArray = inputParams.ToArray();
+			inputParamsArray.Require(nameof(inputParamsArray));
+
+			if (paramIndex < 1 || paramIndex > inputParamsArray.Length)
+			{
+				throw new InvalidPluginExecutionException($"Parameter number is invalid => \"{paramIndex}\"");
+			}
+
+			return inputParamsArray[paramIndex - 1];
+		}
+
+		private string ParseAttributeVariables(string rawString)
+		{
+			return CrmParser.Parse(rawString, image, service, this, orgId, typeof(Constructs));
+		}
+
+		private string ParseDateVariables(string rawString)
+		{
+			return Regex.Replace(
+				rawString, @"{!now!((?>(?<c1>{)|[^{}]+?|(?<-c1>}))*?)(?(c1)(?!))}",
+				match =>
+				{
+					if (!match.Success)
+					{
+						return "";
+					}
+
+					var rawVariable = match.Groups[1].Value;
+					rawVariable = CrmParser.Parse(rawVariable, image, service, this, orgId, typeof(Constructs));
+
+					var date = DateTime.UtcNow.ConvertToCrmUserTimeZone(service, autoNumberConfig.Owner.Id);
+					return string.Format("{0:" + rawVariable + "}", date);
+				});
 		}
 	}
 }

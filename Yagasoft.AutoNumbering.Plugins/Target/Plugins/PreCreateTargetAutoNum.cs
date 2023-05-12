@@ -1,6 +1,8 @@
 #region Imports
 
 using System;
+using System.Linq;
+using System.Reflection;
 using Yagasoft.AutoNumbering.Plugins.BLL;
 using Yagasoft.AutoNumbering.Plugins.Helpers;
 using Yagasoft.Libraries.Common;
@@ -72,9 +74,15 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 
 			var image = target;
 
-			var autoNumbering = new AutoNumberingEngine(Service, Log, autoNumberConfig, target, image,
-				Context.OrganizationId.ToString());
-			autoNumbering.GenerateAndUpdateRecord(false, false, isBackLogged);
+			var autoNumbering = new AutoNumberingEngine(Service, Log, autoNumberConfig, target, image, Context.OrganizationId);
+			try
+			{
+				autoNumbering.GenerateAndUpdateRecord(false, isBackLogged);
+			}
+			catch (ReflectionTypeLoadException e)
+			{
+				throw new Exception(e.LoaderExceptions.Select(e1 => e1.BuildShortExceptionMessage()).StringAggregate("\r\n\r\n"));
+			}
 		}
 	}
 }

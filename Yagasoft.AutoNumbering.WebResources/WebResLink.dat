@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinkerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <DiscoveryUrl>oF2wPjaU0FdIAnYil7ccl+p+oBQCgto6twBMdhuV1DOn4gyOPaDCpXG/CzsPMNdYWe2DAdpViKG/PXmggybgssDZXNAKq8HGljOL4BYT7s+U9SkHomLOOSkGagfxzy81lD2MfIrsm3wBUZVuRaRGlTJFfpbRy9S6d/xaxH8LJjjoiwo8weVpMNqo2e6mdIay2VvTaLAPsnDBmjKtZMGjqcdz1+kFZ8szXRtzSsah80bbk1CgREzSq35lAgZ28Z0IBy90/NlwORCis1W3qYBoAjedccJyqFRip+3pYhtrA7I=</DiscoveryUrl>
-  <PublicUrl>http://192.168.0.220/AutoNumberSolution</PublicUrl>
+  <DiscoveryUrl>oF2wPjaU0FdIAnYil7ccl+p+oBQCgto6twBMdhuV1DOn4gyOPaDCpXG/CzsPMNdYDfODm99OyFaIR4D5YWHWY2Sc/gi/3f1p4oqpgYo8WW50DrrkWVZYb+AXsgAld4yQFY30War6KZpqT05i8zoqHAgScki2LoV8v+cVZt9O5PkNKnTZk6isH+Wu0jrqplrXCh9zlqahC6wAVwGE0hxyP2//mwWCrFmWjUoMbXZqf6t65OG1sdk1kKkvZ+51SlnkXbrYd/bhyVWuoRsgtZ2V2mNV4CvCELlIGlkPNbcxsWw=</DiscoveryUrl>
+  <PublicUrl>http://vm.yagasoft.com/AutoNumbering</PublicUrl>
   <Mappings>
     <LinkerDataItem>
       <WebResourceId>a6def659-6d82-e611-80bf-00155d890101</WebResourceId>

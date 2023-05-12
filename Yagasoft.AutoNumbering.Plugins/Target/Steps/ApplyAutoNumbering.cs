@@ -75,8 +75,8 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Steps
 			}
 
 			var autoNumbering = new AutoNumberingEngine(Service, Log, autoNumberConfig, target, target,
-				Context.OrganizationId.ToString(), inputParams);
-			var result = autoNumbering.GenerateAndUpdateRecord(isUpdate: Context.MessageName == "Update");
+				Context.OrganizationId, Context.MessageName == "Update", inputParams);
+			var result = autoNumbering.GenerateAndUpdateRecord();
 
 			codeActivity.Index.Set(ExecutionContext, result.Index);
 			codeActivity.IndexString.Set(ExecutionContext, result.IndexString);

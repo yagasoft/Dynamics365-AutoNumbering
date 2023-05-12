@@ -39,10 +39,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
 			// get the triggering record
 			var target = (Entity)Context.InputParameters["Target"];
 
-			if (Log.MaxLogLevel >= LogLevel.Debug)
-			{
-				Libraries.Common.CrmHelpers.LogAttributeValues(target.Attributes, target, Log, "Target Attributes");
-			}
+			Log.LogAttributeValues(target, target.Attributes, "Target Attributes");
 
 			var autoNumberConfig = Context.PostEntityImages.FirstOrDefault().Value?.ToEntity<AutoNumbering>();
 
@@ -51,10 +48,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
 				throw new InvalidPluginExecutionException($"Must register a full post image on step.");
 			}
 
-			if (Log.MaxLogLevel >= LogLevel.Debug)
-			{
-				Libraries.Common.CrmHelpers.LogAttributeValues(autoNumberConfig.Attributes, autoNumberConfig, Log, "Post Image Attributes");
-			}
+			Log.LogAttributeValues(autoNumberConfig, autoNumberConfig.Attributes, "Post Image Attributes");
 
 			if (string.IsNullOrEmpty(autoNumberConfig.TriggerID))
 			{

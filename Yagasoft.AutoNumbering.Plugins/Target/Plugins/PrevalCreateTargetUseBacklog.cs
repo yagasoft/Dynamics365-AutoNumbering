@@ -52,10 +52,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 			// get the triggering record
 			var target = (Entity)Context.InputParameters["Target"];
 
-			if (Log.MaxLogLevel >= LogLevel.Debug)
-			{
-				Libraries.Common.CrmHelpers.LogAttributeValues(target.Attributes, target, Log, "Target Attributes");
-			}
+			Log.LogAttributeValues(target, target.Attributes, "Target Attributes");
 
 			var autoNumberConfig =
 				(from autoNumberQ in new XrmServiceContext(Service).AutoNumberingSet

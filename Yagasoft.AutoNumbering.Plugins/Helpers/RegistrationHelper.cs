@@ -15,10 +15,10 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 	internal class RegistrationHelper
 	{
 		private readonly IOrganizationService service;
-		private readonly CrmLog log;
+		private readonly ILogger log;
 		private readonly XrmServiceContext xrmContext;
 
-		internal RegistrationHelper(IOrganizationService service, CrmLog log)
+		internal RegistrationHelper(IOrganizationService service, ILogger log)
 		{
 			this.service = service;
 			this.log = log;

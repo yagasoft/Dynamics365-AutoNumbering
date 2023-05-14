@@ -10,6 +10,11 @@
       "Id": "8bceb65d-1c99-4463-93f1-ed70342513d9",
       "DisplayName": "Azure",
       "ProfileName": "Azure"
+    },
+    {
+      "Id": "ac3539ed-a4aa-4aea-a5a9-58205633b942",
+      "DisplayName": "EAGiL Dev",
+      "ProfileName": "EAGiL Dev"
     }
   ]
 }

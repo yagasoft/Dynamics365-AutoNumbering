@@ -15,16 +15,14 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 		[CrmParser.Construct("j", "index")]
 		public class IndexConstruct : CrmParser.DefaultContextConstruct
 		{
-			public IndexConstruct(CrmParser.GlobalState state, string constructString, string parameters, IEnumerable<CrmParser.Preprocessor> preProcessors,
-				IEnumerable<CrmParser.PostProcessor> postProcessors)
-				: base(state, constructString, parameters, preProcessors, postProcessors)
+			public IndexConstruct(CrmParser.GlobalState state, CrmParser.TokenKeyword keyword,
+				IReadOnlyList<CrmParser.Preprocessor> preProcessors, IReadOnlyList<CrmParser.PostProcessor> postProcessors)
+				: base(state, keyword, preProcessors, postProcessors)
 			{ }
 
 			protected override string ExecuteContextLogic(Entity context, string buffer)
 			{
-				var contextObject = State.ContextObject as AutoNumberingEngine;
-
-				if (contextObject == null || contextObject.IsInlineConfig)
+				if (State.ContextObject is not AutoNumberingEngine contextObject || contextObject.IsInlineConfig)
 				{
 					return null;
 				}
@@ -36,16 +34,14 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 		[CrmParser.Construct("m", "param")]
 		public class ParamConstruct : CrmParser.DefaultContextConstruct
 		{
-			public ParamConstruct(CrmParser.GlobalState state, string constructString, string parameters, IEnumerable<CrmParser.Preprocessor> preProcessors,
-				IEnumerable<CrmParser.PostProcessor> postProcessors)
-				: base(state, constructString, parameters, preProcessors, postProcessors)
+			public ParamConstruct(CrmParser.GlobalState state, CrmParser.TokenKeyword keyword,
+				IReadOnlyList<CrmParser.Preprocessor> preProcessors, IReadOnlyList<CrmParser.PostProcessor> postProcessors)
+				: base(state, keyword, preProcessors, postProcessors)
 			{ }
 
 			protected override string ExecuteContextLogic(Entity context, string buffer)
 			{
-				var contextObject = State.ContextObject as AutoNumberingEngine;
-
-				if (contextObject == null || contextObject.IsInlineConfig)
+				if (State.ContextObject is not AutoNumberingEngine contextObject || contextObject.IsInlineConfig)
 				{
 					return null;
 				}

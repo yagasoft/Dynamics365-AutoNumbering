@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Yagasoft.AutoNumbering.Plugins.Helpers;
-using Yagasoft.Libraries.Common;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
+using Yagasoft.AutoNumbering.Plugins.Helpers;
+using Yagasoft.Libraries.Common;
 
 #endregion
 
@@ -15,7 +15,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 {
 	/// <summary>
 	///     Author: Ahmed Elsawalhy<br />
-	///     Version: 2.1.1
+	///     Version: 2.1.2
 	/// </summary>
 	[Log]
 	internal class AutoNumberingEngine
@@ -37,7 +37,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 		private readonly IEnumerable<string> inputParams;
 
 		private int padding;
-		
+
 		private readonly Guid orgId;
 		private readonly bool isUpdate;
 		private AutoNumbering updatedAutoNumbering;
@@ -370,7 +370,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 
 		private string ParseAttributeVariables(string rawString)
 		{
-			return CrmParser.Parse(rawString, image, service, this, orgId, typeof(Constructs));
+			return CrmParser.Interpreter.Parse(rawString, [typeof(Constructs)]).Evaluate(service, image, this);
 		}
 
 		private string ParseDateVariables(string rawString)
@@ -385,7 +385,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 					}
 
 					var rawVariable = match.Groups[1].Value;
-					rawVariable = CrmParser.Parse(rawVariable, image, service, this, orgId, typeof(Constructs));
+					rawVariable = CrmParser.Interpreter.Parse(rawVariable, [typeof(Constructs)]).Evaluate(service, image, this);
 
 					var date = DateTime.UtcNow.ConvertToCrmUserTimeZone(service, autoNumberConfig.Owner.Id);
 					return string.Format("{0:" + rawVariable + "}", date);

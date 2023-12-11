@@ -8,7 +8,9 @@ using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
+using static Yagasoft.Libraries.Common.CacheHelpers;
 using static Yagasoft.Libraries.Common.CrmHelpers;
+using static Yagasoft.Libraries.Common.Helpers;
 
 #endregion
 
@@ -16,7 +18,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 {
 	/// <summary>
 	///     Author: Ahmed Elsawalhy<br />
-	///     Version: 1.2.1
+	///     Version: 1.2.2
 	/// </summary>
 	internal static class Helper
 	{
@@ -141,7 +143,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 						{
 							isConditioned = true;
 							log.Log($"Checking condition for '{autoNumberConfigTemp.Name}':'{autoNumberConfigTemp.Id}' ...");
-							var parsedCondition = CrmParser.Parse(autoNumberConfigTemp.Condition, service, null, context.OrganizationId);
+							var parsedCondition = CrmParser.Interpreter.Parse(autoNumberConfigTemp.Condition, [typeof(Constructs)]).Evaluate(service, target);
 							var isConditionMet = IsConditionMet(service, parsedCondition, target.ToEntityReference(), context.OrganizationId);
 
 							if (isConditionMet)
@@ -263,8 +265,8 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 			string attributeName, int selectedValue, string orgId)
 		{
 			var cacheKey = $"GetOptionsSetTextForValue|{entityName}|{attributeName}"
-				+ $"|{selectedValue}|{Libraries.Common.Helpers.GetAssemblyName(0)}";
-			var attributeCached = CacheHelpers.GetFromMemCache<string>(cacheKey, orgId);
+				+ $"|{selectedValue}|{GetAssemblyName(0)}";
+			var attributeCached = GetFromMemCache<string>(cacheKey, orgId);
 
 			if (attributeCached != null)
 			{
@@ -286,7 +288,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 			// Access the retrieved attribute.
 			var retrievedPicklistAttributeMetadata = (PicklistAttributeMetadata)retrieveAttributeResponse.AttributeMetadata;
 			var optionList = retrievedPicklistAttributeMetadata.OptionSet.Options.ToArray();
-			return CacheHelpers.AddToMemCache(cacheKey,
+			return AddToMemCache(cacheKey,
 				(from oMD in optionList
 				 where oMD.Value == selectedValue
 				 select oMD.Label.LocalizedLabels[0].Label).FirstOrDefault(),
@@ -301,9 +303,9 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 		/// <param name="entity"></param>
 		internal static string GetEntityPrimaryFieldValue(IOrganizationService service, EntityReference entity, string orgId)
 		{
-			var cacheKey = $"GetEntityPrimaryFieldValue|{entity.LogicalName}|{Libraries.Common.Helpers.GetAssemblyName(0)}";
-			var primaryField = CacheHelpers.GetFromMemCache<string>(cacheKey, orgId)
-				?? CacheHelpers.AddToMemCache(cacheKey, ((RetrieveEntityResponse)service.Execute(
+			var cacheKey = $"GetEntityPrimaryFieldValue|{entity.LogicalName}|{GetAssemblyName(0)}";
+			var primaryField = GetFromMemCache<string>(cacheKey, orgId)
+				?? AddToMemCache(cacheKey, ((RetrieveEntityResponse)service.Execute(
 					new RetrieveEntityRequest
 					{
 						EntityFilters = EntityFilters.Entity,

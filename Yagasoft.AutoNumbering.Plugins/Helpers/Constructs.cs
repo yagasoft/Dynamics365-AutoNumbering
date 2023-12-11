@@ -1,61 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Microsoft.Xrm.Sdk;
+﻿#region Imports
+
 using Yagasoft.AutoNumbering.Plugins.BLL;
-using Yagasoft.Libraries.Common;
+using static Yagasoft.Libraries.Common.CrmParser;
+
+#endregion
 
 namespace Yagasoft.AutoNumbering.Plugins.Helpers
 {
-    public class Constructs
-    {
-		[CrmParser.Construct("j", "index")]
-		public class IndexConstruct : CrmParser.DefaultContextConstruct
+	public class Constructs
+	{
+		[Expression]
+		public class IndexExpression(ParserContext context) : FunctionExpression(context)
 		{
-			public IndexConstruct(CrmParser.GlobalState state, CrmParser.TokenKeyword keyword,
-				IReadOnlyList<CrmParser.Preprocessor> preProcessors, IReadOnlyList<CrmParser.PostProcessor> postProcessors)
-				: base(state, keyword, preProcessors, postProcessors)
-			{ }
+			protected override string FinalForm => "^[$]sequence$";
+			protected override string RecognisePattern => "^[$](?:s(?:e(?:q(?:u(?:e(?:n(?:c(?:e)?)?)?)?)?)?)?)?$";
 
-			protected override string ExecuteContextLogic(Entity context, string buffer)
+			protected override object FunctionEvaluate(object baseValue = null)
 			{
-				if (State.ContextObject is not AutoNumberingEngine contextObject || contextObject.IsInlineConfig)
+				if (globalState.ContextObject is not AutoNumberingEngine contextObject
+					|| contextObject.IsInlineConfig)
 				{
 					return null;
 				}
 
-				return contextObject.ProcessIndices(buffer);
+				Parameters = EvaluateParameters(baseValue);
+				var keyName = GetParam<string>("Key", 0);
+				var value = GetParam<object>("Value", 1);
+
+				return contextObject.ProcessIndices($"{keyName}:{value}");
 			}
 		}
 
-		[CrmParser.Construct("m", "param")]
-		public class ParamConstruct : CrmParser.DefaultContextConstruct
+		[Expression]
+		public class ParamExpression(ParserContext context) : FunctionExpression(context)
 		{
-			public ParamConstruct(CrmParser.GlobalState state, CrmParser.TokenKeyword keyword,
-				IReadOnlyList<CrmParser.Preprocessor> preProcessors, IReadOnlyList<CrmParser.PostProcessor> postProcessors)
-				: base(state, keyword, preProcessors, postProcessors)
-			{ }
+			protected override string FinalForm => "^[$]inparam";
+			protected override string RecognisePattern => "^[$](?:i(?:n(?:p(?:a(?:r(?:a(?:m)?)?)?)?)?)?)?$";
 
-			protected override string ExecuteContextLogic(Entity context, string buffer)
+			protected override object FunctionEvaluate(object baseValue = null)
 			{
-				if (State.ContextObject is not AutoNumberingEngine contextObject || contextObject.IsInlineConfig)
+				if (globalState.ContextObject is not AutoNumberingEngine contextObject || contextObject.IsInlineConfig)
 				{
 					return null;
 				}
 
+				Parameters = EvaluateParameters(baseValue);
+				
 				contextObject.Log.Log("Preparing param variables ...");
-
-				buffer = int.TryParse(buffer, out var index)
-					? contextObject.ParseParamVariables(index)
-					: throw new InvalidPluginExecutionException($"Parameter number is invalid => \"{buffer}\"");
-
+				var buffer = contextObject.ParseParamVariables(GetParam<int?>("Index", 0, true) ?? 0);
 				contextObject.Log.Log($"Generated string: {buffer}");
 
 				return buffer;
 			}
 		}
-    }
+	}
 }

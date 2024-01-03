@@ -27,7 +27,7 @@ A CRM solution that gives a lot of flexibility in creating any pattern required 
 
 #### _Format String_
 
-`Test-{@this.createdon$date(`hh:mm`)??`NO_DATE`}-{$rand(5,`un`)}-{$now$date(`yyyy`)}-{$sequence}-{$inparam(3)}`
+``Test-{@this.createdon$date(`hh:mm`)??`NO_DATE`}-{$rand(5,`un`)}-{$now$date(`yyyy`)}-{$sequence}-{$inparam(3)}``
 
 #### _Input parameters_
   + Current index: 5

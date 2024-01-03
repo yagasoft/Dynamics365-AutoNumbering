@@ -27,17 +27,17 @@ A CRM solution that gives a lot of flexibility in creating any pattern required 
 
 #### _Format String_
 
-`Test-{{c|createdon@date(`hh:mm`)@|c}??NO_DATE}-{*(5,un)||*}-{d|@date(yyyy)@|d}-{j||j}-{m|3|m}`
+`Test-{@this.createdon$date(`hh:mm`)??`NO_DATE`}-{$rand(5,`un`)}-{$now$date(`yyyy`)}-{$sequence}-{$inparam(3)}`
 
 #### _Input parameters_
   + Current index: 5
   + Padding: 3
   + Executing user in Cairo at 9AM and server in London 7AM
-  + String 'PA;RA;METER' as input parameter to the WF step
+  + String 'PA;RA;M' as input parameter to the WF step
   
 #### _Result numbering_
 
-`Test-09:00-Ahmed-4AM7Z-2015-005-METER"`
+`Test-09:00-YAM76-2015-005-M`
 
 ### Guide
 

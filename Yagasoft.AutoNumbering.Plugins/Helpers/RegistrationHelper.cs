@@ -36,7 +36,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 									Name = typeQ.Name
 								}).ToList();
 
-			var entityName = (postConfig ?? preConfig)?.EntityLogicalName_ldv_EntityLogicalName;
+			var entityName = (postConfig ?? preConfig)?.EntityLogicalName_ys_EntityLogicalName;
 			var id = (postConfig ?? preConfig)?.UniqueID;
 
 			entityName.RequireNotEmpty("Entity Name");

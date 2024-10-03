@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Ahmed Elsawalhy (yagasoft.com)")]
 [assembly: AssemblyProduct("Yagasoft.Plugins.AutoNumber")]
-[assembly: AssemblyCopyright("Copyright © Ahmed ELsawalhy 2023")]
+[assembly: AssemblyCopyright("Copyright © Ahmed ELsawalhy 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

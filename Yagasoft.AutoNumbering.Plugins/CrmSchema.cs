@@ -42,36 +42,6 @@ namespace Yagasoft.AutoNumbering.Plugins
 		}
 
 		/// <summary>
-		/// Gets a binding to the set of all <see cref="AutoNumbering"/> entities.
-		/// </summary>
-		public System.Linq.IQueryable<AutoNumbering> AutoNumberingSet
-		{
-			get
-			{
-				return this.CreateQuery<AutoNumbering>();
-			}
-		}
-		/// <summary>
-		/// Gets a binding to the set of all <see cref="AutoNumberingBacklog"/> entities.
-		/// </summary>
-		public System.Linq.IQueryable<AutoNumberingBacklog> AutoNumberingBacklogSet
-		{
-			get
-			{
-				return this.CreateQuery<AutoNumberingBacklog>();
-			}
-		}
-		/// <summary>
-		/// Gets a binding to the set of all <see cref="AutoNumberingStream"/> entities.
-		/// </summary>
-		public System.Linq.IQueryable<AutoNumberingStream> AutoNumberingStreamSet
-		{
-			get
-			{
-				return this.CreateQuery<AutoNumberingStream>();
-			}
-		}
-		/// <summary>
 		/// Gets a binding to the set of all <see cref="PluginType"/> entities.
 		/// </summary>
 		public System.Linq.IQueryable<PluginType> PluginTypeSet
@@ -119,6 +89,36 @@ namespace Yagasoft.AutoNumbering.Plugins
 			get
 			{
 				return this.CreateQuery<SdkMessageProcessingStepImage>();
+			}
+		}
+		/// <summary>
+		/// Gets a binding to the set of all <see cref="AutoNumbering"/> entities.
+		/// </summary>
+		public System.Linq.IQueryable<AutoNumbering> AutoNumberingSet
+		{
+			get
+			{
+				return this.CreateQuery<AutoNumbering>();
+			}
+		}
+		/// <summary>
+		/// Gets a binding to the set of all <see cref="AutoNumberingBacklog"/> entities.
+		/// </summary>
+		public System.Linq.IQueryable<AutoNumberingBacklog> AutoNumberingBacklogSet
+		{
+			get
+			{
+				return this.CreateQuery<AutoNumberingBacklog>();
+			}
+		}
+		/// <summary>
+		/// Gets a binding to the set of all <see cref="AutoNumberingStream"/> entities.
+		/// </summary>
+		public System.Linq.IQueryable<AutoNumberingStream> AutoNumberingStreamSet
+		{
+			get
+			{
+				return this.CreateQuery<AutoNumberingStream>();
 			}
 		}
 	}
@@ -2456,2345 +2456,6 @@ namespace Yagasoft.AutoNumbering.Plugins
 
 	#region Entities
 
-	#region AutoNumbering
-
-	/// <summary>
-	/// 'ldv_autonumbering'.<br />
-	/// 
-	/// </summary>
-	[ExcludeFromCodeCoverage]
-	[DebuggerNonUserCode]
-	[DataContract, EntityLogicalName("ldv_autonumbering")]
-	public partial class AutoNumbering : GeneratedEntity<AutoNumbering.RelationName>
-	{
-		public AutoNumbering() : base(EntityLogicalName)
-		{ }
-		
-		/// <inheritdoc/>
-		public AutoNumbering(string[] keys, object[] values) : base(keys, values, EntityLogicalName)
-		{ }
-		
-		/// <inheritdoc/>
-		public AutoNumbering(object obj, Type limitingType) : base(obj, limitingType, EntityLogicalName)
-		{ }
-
-		public const string DisplayName = "Auto-Numbering";
-		public const string SchemaName = "ldv_autonumbering";
-		public const string EntityLogicalName = "ldv_autonumbering";
-		public const int EntityTypeCode = 10026;
-		
-		public class RelationName : RelationNameBase
-		{
-			public RelationName(string name) : base(name)
-			{}
-		}
-
-		#region Attributes
-
-		[AttributeLogicalName("ldv_autonumberingid")]
-		public override System.Guid Id
-		{
-			get => (AutoNumberingId == null || AutoNumberingId == Guid.Empty) ? base.Id : AutoNumberingId.GetValueOrDefault();
-			set
-			{
-                if (value == Guid.Empty) {
-                    Attributes.Remove("ldv_autonumberingid");
-                    base.Id = value;
-                } else {
-				    AutoNumberingId = value;
-                }
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'CreatedBy'.<br />
-        /// Unique identifier of the user who created the record.
-        /// </summary>
-		[AttributeLogicalName("createdby")]
-		public Guid? CreatedBy
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("createdby");
-                return value?.Id;
-			}
-		}
-
-        public string CreatedByName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("createdby");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'CreatedOn'.<br />
-        /// Date and time when the record was created.
-        /// </summary>
-		[AttributeLogicalName("createdon")]
-		public DateTime? CreatedOn
-		{
-			get
-			{
-				var value = GetAttributeValue<DateTime?>("createdon");
-			    return value;
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'CreatedOnBehalfBy'.<br />
-        /// Unique identifier of the delegate user who created the record.
-        /// </summary>
-		[AttributeLogicalName("createdonbehalfby")]
-		public Guid? CreatedByDelegate
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
-                return value?.Id;
-			}
-		}
-
-        public string CreatedByDelegateName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        /// [Range(-2147483648, 2147483647)] 
-		/// 'ImportSequenceNumber'.<br />
-        /// Sequence number of the import that created this record.
-        /// </summary>
-		[AttributeLogicalName("importsequencenumber")]
-		public int? ImportSequenceNumber
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("importsequencenumber");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("importsequencenumber", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'ldv_autonumberingId'.<br />
-        /// Unique identifier for entity instances
-        /// </summary>
-		[AttributeLogicalName("ldv_autonumberingid")]
-		public Guid? AutoNumberingId
-		{
-			get
-			{
-				var value = GetAttributeValue<Guid?>("ldv_autonumberingid");
-			    return value;
-			}
-			set
-			{
-                if (value != null)
-	                SetAttributeValue("ldv_autonumberingid", value);
-				if (value != null) base.Id = value.Value;
-				else Id = System.Guid.Empty;
-			}
-		}
-
-        /// <summary>
-        /// [Range(0, 2147483647)] 
-		/// 'ldv_BacklogThreshold'.<br />
-        /// How far back (in minutes) to start looking at the backlog.
-        /// </summary>
-		[AttributeLogicalName("ldv_backlogthreshold")]
-		public int? BacklogThreshold
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("ldv_backlogthreshold");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_backlogthreshold", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_condition")]
-		public string Condition
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_condition");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_condition", value);
-			}
-		}
-
-        /// <summary>
-        /// [Required][Range(0, 2147483647)] 
-		/// 'ldv_CurrentIndex'.<br />
-        /// Set to zero to remove from the generated string.
-        /// </summary>
-		[AttributeLogicalName("ldv_currentindex")]
-		public int? CurrentIndex
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("ldv_currentindex");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_currentindex", value);
-			}
-		}
-
-        /// <summary>
-        /// [MaxLength=256] 
-		/// 'ldv_EntityLogicalName'.<br />
-        /// The logical name of the entity to generate a number for.
-        /// </summary>
-		[AttributeLogicalName("ldv_entitylogicalname")]
-		public string EntityLogicalName_ldv_EntityLogicalName
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_entitylogicalname");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_entitylogicalname", value);
-			}
-		}
-
-        /// <summary>
-        /// [MaxLength=4000] 
-		/// 'ldv_FieldLogicalName'.<br />
-        /// Comma-separated list of destination fields.
-        /// </summary>
-		[AttributeLogicalName("ldv_fieldlogicalname")]
-		public string FieldLogicalName
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_fieldlogicalname");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_fieldlogicalname", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_formatstring")]
-		public string FormatString
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_formatstring");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_formatstring", value);
-			}
-		}
-
-        /// <summary>
-        /// [Required][Range(0, 2147483647)] 
-		/// 'ldv_IndexPadding'.<br />
-        /// Total length of the index in the resulting generated number. Set to zero for no padding.
-        /// </summary>
-		[AttributeLogicalName("ldv_indexpadding")]
-		public int? IndexPadding
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("ldv_indexpadding");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_indexpadding", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_isincrementonupdate")]
-		public bool? IncrementOnUpdate
-		{
-			get
-			{
-				var value = GetAttributeValue<bool?>("ldv_isincrementonupdate");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_isincrementonupdate", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'ldv_IsNumberLetterRatio'.<br />
-        /// Flag to use the number to letter ratio.
-        /// </summary>
-		[AttributeLogicalName("ldv_isnumberletterratio")]
-		public bool? IsNumberLetterRatio
-		{
-			get
-			{
-				var value = GetAttributeValue<bool?>("ldv_isnumberletterratio");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_isnumberletterratio", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_israndomletterstart")]
-		public bool? IsRandomLetterStart
-		{
-			get
-			{
-				var value = GetAttributeValue<bool?>("ldv_israndomletterstart");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_israndomletterstart", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_isusebacklog")]
-		public bool? UseBacklog
-		{
-			get
-			{
-				var value = GetAttributeValue<bool?>("ldv_isusebacklog");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_isusebacklog", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_isuseindexstreams")]
-		public bool? UseIndexStreams
-		{
-			get
-			{
-				var value = GetAttributeValue<bool?>("ldv_isuseindexstreams");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_isuseindexstreams", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_isvalidateuniquestring")]
-		public bool? ValidateUniqueString
-		{
-			get
-			{
-				var value = GetAttributeValue<bool?>("ldv_isvalidateuniquestring");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_isvalidateuniquestring", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_lastresetdate")]
-		public DateTime? LastResetDate
-		{
-			get
-			{
-				var value = GetAttributeValue<DateTime?>("ldv_lastresetdate");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_lastresetdate", value);
-			}
-		}
-
-        /// <summary>
-        /// [MaxLength=4000] 
-		/// 'ldv_Locking'.<br />
-        /// A field that can be used to lock the DB transaction.
-        /// </summary>
-		[AttributeLogicalName("ldv_locking")]
-		public string Locking
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_locking");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_locking", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_name")]
-		public string Name
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_name");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_name", value);
-			}
-		}
-
-        /// <summary>
-        /// [Range(0, 100)] 
-		/// 'ldv_NumberLetterRatio'.<br />
-        /// The percentage of letters in the generated random string.
-        /// </summary>
-		[AttributeLogicalName("ldv_numberletterratio")]
-		public int? NumberLetterRatio
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("ldv_numberletterratio");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_numberletterratio", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'ldv_RegisterStepStageCode'.<br />
-        /// Automatically adds a plugin step for the current configuration on the Create message. Clear value to remove step.
-        /// </summary>
-		[AttributeLogicalName("ldv_registerstepstagecode")]
-		public AutoregisterStepStageEnum? AutoregisterStepStage
-		{
-			get
-			{
-				var value = GetAttributeValue<OptionSetValue>("ldv_registerstepstagecode");
-                return (AutoregisterStepStageEnum?) value?.Value;
-			}
-			set
-			{
-                if (value != null) SetAttributeValue("ldv_registerstepstagecode", new OptionSetValue((int) value.Value));
-                else
-	                SetAttributeValue("ldv_registerstepstagecode", value);
-			}
-		}
-
-        /// <summary>
-        /// [MaxLength=4000] 
-		/// 'ldv_ReplacementCharacters'.<br />
-        /// Regex expression to be replaced in the final string. Format: [regex1],[replacement1];[regex2],[replacement2]
-        /// </summary>
-		[AttributeLogicalName("ldv_replacementcharacters")]
-		public string ReplacementCharacters
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_replacementcharacters");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_replacementcharacters", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_resetdate")]
-		public DateTime? ResetDate
-		{
-			get
-			{
-				var value = GetAttributeValue<DateTime?>("ldv_resetdate");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_resetdate", value);
-			}
-		}
-
-        /// <summary>
-        /// [Range(0, 2147483647)] 
-		/// 'ldv_ResetIndex'.<br />
-        /// The number to reset the index to on the set date.
-        /// </summary>
-		[AttributeLogicalName("ldv_resetindex")]
-		public int? ResetIndex
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("ldv_resetindex");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_resetindex", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_resetinterval")]
-		public ResetIntervalEnum? ResetInterval
-		{
-			get
-			{
-				var value = GetAttributeValue<OptionSetValue>("ldv_resetinterval");
-                return (ResetIntervalEnum?) value?.Value;
-			}
-			set
-			{
-                if (value != null) SetAttributeValue("ldv_resetinterval", new OptionSetValue((int) value.Value));
-                else
-	                SetAttributeValue("ldv_resetinterval", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_triggerid")]
-		public string TriggerID
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_triggerid");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_triggerid", value);
-			}
-		}
-
-        /// <summary>
-        /// [MaxLength=36] 
-		/// 'ldv_UniqueID'.<br />
-        /// Use this ID in the 'unsecure config' of the plugin steps.
-        /// </summary>
-		[AttributeLogicalName("ldv_uniqueid")]
-		public string UniqueID
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_uniqueid");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_uniqueid", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'ModifiedBy'.<br />
-        /// Unique identifier of the user who modified the record.
-        /// </summary>
-		[AttributeLogicalName("modifiedby")]
-		public Guid? ModifiedBy
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("modifiedby");
-                return value?.Id;
-			}
-		}
-
-        public string ModifiedByName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("modifiedby");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'ModifiedOn'.<br />
-        /// Date and time when the record was modified.
-        /// </summary>
-		[AttributeLogicalName("modifiedon")]
-		public DateTime? ModifiedOn
-		{
-			get
-			{
-				var value = GetAttributeValue<DateTime?>("modifiedon");
-			    return value;
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'ModifiedOnBehalfBy'.<br />
-        /// Unique identifier of the delegate user who modified the record.
-        /// </summary>
-		[AttributeLogicalName("modifiedonbehalfby")]
-		public Guid? ModifiedByDelegate
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
-                return value?.Id;
-			}
-		}
-
-        public string ModifiedByDelegateName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'OverriddenCreatedOn'.<br />
-        /// Date and time that the record was migrated.
-        /// </summary>
-		[AttributeLogicalName("overriddencreatedon")]
-		public DateTime? RecordCreatedOn
-		{
-			get
-			{
-				var value = GetAttributeValue<DateTime?>("overriddencreatedon");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("overriddencreatedon", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'OwnerId'.<br />
-        /// Owner Id
-        /// </summary>
-		[AttributeLogicalName("ownerid")]
-		public EntityReference Owner
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("ownerid");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ownerid", value);
-			}
-		}
-
-        public string OwnerName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("ownerid");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'OwningBusinessUnit'.<br />
-        /// Unique identifier for the business unit that owns the record
-        /// </summary>
-		[AttributeLogicalName("owningbusinessunit")]
-		public Guid? OwningBusinessUnit
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
-                return value?.Id;
-			}
-		}
-
-        public string OwningBusinessUnitName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'OwningTeam'.<br />
-        /// Unique identifier for the team that owns the record.
-        /// </summary>
-		[AttributeLogicalName("owningteam")]
-		public Guid? OwningTeam
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("owningteam");
-                return value?.Id;
-			}
-		}
-
-        public string OwningTeamName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("owningteam");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'OwningUser'.<br />
-        /// Unique identifier for the user that owns the record.
-        /// </summary>
-		[AttributeLogicalName("owninguser")]
-		public Guid? OwningUser
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("owninguser");
-                return value?.Id;
-			}
-		}
-
-        public string OwningUserName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("owninguser");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'statecode'.<br />
-        /// Status of the Auto-Numbering
-        /// </summary>
-		[AttributeLogicalName("statecode")]
-		public StatusEnum? Status
-		{
-			get
-			{
-				var value = GetAttributeValue<OptionSetValue>("statecode");
-                return (StatusEnum?) value?.Value;
-			}
-			set
-			{
-                if (value != null) SetAttributeValue("statecode", new OptionSetValue((int) value.Value));
-                else
-	                SetAttributeValue("statecode", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'statuscode'.<br />
-        /// Reason for the status of the Auto-Numbering
-        /// </summary>
-		[AttributeLogicalName("statuscode")]
-		public StatusReasonEnum? StatusReason
-		{
-			get
-			{
-				var value = GetAttributeValue<OptionSetValue>("statuscode");
-                return (StatusReasonEnum?) value?.Value;
-			}
-			set
-			{
-                if (value != null) SetAttributeValue("statuscode", new OptionSetValue((int) value.Value));
-                else
-	                SetAttributeValue("statuscode", value);
-			}
-		}
-
-        /// <summary>
-        /// [Range(-1, 2147483647)] 
-		/// 'TimeZoneRuleVersionNumber'.<br />
-        /// For internal use only.
-        /// </summary>
-		[AttributeLogicalName("timezoneruleversionnumber")]
-		public int? TimeZoneRuleVersionNumber
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("timezoneruleversionnumber");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("timezoneruleversionnumber", value);
-			}
-		}
-
-        /// <summary>
-        /// [Range(-1, 2147483647)] 
-		/// 'UTCConversionTimeZoneCode'.<br />
-        /// Time zone code that was in use when the record was created.
-        /// </summary>
-		[AttributeLogicalName("utcconversiontimezonecode")]
-		public int? UTCConversionTimeZoneCode
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("utcconversiontimezonecode");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("utcconversiontimezonecode", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'VersionNumber'.<br />
-        /// Version Number
-        /// </summary>
-		[AttributeLogicalName("versionnumber")]
-		public long? VersionNumber
-		{
-			get
-			{
-				var value = GetAttributeValue<long?>("versionnumber");
-			    return value;
-			}
-		}
-
-		#endregion
-
-		#region Relationships
-
-		
-		/// <summary>
-		/// 1:N, 'ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId'
-		/// </summary>
-		[RelationshipSchemaName("ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId")]
-		public AutoNumberingBacklog[] AutoNumberingBacklogsOfAutoNumberingConfig
-		{
-			get => GetRelatedEntities<AutoNumberingBacklog>("ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId", null)?.ToArray();
-			set
-			{
-				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
-                value?.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
-				SetRelatedEntities("ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId", null, value);
-			}
-		}
-		
-		/// <summary>
-		/// 1:N, 'ldv_autonumbering_autonumberingstream_AutoNumberingConfigId'
-		/// </summary>
-		[RelationshipSchemaName("ldv_autonumbering_autonumberingstream_AutoNumberingConfigId")]
-		public AutoNumberingStream[] AutoNumberingStreamsOfAutoNumberingConfig
-		{
-			get => GetRelatedEntities<AutoNumberingStream>("ldv_autonumbering_autonumberingstream_AutoNumberingConfigId", null)?.ToArray();
-			set
-			{
-				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
-                value?.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
-				SetRelatedEntities("ldv_autonumbering_autonumberingstream_AutoNumberingConfigId", null, value);
-			}
-		}
-		
-		public static class RelationNames {
-			public static RelationName AutoNumberingBacklogsOfAutoNumberingConfig = new RelationName("AutoNumberingBacklogsOfAutoNumberingConfig");
-			public static RelationName AutoNumberingStreamsOfAutoNumberingConfig = new RelationName("AutoNumberingStreamsOfAutoNumberingConfig");
-		}
-
-		public override IDictionary<string, object[]> RelationProperties { get {
-			if (relationProperties != null) return relationProperties;
-			relationProperties = new Dictionary<string, object[]>();
-			relationProperties["AutoNumberingBacklogsOfAutoNumberingConfig"] = new object[] { "AutoNumberingBacklogsOfAutoNumberingConfig", "ldv_autonumberingbacklog", "ldv_autonumbering", "ldv_autonumberingconfigid", "ldv_autonumberingid", "ldv_autonumberingid", "ldv_autonumberingid", "ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId", typeof (AutoNumberingBacklog[]) };
-			relationProperties["AutoNumberingStreamsOfAutoNumberingConfig"] = new object[] { "AutoNumberingStreamsOfAutoNumberingConfig", "ldv_autonumberingstream", "ldv_autonumbering", "ldv_autonumberingconfigid", "ldv_autonumberingid", "ldv_autonumberingid", "ldv_autonumberingid", "ldv_autonumbering_autonumberingstream_AutoNumberingConfigId", typeof (AutoNumberingStream[]) };
-			return relationProperties; } }
-
-		#endregion
-
-		/// <inheritdoc/>
-		public AutoNumbering(object obj) : base(obj, EntityLogicalName)
-		{
-            foreach (var p in obj.GetType().GetProperties())
-            {
-                var value = p.GetValue(obj, null);
-                if (p.PropertyType == typeof(Guid))
-                {
-                    base.Id = (Guid)value;
-                    Attributes["ldv_autonumberingid"] = base.Id;
-                }
-                else if (p.Name == "FormattedValues")
-                {
-                    FormattedValues.AddRange((FormattedValueCollection)value);
-                }
-                else
-                {
-                    Attributes[p.Name.ToLower()] = value;
-                }
-            }
-		}
-
-		#region Label/value pairs
-
-		public enum IncrementOnUpdateEnum
-		{
-			Yes = 1,
-			No = 0,
-		}
-	
-		public enum IsNumberLetterRatioEnum
-		{
-			Yes = 1,
-			No = 0,
-		}
-	
-		public enum IsRandomLetterStartEnum
-		{
-			Yes = 1,
-			No = 0,
-		}
-	
-		public enum UseBacklogEnum
-		{
-			Yes = 1,
-			No = 0,
-		}
-	
-		public enum UseIndexStreamsEnum
-		{
-			Yes = 1,
-			No = 0,
-		}
-	
-		public enum ValidateUniqueStringEnum
-		{
-			Yes = 1,
-			No = 0,
-		}
-	
-		public enum AutoregisterStepStageEnum
-		{
-			Preoperation = 753240000,
-			Postoperation = 753240001,
-		}
-	
-		public enum ResetIntervalEnum
-		{
-			Never = 0,
-			Once = 1,
-			Daily = 2,
-			Monthly = 3,
-			Yearly = 4,
-		}
-	
-		public enum StatusEnum
-		{
-			Active = 0,
-			Inactive = 1,
-		}
-	
-		public enum StatusReasonEnum
-		{
-			Active = 1,
-			Inactive = 2,
-		}
-	
-		#endregion
-
-		#region Metadata
-
-		#region Enums
-
-		public static class Enums
-		{
-			/// <summary>
-			/// Gets the label corresponding to the option-set's value using its logical name,
-			/// the value within, and the language code.
-			/// </summary>
-			/// <param name="logicalName">The logical name of the option-set in CRM</param>
-			/// <param name="constant">The value from the option-set</param>
-			/// <param name="languageCode">The language code from CRM</param>
-			/// <returns></returns>
-			public static string GetLabel(string logicalName, int constant, int languageCode = 1033)
-			{
-				return GeneratorHelpers.GetLabel(logicalName, constant, typeof(Enums), languageCode);
-			}
-			/// <summary>
-			/// Gets the value corresponding to the option-set's label using its logical name,
-			/// the value within, and the language code.
-			/// </summary>
-			/// <param name="logicalName">The logical name of the option-set in CRM</param>
-			/// <param name="label">The label from the option-set</param>
-			/// <param name="languageCode">The language code from CRM</param>
-			/// <returns>The value corresponding to the label</returns>
-			public static int GetValue(string logicalName, string label, int languageCode = 1033)
-			{
-				return GeneratorHelpers.GetValue(logicalName, label, typeof(Enums), languageCode);
-			}
-		}
-
-		#endregion
-
-		#region Fields
-
-		public static class Fields
-		{
-			#region Logical names
-
-			public const string CreatedBy = "createdby";
-			public const string CreatedOn = "createdon";
-			public const string CreatedByDelegate = "createdonbehalfby";
-			public const string ImportSequenceNumber = "importsequencenumber";
-			public const string AutoNumberingId = "ldv_autonumberingid";
-			public const string BacklogThreshold = "ldv_backlogthreshold";
-			public const string Condition = "ldv_condition";
-			public const string CurrentIndex = "ldv_currentindex";
-			public const string EntityLogicalName_ldv_EntityLogicalName = "ldv_entitylogicalname";
-			public const string FieldLogicalName = "ldv_fieldlogicalname";
-			public const string FormatString = "ldv_formatstring";
-			public const string IndexPadding = "ldv_indexpadding";
-			public const string IncrementOnUpdate = "ldv_isincrementonupdate";
-			public const string IsNumberLetterRatio = "ldv_isnumberletterratio";
-			public const string IsRandomLetterStart = "ldv_israndomletterstart";
-			public const string UseBacklog = "ldv_isusebacklog";
-			public const string UseIndexStreams = "ldv_isuseindexstreams";
-			public const string ValidateUniqueString = "ldv_isvalidateuniquestring";
-			public const string LastResetDate = "ldv_lastresetdate";
-			public const string Locking = "ldv_locking";
-			public const string Name = "ldv_name";
-			public const string NumberLetterRatio = "ldv_numberletterratio";
-			public const string AutoregisterStepStage = "ldv_registerstepstagecode";
-			public const string ReplacementCharacters = "ldv_replacementcharacters";
-			public const string ResetDate = "ldv_resetdate";
-			public const string ResetIndex = "ldv_resetindex";
-			public const string ResetInterval = "ldv_resetinterval";
-			public const string TriggerID = "ldv_triggerid";
-			public const string UniqueID = "ldv_uniqueid";
-			public const string ModifiedBy = "modifiedby";
-			public const string ModifiedOn = "modifiedon";
-			public const string ModifiedByDelegate = "modifiedonbehalfby";
-			public const string RecordCreatedOn = "overriddencreatedon";
-			public const string Owner = "ownerid";
-			public const string OwningBusinessUnit = "owningbusinessunit";
-			public const string OwningTeam = "owningteam";
-			public const string OwningUser = "owninguser";
-			public const string Status = "statecode";
-			public const string StatusReason = "statuscode";
-			public const string TimeZoneRuleVersionNumber = "timezoneruleversionnumber";
-			public const string UTCConversionTimeZoneCode = "utcconversiontimezonecode";
-			public const string VersionNumber = "versionnumber";
-
-			#endregion
-		}
-
-		#endregion
-
-		#endregion
-	}
-
-	#endregion
-
-	#region AutoNumberingBacklog
-
-	/// <summary>
-	/// 'ldv_autonumberingbacklog'.<br />
-	/// 
-	/// </summary>
-	[ExcludeFromCodeCoverage]
-	[DebuggerNonUserCode]
-	[DataContract, EntityLogicalName("ldv_autonumberingbacklog")]
-	public partial class AutoNumberingBacklog : GeneratedEntity<AutoNumberingBacklog.RelationName>
-	{
-		public AutoNumberingBacklog() : base(EntityLogicalName)
-		{ }
-		
-		/// <inheritdoc/>
-		public AutoNumberingBacklog(string[] keys, object[] values) : base(keys, values, EntityLogicalName)
-		{ }
-		
-		/// <inheritdoc/>
-		public AutoNumberingBacklog(object obj, Type limitingType) : base(obj, limitingType, EntityLogicalName)
-		{ }
-
-		public const string DisplayName = "Auto-Numbering Backlog";
-		public const string SchemaName = "ldv_autonumberingbacklog";
-		public const string EntityLogicalName = "ldv_autonumberingbacklog";
-		public const int EntityTypeCode = 10027;
-		
-		public class RelationName : RelationNameBase
-		{
-			public RelationName(string name) : base(name)
-			{}
-		}
-
-		#region Alternate Keys
-
-		public void AddTriggerIDKey(string value) { KeyAttributes.Add("ldv_triggerid", value); }
-
-		#endregion
-
-		#region Attributes
-
-		[AttributeLogicalName("ldv_autonumberingbacklogid")]
-		public override System.Guid Id
-		{
-			get => (AutoNumberingBacklogId == null || AutoNumberingBacklogId == Guid.Empty) ? base.Id : AutoNumberingBacklogId.GetValueOrDefault();
-			set
-			{
-                if (value == Guid.Empty) {
-                    Attributes.Remove("ldv_autonumberingbacklogid");
-                    base.Id = value;
-                } else {
-				    AutoNumberingBacklogId = value;
-                }
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'CreatedBy'.<br />
-        /// Unique identifier of the user who created the record.
-        /// </summary>
-		[AttributeLogicalName("createdby")]
-		public Guid? CreatedBy
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("createdby");
-                return value?.Id;
-			}
-		}
-
-        public string CreatedByName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("createdby");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'CreatedOn'.<br />
-        /// Date and time when the record was created.
-        /// </summary>
-		[AttributeLogicalName("createdon")]
-		public DateTime? CreatedOn
-		{
-			get
-			{
-				var value = GetAttributeValue<DateTime?>("createdon");
-			    return value;
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'CreatedOnBehalfBy'.<br />
-        /// Unique identifier of the delegate user who created the record.
-        /// </summary>
-		[AttributeLogicalName("createdonbehalfby")]
-		public Guid? CreatedByDelegate
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
-                return value?.Id;
-			}
-		}
-
-        public string CreatedByDelegateName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        /// [Range(-2147483648, 2147483647)] 
-		/// 'ImportSequenceNumber'.<br />
-        /// Sequence number of the import that created this record.
-        /// </summary>
-		[AttributeLogicalName("importsequencenumber")]
-		public int? ImportSequenceNumber
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("importsequencenumber");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("importsequencenumber", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'ldv_autonumberingbacklogId'.<br />
-        /// Unique identifier for entity instances
-        /// </summary>
-		[AttributeLogicalName("ldv_autonumberingbacklogid")]
-		public Guid? AutoNumberingBacklogId
-		{
-			get
-			{
-				var value = GetAttributeValue<Guid?>("ldv_autonumberingbacklogid");
-			    return value;
-			}
-			set
-			{
-                if (value != null)
-	                SetAttributeValue("ldv_autonumberingbacklogid", value);
-				if (value != null) base.Id = value.Value;
-				else Id = System.Guid.Empty;
-			}
-		}
-
-		[AttributeLogicalName("ldv_autonumberingconfigid")]
-		public Guid? AutoNumberingConfig
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("ldv_autonumberingconfigid");
-                return value?.Id;
-			}
-			set
-			{
-                if (value != null) SetAttributeValue("ldv_autonumberingconfigid", new EntityReference("ldv_autonumbering", value.Value));
-                else
-	                SetAttributeValue("ldv_autonumberingconfigid", value);
-			}
-		}
-
-        public string AutoNumberingConfigName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("ldv_autonumberingconfigid");
-                return value?.Name;
-            }
-        }
-
-		[AttributeLogicalName("ldv_indexvalue")]
-		public int? IndexValue
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("ldv_indexvalue");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_indexvalue", value);
-			}
-		}
-
-        /// <summary>
-        /// [MaxLength=100] 
-		/// 'ldv_name'.<br />
-        /// The name of the custom entity.
-        /// </summary>
-		[AttributeLogicalName("ldv_name")]
-		public string Name
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_name");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_name", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_streamfieldname")]
-		public string StreamFieldName
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_streamfieldname");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_streamfieldname", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_streamfieldvalue")]
-		public string StreamFieldValue
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_streamfieldvalue");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_streamfieldvalue", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_triggerid")]
-		public string TriggerID
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_triggerid");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_triggerid", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'ModifiedBy'.<br />
-        /// Unique identifier of the user who modified the record.
-        /// </summary>
-		[AttributeLogicalName("modifiedby")]
-		public Guid? ModifiedBy
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("modifiedby");
-                return value?.Id;
-			}
-		}
-
-        public string ModifiedByName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("modifiedby");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'ModifiedOn'.<br />
-        /// Date and time when the record was modified.
-        /// </summary>
-		[AttributeLogicalName("modifiedon")]
-		public DateTime? ModifiedOn
-		{
-			get
-			{
-				var value = GetAttributeValue<DateTime?>("modifiedon");
-			    return value;
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'ModifiedOnBehalfBy'.<br />
-        /// Unique identifier of the delegate user who modified the record.
-        /// </summary>
-		[AttributeLogicalName("modifiedonbehalfby")]
-		public Guid? ModifiedByDelegate
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
-                return value?.Id;
-			}
-		}
-
-        public string ModifiedByDelegateName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'OverriddenCreatedOn'.<br />
-        /// Date and time that the record was migrated.
-        /// </summary>
-		[AttributeLogicalName("overriddencreatedon")]
-		public DateTime? RecordCreatedOn
-		{
-			get
-			{
-				var value = GetAttributeValue<DateTime?>("overriddencreatedon");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("overriddencreatedon", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'OwnerId'.<br />
-        /// Owner Id
-        /// </summary>
-		[AttributeLogicalName("ownerid")]
-		public EntityReference Owner
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("ownerid");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ownerid", value);
-			}
-		}
-
-        public string OwnerName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("ownerid");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'OwningBusinessUnit'.<br />
-        /// Unique identifier for the business unit that owns the record
-        /// </summary>
-		[AttributeLogicalName("owningbusinessunit")]
-		public Guid? OwningBusinessUnit
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
-                return value?.Id;
-			}
-		}
-
-        public string OwningBusinessUnitName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'OwningTeam'.<br />
-        /// Unique identifier for the team that owns the record.
-        /// </summary>
-		[AttributeLogicalName("owningteam")]
-		public Guid? OwningTeam
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("owningteam");
-                return value?.Id;
-			}
-		}
-
-        public string OwningTeamName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("owningteam");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'OwningUser'.<br />
-        /// Unique identifier for the user that owns the record.
-        /// </summary>
-		[AttributeLogicalName("owninguser")]
-		public Guid? OwningUser
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("owninguser");
-                return value?.Id;
-			}
-		}
-
-        public string OwningUserName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("owninguser");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'statecode'.<br />
-        /// Status of the Auto-Numbering Backlog
-        /// </summary>
-		[AttributeLogicalName("statecode")]
-		public StatusEnum? Status
-		{
-			get
-			{
-				var value = GetAttributeValue<OptionSetValue>("statecode");
-                return (StatusEnum?) value?.Value;
-			}
-			set
-			{
-                if (value != null) SetAttributeValue("statecode", new OptionSetValue((int) value.Value));
-                else
-	                SetAttributeValue("statecode", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'statuscode'.<br />
-        /// Reason for the status of the Auto-Numbering Backlog
-        /// </summary>
-		[AttributeLogicalName("statuscode")]
-		public StatusReasonEnum? StatusReason
-		{
-			get
-			{
-				var value = GetAttributeValue<OptionSetValue>("statuscode");
-                return (StatusReasonEnum?) value?.Value;
-			}
-			set
-			{
-                if (value != null) SetAttributeValue("statuscode", new OptionSetValue((int) value.Value));
-                else
-	                SetAttributeValue("statuscode", value);
-			}
-		}
-
-        /// <summary>
-        /// [Range(-1, 2147483647)] 
-		/// 'TimeZoneRuleVersionNumber'.<br />
-        /// For internal use only.
-        /// </summary>
-		[AttributeLogicalName("timezoneruleversionnumber")]
-		public int? TimeZoneRuleVersionNumber
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("timezoneruleversionnumber");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("timezoneruleversionnumber", value);
-			}
-		}
-
-        /// <summary>
-        /// [Range(-1, 2147483647)] 
-		/// 'UTCConversionTimeZoneCode'.<br />
-        /// Time zone code that was in use when the record was created.
-        /// </summary>
-		[AttributeLogicalName("utcconversiontimezonecode")]
-		public int? UTCConversionTimeZoneCode
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("utcconversiontimezonecode");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("utcconversiontimezonecode", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'VersionNumber'.<br />
-        /// Version Number
-        /// </summary>
-		[AttributeLogicalName("versionnumber")]
-		public long? VersionNumber
-		{
-			get
-			{
-				var value = GetAttributeValue<long?>("versionnumber");
-			    return value;
-			}
-		}
-
-		#endregion
-
-		#region Relationships
-
-		
-		/// <summary>
-		/// N:1, 'ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId'
-		/// </summary>
-		[RelationshipSchemaName("ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId"), AttributeLogicalName("ldv_autonumberingconfigid")]
-		public AutoNumbering AutoNumberingAsAutoNumberingConfig
-		{
-			get => GetRelatedEntity<AutoNumbering>("ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId", null);
-			set
-			{
-				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
-                if (value != null) value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
-				SetRelatedEntity<AutoNumbering>("ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId", null, value);
-			}
-		}
-		
-		public static class RelationNames {
-			public static RelationName AutoNumberingAsAutoNumberingConfig = new RelationName("AutoNumberingAsAutoNumberingConfig");
-		}
-
-		public override IDictionary<string, object[]> RelationProperties { get {
-			if (relationProperties != null) return relationProperties;
-			relationProperties = new Dictionary<string, object[]>();
-			relationProperties["AutoNumberingAsAutoNumberingConfig"] = new object[] { "AutoNumberingAsAutoNumberingConfig", "ldv_autonumbering", "ldv_autonumberingbacklog", "ldv_autonumberingid", "ldv_autonumberingconfigid", "ldv_autonumberingbacklogid", "ldv_autonumberingbacklogid", "ldv_autonumbering_autonumberingbacklog_AutoNumberingConfigId", typeof (AutoNumbering) };
-			return relationProperties; } }
-
-		#endregion
-
-		/// <inheritdoc/>
-		public AutoNumberingBacklog(object obj) : base(obj, EntityLogicalName)
-		{
-            foreach (var p in obj.GetType().GetProperties())
-            {
-                var value = p.GetValue(obj, null);
-                if (p.PropertyType == typeof(Guid))
-                {
-                    base.Id = (Guid)value;
-                    Attributes["ldv_autonumberingbacklogid"] = base.Id;
-                }
-                else if (p.Name == "FormattedValues")
-                {
-                    FormattedValues.AddRange((FormattedValueCollection)value);
-                }
-                else
-                {
-                    Attributes[p.Name.ToLower()] = value;
-                }
-            }
-		}
-
-		#region Label/value pairs
-
-		public enum StatusEnum
-		{
-			Active = 0,
-			Inactive = 1,
-		}
-	
-		public enum StatusReasonEnum
-		{
-			Active = 1,
-			Inactive = 2,
-		}
-	
-		#endregion
-
-		#region Metadata
-
-		#region Enums
-
-		public static class Enums
-		{
-			/// <summary>
-			/// Gets the label corresponding to the option-set's value using its logical name,
-			/// the value within, and the language code.
-			/// </summary>
-			/// <param name="logicalName">The logical name of the option-set in CRM</param>
-			/// <param name="constant">The value from the option-set</param>
-			/// <param name="languageCode">The language code from CRM</param>
-			/// <returns></returns>
-			public static string GetLabel(string logicalName, int constant, int languageCode = 1033)
-			{
-				return GeneratorHelpers.GetLabel(logicalName, constant, typeof(Enums), languageCode);
-			}
-			/// <summary>
-			/// Gets the value corresponding to the option-set's label using its logical name,
-			/// the value within, and the language code.
-			/// </summary>
-			/// <param name="logicalName">The logical name of the option-set in CRM</param>
-			/// <param name="label">The label from the option-set</param>
-			/// <param name="languageCode">The language code from CRM</param>
-			/// <returns>The value corresponding to the label</returns>
-			public static int GetValue(string logicalName, string label, int languageCode = 1033)
-			{
-				return GeneratorHelpers.GetValue(logicalName, label, typeof(Enums), languageCode);
-			}
-		}
-
-		#endregion
-
-		#region Fields
-
-		public static class Fields
-		{
-			#region Logical names
-
-			public const string CreatedBy = "createdby";
-			public const string CreatedOn = "createdon";
-			public const string CreatedByDelegate = "createdonbehalfby";
-			public const string ImportSequenceNumber = "importsequencenumber";
-			public const string AutoNumberingBacklogId = "ldv_autonumberingbacklogid";
-			public const string AutoNumberingConfig = "ldv_autonumberingconfigid";
-			public const string IndexValue = "ldv_indexvalue";
-			public const string Name = "ldv_name";
-			public const string StreamFieldName = "ldv_streamfieldname";
-			public const string StreamFieldValue = "ldv_streamfieldvalue";
-			public const string TriggerID = "ldv_triggerid";
-			public const string ModifiedBy = "modifiedby";
-			public const string ModifiedOn = "modifiedon";
-			public const string ModifiedByDelegate = "modifiedonbehalfby";
-			public const string RecordCreatedOn = "overriddencreatedon";
-			public const string Owner = "ownerid";
-			public const string OwningBusinessUnit = "owningbusinessunit";
-			public const string OwningTeam = "owningteam";
-			public const string OwningUser = "owninguser";
-			public const string Status = "statecode";
-			public const string StatusReason = "statuscode";
-			public const string TimeZoneRuleVersionNumber = "timezoneruleversionnumber";
-			public const string UTCConversionTimeZoneCode = "utcconversiontimezonecode";
-			public const string VersionNumber = "versionnumber";
-
-			#endregion
-		}
-
-		#endregion
-
-		#endregion
-	}
-
-	#endregion
-
-	#region AutoNumberingStream
-
-	/// <summary>
-	/// 'ldv_autonumberingstream'.<br />
-	/// 
-	/// </summary>
-	[ExcludeFromCodeCoverage]
-	[DebuggerNonUserCode]
-	[DataContract, EntityLogicalName("ldv_autonumberingstream")]
-	public partial class AutoNumberingStream : GeneratedEntity<AutoNumberingStream.RelationName>
-	{
-		public AutoNumberingStream() : base(EntityLogicalName)
-		{ }
-		
-		/// <inheritdoc/>
-		public AutoNumberingStream(string[] keys, object[] values) : base(keys, values, EntityLogicalName)
-		{ }
-		
-		/// <inheritdoc/>
-		public AutoNumberingStream(object obj, Type limitingType) : base(obj, limitingType, EntityLogicalName)
-		{ }
-
-		public const string DisplayName = "Auto-Numbering Stream";
-		public const string SchemaName = "ldv_autonumberingstream";
-		public const string EntityLogicalName = "ldv_autonumberingstream";
-		public const int EntityTypeCode = 10028;
-		
-		public class RelationName : RelationNameBase
-		{
-			public RelationName(string name) : base(name)
-			{}
-		}
-
-		#region Attributes
-
-		[AttributeLogicalName("ldv_autonumberingstreamid")]
-		public override System.Guid Id
-		{
-			get => (AutoNumberingStreamId == null || AutoNumberingStreamId == Guid.Empty) ? base.Id : AutoNumberingStreamId.GetValueOrDefault();
-			set
-			{
-                if (value == Guid.Empty) {
-                    Attributes.Remove("ldv_autonumberingstreamid");
-                    base.Id = value;
-                } else {
-				    AutoNumberingStreamId = value;
-                }
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'CreatedBy'.<br />
-        /// Unique identifier of the user who created the record.
-        /// </summary>
-		[AttributeLogicalName("createdby")]
-		public Guid? CreatedBy
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("createdby");
-                return value?.Id;
-			}
-		}
-
-        public string CreatedByName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("createdby");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'CreatedOn'.<br />
-        /// Date and time when the record was created.
-        /// </summary>
-		[AttributeLogicalName("createdon")]
-		public DateTime? CreatedOn
-		{
-			get
-			{
-				var value = GetAttributeValue<DateTime?>("createdon");
-			    return value;
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'CreatedOnBehalfBy'.<br />
-        /// Unique identifier of the delegate user who created the record.
-        /// </summary>
-		[AttributeLogicalName("createdonbehalfby")]
-		public Guid? CreatedByDelegate
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
-                return value?.Id;
-			}
-		}
-
-        public string CreatedByDelegateName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        /// [Range(-2147483648, 2147483647)] 
-		/// 'ImportSequenceNumber'.<br />
-        /// Sequence number of the import that created this record.
-        /// </summary>
-		[AttributeLogicalName("importsequencenumber")]
-		public int? ImportSequenceNumber
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("importsequencenumber");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("importsequencenumber", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_autonumberingconfigid")]
-		public Guid? AutoNumberingConfig
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("ldv_autonumberingconfigid");
-                return value?.Id;
-			}
-			set
-			{
-                if (value != null) SetAttributeValue("ldv_autonumberingconfigid", new EntityReference("ldv_autonumbering", value.Value));
-                else
-	                SetAttributeValue("ldv_autonumberingconfigid", value);
-			}
-		}
-
-        public string AutoNumberingConfigName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("ldv_autonumberingconfigid");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'ldv_autonumberingstreamId'.<br />
-        /// Unique identifier for entity instances
-        /// </summary>
-		[AttributeLogicalName("ldv_autonumberingstreamid")]
-		public Guid? AutoNumberingStreamId
-		{
-			get
-			{
-				var value = GetAttributeValue<Guid?>("ldv_autonumberingstreamid");
-			    return value;
-			}
-			set
-			{
-                if (value != null)
-	                SetAttributeValue("ldv_autonumberingstreamid", value);
-				if (value != null) base.Id = value.Value;
-				else Id = System.Guid.Empty;
-			}
-		}
-
-		[AttributeLogicalName("ldv_currentindex")]
-		public int? CurrentIndex
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("ldv_currentindex");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_currentindex", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_fieldname")]
-		public string FieldName
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_fieldname");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_fieldname", value);
-			}
-		}
-
-		[AttributeLogicalName("ldv_fieldvalue")]
-		public string FieldValue
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_fieldvalue");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_fieldvalue", value);
-			}
-		}
-
-        /// <summary>
-        /// [MaxLength=100] 
-		/// 'ldv_name'.<br />
-        /// The name of the custom entity.
-        /// </summary>
-		[AttributeLogicalName("ldv_name")]
-		public string Name
-		{
-			get
-			{
-				var value = GetAttributeValue<string>("ldv_name");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ldv_name", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'ModifiedBy'.<br />
-        /// Unique identifier of the user who modified the record.
-        /// </summary>
-		[AttributeLogicalName("modifiedby")]
-		public Guid? ModifiedBy
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("modifiedby");
-                return value?.Id;
-			}
-		}
-
-        public string ModifiedByName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("modifiedby");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'ModifiedOn'.<br />
-        /// Date and time when the record was modified.
-        /// </summary>
-		[AttributeLogicalName("modifiedon")]
-		public DateTime? ModifiedOn
-		{
-			get
-			{
-				var value = GetAttributeValue<DateTime?>("modifiedon");
-			    return value;
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'ModifiedOnBehalfBy'.<br />
-        /// Unique identifier of the delegate user who modified the record.
-        /// </summary>
-		[AttributeLogicalName("modifiedonbehalfby")]
-		public Guid? ModifiedByDelegate
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
-                return value?.Id;
-			}
-		}
-
-        public string ModifiedByDelegateName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'OverriddenCreatedOn'.<br />
-        /// Date and time that the record was migrated.
-        /// </summary>
-		[AttributeLogicalName("overriddencreatedon")]
-		public DateTime? RecordCreatedOn
-		{
-			get
-			{
-				var value = GetAttributeValue<DateTime?>("overriddencreatedon");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("overriddencreatedon", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'OwnerId'.<br />
-        /// Owner Id
-        /// </summary>
-		[AttributeLogicalName("ownerid")]
-		public EntityReference Owner
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("ownerid");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("ownerid", value);
-			}
-		}
-
-        public string OwnerName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("ownerid");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'OwningBusinessUnit'.<br />
-        /// Unique identifier for the business unit that owns the record
-        /// </summary>
-		[AttributeLogicalName("owningbusinessunit")]
-		public Guid? OwningBusinessUnit
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
-                return value?.Id;
-			}
-		}
-
-        public string OwningBusinessUnitName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'OwningTeam'.<br />
-        /// Unique identifier for the team that owns the record.
-        /// </summary>
-		[AttributeLogicalName("owningteam")]
-		public Guid? OwningTeam
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("owningteam");
-                return value?.Id;
-			}
-		}
-
-        public string OwningTeamName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("owningteam");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'OwningUser'.<br />
-        /// Unique identifier for the user that owns the record.
-        /// </summary>
-		[AttributeLogicalName("owninguser")]
-		public Guid? OwningUser
-		{
-			get
-			{
-				var value = GetAttributeValue<EntityReference>("owninguser");
-                return value?.Id;
-			}
-		}
-
-        public string OwningUserName
-        {
-		    get
-		    {
-				var value = GetAttributeValue<EntityReference>("owninguser");
-                return value?.Name;
-            }
-        }
-
-        /// <summary>
-        ///  
-		/// 'statecode'.<br />
-        /// Status of the Auto-Numbering Stream
-        /// </summary>
-		[AttributeLogicalName("statecode")]
-		public StatusEnum? Status
-		{
-			get
-			{
-				var value = GetAttributeValue<OptionSetValue>("statecode");
-                return (StatusEnum?) value?.Value;
-			}
-			set
-			{
-                if (value != null) SetAttributeValue("statecode", new OptionSetValue((int) value.Value));
-                else
-	                SetAttributeValue("statecode", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'statuscode'.<br />
-        /// Reason for the status of the Auto-Numbering Stream
-        /// </summary>
-		[AttributeLogicalName("statuscode")]
-		public StatusReasonEnum? StatusReason
-		{
-			get
-			{
-				var value = GetAttributeValue<OptionSetValue>("statuscode");
-                return (StatusReasonEnum?) value?.Value;
-			}
-			set
-			{
-                if (value != null) SetAttributeValue("statuscode", new OptionSetValue((int) value.Value));
-                else
-	                SetAttributeValue("statuscode", value);
-			}
-		}
-
-        /// <summary>
-        /// [Range(-1, 2147483647)] 
-		/// 'TimeZoneRuleVersionNumber'.<br />
-        /// For internal use only.
-        /// </summary>
-		[AttributeLogicalName("timezoneruleversionnumber")]
-		public int? TimeZoneRuleVersionNumber
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("timezoneruleversionnumber");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("timezoneruleversionnumber", value);
-			}
-		}
-
-        /// <summary>
-        /// [Range(-1, 2147483647)] 
-		/// 'UTCConversionTimeZoneCode'.<br />
-        /// Time zone code that was in use when the record was created.
-        /// </summary>
-		[AttributeLogicalName("utcconversiontimezonecode")]
-		public int? UTCConversionTimeZoneCode
-		{
-			get
-			{
-				var value = GetAttributeValue<int?>("utcconversiontimezonecode");
-			    return value;
-			}
-			set
-			{
-                SetAttributeValue("utcconversiontimezonecode", value);
-			}
-		}
-
-        /// <summary>
-        ///  
-		/// 'VersionNumber'.<br />
-        /// Version Number
-        /// </summary>
-		[AttributeLogicalName("versionnumber")]
-		public long? VersionNumber
-		{
-			get
-			{
-				var value = GetAttributeValue<long?>("versionnumber");
-			    return value;
-			}
-		}
-
-		#endregion
-
-		#region Relationships
-
-		
-		/// <summary>
-		/// N:1, 'ldv_autonumbering_autonumberingstream_AutoNumberingConfigId'
-		/// </summary>
-		[RelationshipSchemaName("ldv_autonumbering_autonumberingstream_AutoNumberingConfigId"), AttributeLogicalName("ldv_autonumberingconfigid")]
-		public AutoNumbering AutoNumberingAsAutoNumberingConfig
-		{
-			get => GetRelatedEntity<AutoNumbering>("ldv_autonumbering_autonumberingstream_AutoNumberingConfigId", null);
-			set
-			{
-				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
-                if (value != null) value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
-				SetRelatedEntity<AutoNumbering>("ldv_autonumbering_autonumberingstream_AutoNumberingConfigId", null, value);
-			}
-		}
-		
-		public static class RelationNames {
-			public static RelationName AutoNumberingAsAutoNumberingConfig = new RelationName("AutoNumberingAsAutoNumberingConfig");
-		}
-
-		public override IDictionary<string, object[]> RelationProperties { get {
-			if (relationProperties != null) return relationProperties;
-			relationProperties = new Dictionary<string, object[]>();
-			relationProperties["AutoNumberingAsAutoNumberingConfig"] = new object[] { "AutoNumberingAsAutoNumberingConfig", "ldv_autonumbering", "ldv_autonumberingstream", "ldv_autonumberingid", "ldv_autonumberingconfigid", "ldv_autonumberingstreamid", "ldv_autonumberingstreamid", "ldv_autonumbering_autonumberingstream_AutoNumberingConfigId", typeof (AutoNumbering) };
-			return relationProperties; } }
-
-		#endregion
-
-		/// <inheritdoc/>
-		public AutoNumberingStream(object obj) : base(obj, EntityLogicalName)
-		{
-            foreach (var p in obj.GetType().GetProperties())
-            {
-                var value = p.GetValue(obj, null);
-                if (p.PropertyType == typeof(Guid))
-                {
-                    base.Id = (Guid)value;
-                    Attributes["ldv_autonumberingstreamid"] = base.Id;
-                }
-                else if (p.Name == "FormattedValues")
-                {
-                    FormattedValues.AddRange((FormattedValueCollection)value);
-                }
-                else
-                {
-                    Attributes[p.Name.ToLower()] = value;
-                }
-            }
-		}
-
-		#region Label/value pairs
-
-		public enum StatusEnum
-		{
-			Active = 0,
-			Inactive = 1,
-		}
-	
-		public enum StatusReasonEnum
-		{
-			Active = 1,
-			Inactive = 2,
-		}
-	
-		#endregion
-
-		#region Metadata
-
-
-		#endregion
-	}
-
-	#endregion
-
 	#region PluginType
 
 	/// <summary>
@@ -4827,6 +2488,14 @@ namespace Yagasoft.AutoNumbering.Plugins
 			public RelationName(string name) : base(name)
 			{}
 		}
+
+		#region Alternate Keys
+
+		public void AddComponentStateKey(OptionSetValue value) { KeyAttributes.Add("componentstate", value); }
+		public void AddRecordOverwriteTimeKey(DateTime? value) { KeyAttributes.Add("overwritetime", value); }
+		public void AddPluginTypeexportkeyKey(string value) { KeyAttributes.Add("plugintypeexportkey", value); }
+
+		#endregion
 
 		#region Attributes
 
@@ -4866,12 +2535,12 @@ namespace Yagasoft.AutoNumbering.Plugins
         /// For internal use only.
         /// </summary>
 		[AttributeLogicalName("componentstate")]
-		public ComponentStateEnum? ComponentState
+		public GlobalEnums.ComponentState? ComponentState
 		{
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("componentstate");
-                return (ComponentStateEnum?) value?.Value;
+				return (GlobalEnums.ComponentState?)value?.Value;
 			}
 		}
 
@@ -5228,6 +2897,25 @@ namespace Yagasoft.AutoNumbering.Plugins
         }
 
         /// <summary>
+        /// [MaxLength=256] 
+		/// 'PluginTypeExportKey'.<br />
+        /// Uniquely identifies the plug-in type associated with a plugin package when exporting a solution.
+        /// </summary>
+		[AttributeLogicalName("plugintypeexportkey")]
+		public string PluginTypeexportkey
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("plugintypeexportkey");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("plugintypeexportkey", value);
+			}
+		}
+
+        /// <summary>
         ///  
 		/// 'PluginTypeId'.<br />
         /// Unique identifier of the plug-in type.
@@ -5430,14 +3118,6 @@ namespace Yagasoft.AutoNumbering.Plugins
 
 		#region Label/value pairs
 
-		public enum ComponentStateEnum
-		{
-			Published = 0,
-			Unpublished = 1,
-			Deleted = 2,
-			DeletedUnpublished = 3,
-		}
-	
 		public enum IsManagedEnum
 		{
 			Managed = 1,
@@ -5573,12 +3253,12 @@ namespace Yagasoft.AutoNumbering.Plugins
         /// For internal use only.
         /// </summary>
 		[AttributeLogicalName("componentstate")]
-		public ComponentStateEnum? ComponentState
+		public GlobalEnums.ComponentState? ComponentState
 		{
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("componentstate");
-                return (ComponentStateEnum?) value?.Value;
+				return (GlobalEnums.ComponentState?)value?.Value;
 			}
 		}
 
@@ -5657,6 +3337,25 @@ namespace Yagasoft.AutoNumbering.Plugins
 			{
 				var value = GetAttributeValue<int?>("customizationlevel");
 			    return value;
+			}
+		}
+
+        /// <summary>
+        /// [MaxLength=100] 
+		/// 'ExecutePrivilegeName'.<br />
+        /// Name of the privilege that allows execution of the SDK message
+        /// </summary>
+		[AttributeLogicalName("executeprivilegename")]
+		public string ExecutePrivilegeName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("executeprivilegename");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("executeprivilegename", value);
 			}
 		}
 
@@ -6101,14 +3800,6 @@ namespace Yagasoft.AutoNumbering.Plugins
 			No = 0,
 		}
 	
-		public enum ComponentStateEnum
-		{
-			Published = 0,
-			Unpublished = 1,
-			Deleted = 2,
-			DeletedUnpublished = 3,
-		}
-	
 		public enum ExpandEnum
 		{
 			Yes = 1,
@@ -6242,12 +3933,12 @@ namespace Yagasoft.AutoNumbering.Plugins
         /// For internal use only.
         /// </summary>
 		[AttributeLogicalName("componentstate")]
-		public ComponentStateEnum? ComponentState
+		public GlobalEnums.ComponentState? ComponentState
 		{
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("componentstate");
-                return (ComponentStateEnum?) value?.Value;
+				return (GlobalEnums.ComponentState?)value?.Value;
 			}
 		}
 
@@ -6459,6 +4150,25 @@ namespace Yagasoft.AutoNumbering.Plugins
                 return value?.Name;
             }
         }
+
+        /// <summary>
+        /// [MaxLength=256] 
+		/// 'Name'.<br />
+        /// Name of the SDK message filter.
+        /// </summary>
+		[AttributeLogicalName("name")]
+		public string Name
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("name");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("name", value);
+			}
+		}
 
         /// <summary>
         ///  
@@ -6728,14 +4438,6 @@ namespace Yagasoft.AutoNumbering.Plugins
 
 		#region Label/value pairs
 
-		public enum ComponentStateEnum
-		{
-			Published = 0,
-			Unpublished = 1,
-			Deleted = 2,
-			DeletedUnpublished = 3,
-		}
-	
 		public enum CustomProcessingStepAllowedEnum
 		{
 			Yes = 1,
@@ -6847,6 +4549,20 @@ namespace Yagasoft.AutoNumbering.Plugins
 			}
 		}
 
+		[AttributeLogicalName("canbebypassed")]
+		public bool? CanBeBypassed
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("canbebypassed");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("canbebypassed", value);
+			}
+		}
+
         /// <summary>
         ///  
 		/// 'CanUseReadOnlyConnection'.<br />
@@ -6867,17 +4583,36 @@ namespace Yagasoft.AutoNumbering.Plugins
 		}
 
         /// <summary>
+        /// [MaxLength=100] 
+		/// 'Category'.<br />
+        /// For internal use only.
+        /// </summary>
+		[AttributeLogicalName("category")]
+		public string Category
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("category");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("category", value);
+			}
+		}
+
+        /// <summary>
         ///  
 		/// 'ComponentState'.<br />
         /// For internal use only.
         /// </summary>
 		[AttributeLogicalName("componentstate")]
-		public ComponentStateEnum? ComponentState
+		public GlobalEnums.ComponentState? ComponentState
 		{
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("componentstate");
-                return (ComponentStateEnum?) value?.Value;
+				return (GlobalEnums.ComponentState?)value?.Value;
 			}
 		}
 
@@ -6998,6 +4733,25 @@ namespace Yagasoft.AutoNumbering.Plugins
 		}
 
         /// <summary>
+        ///  
+		/// 'EnablePluginProfiler'.<br />
+        /// EnablePluginProfiler
+        /// </summary>
+		[AttributeLogicalName("enablepluginprofiler")]
+		public bool? EnablePluginProfiler
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("enablepluginprofiler");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("enablepluginprofiler", value);
+			}
+		}
+
+        /// <summary>
         /// [MaxLength=1073741823] 
 		/// 'EventExpander'.<br />
         /// Configuration for sending pipeline events to the Event Expander service.
@@ -7065,6 +4819,36 @@ namespace Yagasoft.AutoNumbering.Plugins
 
         /// <summary>
         ///  
+		/// 'FxExpressionId'.<br />
+        /// Unique identifier for fxexpression associated with SdkMessageProcessingStep.
+        /// </summary>
+		[AttributeLogicalName("fxexpressionid")]
+		public Guid? fxexpressionid
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("fxexpressionid");
+                return value?.Id;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("fxexpressionid", new EntityReference("fxexpression", value.Value));
+                else
+	                SetAttributeValue("fxexpressionid", value);
+			}
+		}
+
+        public string fxexpressionidName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("fxexpressionid");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
 		/// 'ImpersonatingUserId'.<br />
         /// Unique identifier of the user to impersonate context when step is executed.
         /// </summary>
@@ -7124,7 +4908,7 @@ namespace Yagasoft.AutoNumbering.Plugins
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("invocationsource");
-                return (InvocationSourceEnum?) value?.Value;
+				return (InvocationSourceEnum?)value?.Value;
 			}
 			set
 			{
@@ -7198,7 +4982,7 @@ namespace Yagasoft.AutoNumbering.Plugins
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("mode");
-                return (ExecutionModeEnum?) value?.Value;
+				return (ExecutionModeEnum?)value?.Value;
 			}
 			set
 			{
@@ -7361,6 +5145,36 @@ namespace Yagasoft.AutoNumbering.Plugins
         }
 
         /// <summary>
+        ///  
+		/// 'PowerfxRuleId'.<br />
+        /// Unique identifier for powerfxrule associated with SdkMessageProcessingStep.
+        /// </summary>
+		[AttributeLogicalName("powerfxruleid")]
+		public Guid? powerfxruleid
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("powerfxruleid");
+                return value?.Id;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("powerfxruleid", new EntityReference("powerfxrule", value.Value));
+                else
+	                SetAttributeValue("powerfxruleid", value);
+			}
+		}
+
+        public string powerfxruleidName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("powerfxruleid");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
         /// [Range(-2147483648, 2147483647)] 
 		/// 'Rank'.<br />
         /// Processing order within the stage.
@@ -7376,6 +5190,25 @@ namespace Yagasoft.AutoNumbering.Plugins
 			set
 			{
                 SetAttributeValue("rank", value);
+			}
+		}
+
+        /// <summary>
+        /// [MaxLength=512] 
+		/// 'RuntimeIntegrationProperties'.<br />
+        /// For internal use only. Holds miscellaneous properties related to runtime integration.
+        /// </summary>
+		[AttributeLogicalName("runtimeintegrationproperties")]
+		public string RuntimeIntegrationProperties
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("runtimeintegrationproperties");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("runtimeintegrationproperties", value);
 			}
 		}
 
@@ -7532,7 +5365,7 @@ namespace Yagasoft.AutoNumbering.Plugins
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("stage");
-                return (ExecutionStageEnum?) value?.Value;
+				return (ExecutionStageEnum?)value?.Value;
 			}
 			set
 			{
@@ -7553,7 +5386,7 @@ namespace Yagasoft.AutoNumbering.Plugins
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("statecode");
-                return (StatusEnum?) value?.Value;
+				return (StatusEnum?)value?.Value;
 			}
 			set
 			{
@@ -7574,7 +5407,7 @@ namespace Yagasoft.AutoNumbering.Plugins
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("statuscode");
-                return (StatusReasonEnum?) value?.Value;
+				return (StatusReasonEnum?)value?.Value;
 			}
 			set
 			{
@@ -7595,7 +5428,7 @@ namespace Yagasoft.AutoNumbering.Plugins
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("supporteddeployment");
-                return (DeploymentEnum?) value?.Value;
+				return (DeploymentEnum?)value?.Value;
 			}
 			set
 			{
@@ -7750,18 +5583,22 @@ namespace Yagasoft.AutoNumbering.Plugins
 			No = 0,
 		}
 	
+		public enum CanBeBypassedEnum
+		{
+			Yes = 1,
+			No = 0,
+		}
+	
 		public enum IntentEnum
 		{
 			Yes = 1,
 			No = 0,
 		}
 	
-		public enum ComponentStateEnum
+		public enum EnablePluginProfilerEnum
 		{
-			Published = 0,
-			Unpublished = 1,
-			Deleted = 2,
-			DeletedUnpublished = 3,
+			Yes = 1,
+			No = 0,
 		}
 	
 		public enum InvocationSourceEnum
@@ -7796,6 +5633,8 @@ namespace Yagasoft.AutoNumbering.Plugins
 			InternalPostoperationAfterExternalPluginsForinternaluseonly = 45,
 			PostoperationDeprecated = 50,
 			FinalPostoperationForinternaluseonly = 55,
+			PreCommitstagefiredbeforetransactioncommitForinternaluseonly = 80,
+			PostCommitstagefiredaftertransactioncommitForinternaluseonly = 90,
 		}
 	
 		public enum StatusEnum
@@ -7902,12 +5741,12 @@ namespace Yagasoft.AutoNumbering.Plugins
         /// For internal use only.
         /// </summary>
 		[AttributeLogicalName("componentstate")]
-		public ComponentStateEnum? ComponentState
+		public GlobalEnums.ComponentState? ComponentState
 		{
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("componentstate");
-                return (ComponentStateEnum?) value?.Value;
+				return (GlobalEnums.ComponentState?)value?.Value;
 			}
 		}
 
@@ -8038,7 +5877,7 @@ namespace Yagasoft.AutoNumbering.Plugins
 			get
 			{
 				var value = GetAttributeValue<OptionSetValue>("imagetype");
-                return (ImageTypeEnum?) value?.Value;
+				return (ImageTypeEnum?)value?.Value;
 			}
 			set
 			{
@@ -8408,14 +6247,6 @@ namespace Yagasoft.AutoNumbering.Plugins
 
 		#region Label/value pairs
 
-		public enum ComponentStateEnum
-		{
-			Published = 0,
-			Unpublished = 1,
-			Deleted = 2,
-			DeletedUnpublished = 3,
-		}
-	
 		public enum ImageTypeEnum
 		{
 			PreImage = 0,
@@ -8438,6 +6269,2361 @@ namespace Yagasoft.AutoNumbering.Plugins
 	}
 
 	#endregion
+
+	#region AutoNumbering
+
+	/// <summary>
+	/// 'ys_autonumbering'.<br />
+	/// 
+	/// </summary>
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+	[DataContract, EntityLogicalName("ys_autonumbering")]
+	public partial class AutoNumbering : GeneratedEntity<AutoNumbering.RelationName>
+	{
+		public AutoNumbering() : base(EntityLogicalName)
+		{ }
+		
+		/// <inheritdoc/>
+		public AutoNumbering(string[] keys, object[] values) : base(keys, values, EntityLogicalName)
+		{ }
+		
+		/// <inheritdoc/>
+		public AutoNumbering(object obj, Type limitingType) : base(obj, limitingType, EntityLogicalName)
+		{ }
+
+		public const string DisplayName = "Auto-Numbering";
+		public const string SchemaName = "ys_autonumbering";
+		public const string EntityLogicalName = "ys_autonumbering";
+		public const int EntityTypeCode = 10496;
+		
+		public class RelationName : RelationNameBase
+		{
+			public RelationName(string name) : base(name)
+			{}
+		}
+
+		#region Attributes
+
+		[AttributeLogicalName("ys_autonumberingid")]
+		public override System.Guid Id
+		{
+			get => (AutoNumberingId == null || AutoNumberingId == Guid.Empty) ? base.Id : AutoNumberingId.GetValueOrDefault();
+			set
+			{
+                if (value == Guid.Empty) {
+                    Attributes.Remove("ys_autonumberingid");
+                    base.Id = value;
+                } else {
+				    AutoNumberingId = value;
+                }
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedBy'.<br />
+        /// Unique identifier of the user who created the record.
+        /// </summary>
+		[AttributeLogicalName("createdby")]
+		public Guid? CreatedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdby");
+                return value?.Id;
+			}
+		}
+
+        public string CreatedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdby");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'CreatedOn'.<br />
+        /// Date and time when the record was created.
+        /// </summary>
+		[AttributeLogicalName("createdon")]
+		public DateTime? CreatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("createdon");
+			    return value;
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who created the record.
+        /// </summary>
+		[AttributeLogicalName("createdonbehalfby")]
+		public Guid? CreatedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+                return value?.Id;
+			}
+		}
+
+        public string CreatedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        /// [Range(-2147483648, 2147483647)] 
+		/// 'ImportSequenceNumber'.<br />
+        /// Sequence number of the import that created this record.
+        /// </summary>
+		[AttributeLogicalName("importsequencenumber")]
+		public int? ImportSequenceNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("importsequencenumber");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("importsequencenumber", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedBy'.<br />
+        /// Unique identifier of the user who modified the record.
+        /// </summary>
+		[AttributeLogicalName("modifiedby")]
+		public Guid? ModifiedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+                return value?.Id;
+			}
+		}
+
+        public string ModifiedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOn'.<br />
+        /// Date and time when the record was modified.
+        /// </summary>
+		[AttributeLogicalName("modifiedon")]
+		public DateTime? ModifiedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("modifiedon");
+			    return value;
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who modified the record.
+        /// </summary>
+		[AttributeLogicalName("modifiedonbehalfby")]
+		public Guid? ModifiedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+                return value?.Id;
+			}
+		}
+
+        public string ModifiedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'OverriddenCreatedOn'.<br />
+        /// Date and time that the record was migrated.
+        /// </summary>
+		[AttributeLogicalName("overriddencreatedon")]
+		public DateTime? RecordCreatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("overriddencreatedon");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("overriddencreatedon", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'OwnerId'.<br />
+        /// Owner Id
+        /// </summary>
+		[AttributeLogicalName("ownerid")]
+		public EntityReference Owner
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("ownerid");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ownerid", value);
+			}
+		}
+
+        public string OwnerName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("ownerid");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'OwningBusinessUnit'.<br />
+        /// Unique identifier for the business unit that owns the record
+        /// </summary>
+		[AttributeLogicalName("owningbusinessunit")]
+		public Guid? OwningBusinessUnit
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
+                return value?.Id;
+			}
+		}
+
+        public string OwningBusinessUnitName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'OwningTeam'.<br />
+        /// Unique identifier for the team that owns the record.
+        /// </summary>
+		[AttributeLogicalName("owningteam")]
+		public Guid? OwningTeam
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("owningteam");
+                return value?.Id;
+			}
+		}
+
+        public string OwningTeamName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("owningteam");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'OwningUser'.<br />
+        /// Unique identifier for the user that owns the record.
+        /// </summary>
+		[AttributeLogicalName("owninguser")]
+		public Guid? OwningUser
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("owninguser");
+                return value?.Id;
+			}
+		}
+
+        public string OwningUserName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("owninguser");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'statecode'.<br />
+        /// Status of the Auto-Numbering
+        /// </summary>
+		[AttributeLogicalName("statecode")]
+		public StatusEnum? Status
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("statecode");
+				return (StatusEnum?)value?.Value;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("statecode", new OptionSetValue((int) value.Value));
+                else
+	                SetAttributeValue("statecode", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'statuscode'.<br />
+        /// Reason for the status of the Auto-Numbering
+        /// </summary>
+		[AttributeLogicalName("statuscode")]
+		public StatusReasonEnum? StatusReason
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("statuscode");
+				return (StatusReasonEnum?)value?.Value;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("statuscode", new OptionSetValue((int) value.Value));
+                else
+	                SetAttributeValue("statuscode", value);
+			}
+		}
+
+        /// <summary>
+        /// [Range(-1, 2147483647)] 
+		/// 'TimeZoneRuleVersionNumber'.<br />
+        /// For internal use only.
+        /// </summary>
+		[AttributeLogicalName("timezoneruleversionnumber")]
+		public int? TimeZoneRuleVersionNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("timezoneruleversionnumber");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("timezoneruleversionnumber", value);
+			}
+		}
+
+        /// <summary>
+        /// [Range(-1, 2147483647)] 
+		/// 'UTCConversionTimeZoneCode'.<br />
+        /// Time zone code that was in use when the record was created.
+        /// </summary>
+		[AttributeLogicalName("utcconversiontimezonecode")]
+		public int? UTCConversionTimeZoneCode
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("utcconversiontimezonecode");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("utcconversiontimezonecode", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'VersionNumber'.<br />
+        /// Version Number
+        /// </summary>
+		[AttributeLogicalName("versionnumber")]
+		public long? VersionNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<long?>("versionnumber");
+			    return value;
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ys_autonumberingId'.<br />
+        /// Unique identifier for entity instances
+        /// </summary>
+		[AttributeLogicalName("ys_autonumberingid")]
+		public Guid? AutoNumberingId
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("ys_autonumberingid");
+			    return value;
+			}
+			set
+			{
+                if (value != null)
+	                SetAttributeValue("ys_autonumberingid", value);
+				if (value != null) base.Id = value.Value;
+				else Id = System.Guid.Empty;
+			}
+		}
+
+        /// <summary>
+        /// [Range(0, 2147483647)] 
+		/// 'ys_BacklogThreshold'.<br />
+        /// How far back (in minutes) to start looking at the backlog.
+        /// </summary>
+		[AttributeLogicalName("ys_backlogthreshold")]
+		public int? BacklogThreshold
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("ys_backlogthreshold");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_backlogthreshold", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_condition")]
+		public string Condition
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_condition");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_condition", value);
+			}
+		}
+
+        /// <summary>
+        /// [Required][Range(0, 2147483647)] 
+		/// 'ys_CurrentIndex'.<br />
+        /// Set to zero to remove from the generated string.
+        /// </summary>
+		[AttributeLogicalName("ys_currentindex")]
+		public int? CurrentIndex
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("ys_currentindex");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_currentindex", value);
+			}
+		}
+
+        /// <summary>
+        /// [MaxLength=256] 
+		/// 'ys_EntityLogicalName'.<br />
+        /// The logical name of the entity to generate a number for.
+        /// </summary>
+		[AttributeLogicalName("ys_entitylogicalname")]
+		public string EntityLogicalName_ys_EntityLogicalName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_entitylogicalname");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_entitylogicalname", value);
+			}
+		}
+
+        /// <summary>
+        /// [MaxLength=4000] 
+		/// 'ys_FieldLogicalName'.<br />
+        /// Comma-separated list of destination fields.
+        /// </summary>
+		[AttributeLogicalName("ys_fieldlogicalname")]
+		public string FieldLogicalName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_fieldlogicalname");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_fieldlogicalname", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_formatstring")]
+		public string FormatString
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_formatstring");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_formatstring", value);
+			}
+		}
+
+        /// <summary>
+        /// [Required][Range(0, 2147483647)] 
+		/// 'ys_IndexPadding'.<br />
+        /// Total length of the index in the resulting generated number. Set to zero for no padding.
+        /// </summary>
+		[AttributeLogicalName("ys_indexpadding")]
+		public int? IndexPadding
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("ys_indexpadding");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_indexpadding", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_isincrementonupdate")]
+		public bool? IncrementOnUpdate
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("ys_isincrementonupdate");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_isincrementonupdate", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ys_IsNumberLetterRatio'.<br />
+        /// Flag to use the number to letter ratio.
+        /// </summary>
+		[AttributeLogicalName("ys_isnumberletterratio")]
+		public bool? __ObsoleteIsNumberLetterRatio
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("ys_isnumberletterratio");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_isnumberletterratio", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_israndomletterstart")]
+		public bool? __ObsoleteIsRandomLetterStart
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("ys_israndomletterstart");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_israndomletterstart", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_isusebacklog")]
+		public bool? UseBacklog
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("ys_isusebacklog");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_isusebacklog", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_isuseindexstreams")]
+		public bool? UseIndexStreams
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("ys_isuseindexstreams");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_isuseindexstreams", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_isvalidateuniquestring")]
+		public bool? ValidateUniqueString
+		{
+			get
+			{
+				var value = GetAttributeValue<bool?>("ys_isvalidateuniquestring");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_isvalidateuniquestring", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_lastresetdate")]
+		public DateTime? LastResetDate
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("ys_lastresetdate");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_lastresetdate", value);
+			}
+		}
+
+        /// <summary>
+        /// [MaxLength=4000] 
+		/// 'ys_Locking'.<br />
+        /// A field that can be used to lock the DB transaction.
+        /// </summary>
+		[AttributeLogicalName("ys_locking")]
+		public string Locking
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_locking");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_locking", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_name")]
+		public string Name
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_name");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_name", value);
+			}
+		}
+
+        /// <summary>
+        /// [Range(0, 100)] 
+		/// 'ys_NumberLetterRatio'.<br />
+        /// The percentage of letters in the generated random string.
+        /// </summary>
+		[AttributeLogicalName("ys_numberletterratio")]
+		public int? __ObsoleteNumberLetterRatio
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("ys_numberletterratio");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_numberletterratio", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ys_RegisterStepStageCode'.<br />
+        /// Automatically adds a plugin step for the current configuration on the Create message. Clear value to remove step.
+        /// </summary>
+		[AttributeLogicalName("ys_registerstepstagecode")]
+		public AutoregisterStepStageEnum? AutoregisterStepStage
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("ys_registerstepstagecode");
+				return (AutoregisterStepStageEnum?)value?.Value;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("ys_registerstepstagecode", new OptionSetValue((int) value.Value));
+                else
+	                SetAttributeValue("ys_registerstepstagecode", value);
+			}
+		}
+
+        /// <summary>
+        /// [MaxLength=4000] 
+		/// 'ys_ReplacementCharacters'.<br />
+        /// Regex expression to be replaced in the final string. Format: [regex1],[replacement1];[regex2],[replacement2]
+        /// </summary>
+		[AttributeLogicalName("ys_replacementcharacters")]
+		public string ReplacementCharacters
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_replacementcharacters");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_replacementcharacters", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_resetdate")]
+		public DateTime? ResetDate
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("ys_resetdate");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_resetdate", value);
+			}
+		}
+
+        /// <summary>
+        /// [Range(0, 2147483647)] 
+		/// 'ys_ResetIndex'.<br />
+        /// The number to reset the index to on the set date.
+        /// </summary>
+		[AttributeLogicalName("ys_resetindex")]
+		public int? ResetIndex
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("ys_resetindex");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_resetindex", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_resetinterval")]
+		public ResetIntervalEnum? ResetInterval
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("ys_resetinterval");
+				return (ResetIntervalEnum?)value?.Value;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("ys_resetinterval", new OptionSetValue((int) value.Value));
+                else
+	                SetAttributeValue("ys_resetinterval", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_triggerid")]
+		public string TriggerID
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_triggerid");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_triggerid", value);
+			}
+		}
+
+        /// <summary>
+        /// [MaxLength=36] 
+		/// 'ys_UniqueID'.<br />
+        /// Use this ID in the 'unsecure config' of the plugin steps.
+        /// </summary>
+		[AttributeLogicalName("ys_uniqueid")]
+		public string UniqueID
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_uniqueid");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_uniqueid", value);
+			}
+		}
+
+		#endregion
+
+		#region Relationships
+
+		
+		/// <summary>
+		/// 1:N, 'ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId'
+		/// </summary>
+		[RelationshipSchemaName("ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId")]
+		public AutoNumberingBacklog[] AutoNumberingBacklogsOfAutoNumberingConfig
+		{
+			get => GetRelatedEntities<AutoNumberingBacklog>("ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId", null)?.ToArray();
+			set
+			{
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                value?.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
+				SetRelatedEntities("ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// 1:N, 'ys_autonumbering_autonumberingstream_AutoNumberingConfigId'
+		/// </summary>
+		[RelationshipSchemaName("ys_autonumbering_autonumberingstream_AutoNumberingConfigId")]
+		public AutoNumberingStream[] AutoNumberingStreamsOfAutoNumberingConfig
+		{
+			get => GetRelatedEntities<AutoNumberingStream>("ys_autonumbering_autonumberingstream_AutoNumberingConfigId", null)?.ToArray();
+			set
+			{
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                value?.ToList().ForEach(entity => entity.LogicalName = (string) value.First().GetType().GetField("EntityLogicalName").GetRawConstantValue());
+				SetRelatedEntities("ys_autonumbering_autonumberingstream_AutoNumberingConfigId", null, value);
+			}
+		}
+		
+		public static class RelationNames {
+			public static RelationName AutoNumberingBacklogsOfAutoNumberingConfig = new RelationName("AutoNumberingBacklogsOfAutoNumberingConfig");
+			public static RelationName AutoNumberingStreamsOfAutoNumberingConfig = new RelationName("AutoNumberingStreamsOfAutoNumberingConfig");
+		}
+
+		public override IDictionary<string, object[]> RelationProperties { get {
+			if (relationProperties != null) return relationProperties;
+			relationProperties = new Dictionary<string, object[]>();
+			relationProperties["AutoNumberingBacklogsOfAutoNumberingConfig"] = new object[] { "AutoNumberingBacklogsOfAutoNumberingConfig", "ys_autonumberingbacklog", "ys_autonumbering", "ys_autonumberingconfigid", "ys_autonumberingid", "ys_autonumberingid", "ys_autonumberingid", "ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId", typeof (AutoNumberingBacklog[]) };
+			relationProperties["AutoNumberingStreamsOfAutoNumberingConfig"] = new object[] { "AutoNumberingStreamsOfAutoNumberingConfig", "ys_autonumberingstream", "ys_autonumbering", "ys_autonumberingconfigid", "ys_autonumberingid", "ys_autonumberingid", "ys_autonumberingid", "ys_autonumbering_autonumberingstream_AutoNumberingConfigId", typeof (AutoNumberingStream[]) };
+			return relationProperties; } }
+
+		#endregion
+
+		/// <inheritdoc/>
+		public AutoNumbering(object obj) : base(obj, EntityLogicalName)
+		{
+            foreach (var p in obj.GetType().GetProperties())
+            {
+                var value = p.GetValue(obj, null);
+                if (p.PropertyType == typeof(Guid))
+                {
+                    base.Id = (Guid)value;
+                    Attributes["ys_autonumberingid"] = base.Id;
+                }
+                else if (p.Name == "FormattedValues")
+                {
+                    FormattedValues.AddRange((FormattedValueCollection)value);
+                }
+                else
+                {
+                    Attributes[p.Name.ToLower()] = value;
+                }
+            }
+		}
+
+		#region Label/value pairs
+
+		public enum StatusEnum
+		{
+			Active = 0,
+			Inactive = 1,
+		}
+	
+		public enum StatusReasonEnum
+		{
+			Active = 1,
+			Inactive = 2,
+		}
+	
+		public enum IncrementOnUpdateEnum
+		{
+			Yes = 1,
+			No = 0,
+		}
+	
+		public enum __ObsoleteIsNumberLetterRatioEnum
+		{
+			Yes = 1,
+			No = 0,
+		}
+	
+		public enum __ObsoleteIsRandomLetterStartEnum
+		{
+			Yes = 1,
+			No = 0,
+		}
+	
+		public enum UseBacklogEnum
+		{
+			Yes = 1,
+			No = 0,
+		}
+	
+		public enum UseIndexStreamsEnum
+		{
+			Yes = 1,
+			No = 0,
+		}
+	
+		public enum ValidateUniqueStringEnum
+		{
+			Yes = 1,
+			No = 0,
+		}
+	
+		public enum AutoregisterStepStageEnum
+		{
+			Preoperation = 753240000,
+			Postoperation = 753240001,
+		}
+	
+		public enum ResetIntervalEnum
+		{
+			Never = 0,
+			Once = 1,
+			Daily = 2,
+			Monthly = 3,
+			Yearly = 4,
+		}
+	
+		#endregion
+
+		#region Metadata
+
+		#region Enums
+
+		public static class Enums
+		{
+			/// <summary>
+			/// Gets the label corresponding to the option-set's value using its logical name,
+			/// the value within, and the language code.
+			/// </summary>
+			/// <param name="logicalName">The logical name of the option-set in CRM</param>
+			/// <param name="constant">The value from the option-set</param>
+			/// <param name="languageCode">The language code from CRM</param>
+			/// <returns></returns>
+			public static string GetLabel(string logicalName, int constant, int languageCode = 1033)
+			{
+				return GeneratorHelpers.GetLabel(logicalName, constant, typeof(Enums), languageCode);
+			}
+			/// <summary>
+			/// Gets the value corresponding to the option-set's label using its logical name,
+			/// the value within, and the language code.
+			/// </summary>
+			/// <param name="logicalName">The logical name of the option-set in CRM</param>
+			/// <param name="label">The label from the option-set</param>
+			/// <param name="languageCode">The language code from CRM</param>
+			/// <returns>The value corresponding to the label</returns>
+			public static int GetValue(string logicalName, string label, int languageCode = 1033)
+			{
+				return GeneratorHelpers.GetValue(logicalName, label, typeof(Enums), languageCode);
+			}
+		}
+
+		#endregion
+
+		#region Fields
+
+		public static class Fields
+		{
+			#region Logical names
+
+			public const string CreatedBy = "createdby";
+			public const string CreatedOn = "createdon";
+			public const string CreatedByDelegate = "createdonbehalfby";
+			public const string ImportSequenceNumber = "importsequencenumber";
+			public const string ModifiedBy = "modifiedby";
+			public const string ModifiedOn = "modifiedon";
+			public const string ModifiedByDelegate = "modifiedonbehalfby";
+			public const string RecordCreatedOn = "overriddencreatedon";
+			public const string Owner = "ownerid";
+			public const string OwningBusinessUnit = "owningbusinessunit";
+			public const string OwningTeam = "owningteam";
+			public const string OwningUser = "owninguser";
+			public const string Status = "statecode";
+			public const string StatusReason = "statuscode";
+			public const string TimeZoneRuleVersionNumber = "timezoneruleversionnumber";
+			public const string UTCConversionTimeZoneCode = "utcconversiontimezonecode";
+			public const string VersionNumber = "versionnumber";
+			public const string AutoNumberingId = "ys_autonumberingid";
+			public const string BacklogThreshold = "ys_backlogthreshold";
+			public const string Condition = "ys_condition";
+			public const string CurrentIndex = "ys_currentindex";
+			public const string EntityLogicalName_ys_EntityLogicalName = "ys_entitylogicalname";
+			public const string FieldLogicalName = "ys_fieldlogicalname";
+			public const string FormatString = "ys_formatstring";
+			public const string IndexPadding = "ys_indexpadding";
+			public const string IncrementOnUpdate = "ys_isincrementonupdate";
+			public const string __ObsoleteIsNumberLetterRatio = "ys_isnumberletterratio";
+			public const string __ObsoleteIsRandomLetterStart = "ys_israndomletterstart";
+			public const string UseBacklog = "ys_isusebacklog";
+			public const string UseIndexStreams = "ys_isuseindexstreams";
+			public const string ValidateUniqueString = "ys_isvalidateuniquestring";
+			public const string LastResetDate = "ys_lastresetdate";
+			public const string Locking = "ys_locking";
+			public const string Name = "ys_name";
+			public const string __ObsoleteNumberLetterRatio = "ys_numberletterratio";
+			public const string AutoregisterStepStage = "ys_registerstepstagecode";
+			public const string ReplacementCharacters = "ys_replacementcharacters";
+			public const string ResetDate = "ys_resetdate";
+			public const string ResetIndex = "ys_resetindex";
+			public const string ResetInterval = "ys_resetinterval";
+			public const string TriggerID = "ys_triggerid";
+			public const string UniqueID = "ys_uniqueid";
+
+			#endregion
+		}
+
+		#endregion
+
+		#endregion
+	}
+
+	#endregion
+
+	#region AutoNumberingBacklog
+
+	/// <summary>
+	/// 'ys_autonumberingbacklog'.<br />
+	/// 
+	/// </summary>
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+	[DataContract, EntityLogicalName("ys_autonumberingbacklog")]
+	public partial class AutoNumberingBacklog : GeneratedEntity<AutoNumberingBacklog.RelationName>
+	{
+		public AutoNumberingBacklog() : base(EntityLogicalName)
+		{ }
+		
+		/// <inheritdoc/>
+		public AutoNumberingBacklog(string[] keys, object[] values) : base(keys, values, EntityLogicalName)
+		{ }
+		
+		/// <inheritdoc/>
+		public AutoNumberingBacklog(object obj, Type limitingType) : base(obj, limitingType, EntityLogicalName)
+		{ }
+
+		public const string DisplayName = "Auto-Numbering Backlog";
+		public const string SchemaName = "ys_autonumberingbacklog";
+		public const string EntityLogicalName = "ys_autonumberingbacklog";
+		public const int EntityTypeCode = 10497;
+		
+		public class RelationName : RelationNameBase
+		{
+			public RelationName(string name) : base(name)
+			{}
+		}
+
+		#region Alternate Keys
+
+		public void AddTriggerIDKey(string value) { KeyAttributes.Add("ys_triggerid", value); }
+
+		#endregion
+
+		#region Attributes
+
+		[AttributeLogicalName("ys_autonumberingbacklogid")]
+		public override System.Guid Id
+		{
+			get => (AutoNumberingBacklogId == null || AutoNumberingBacklogId == Guid.Empty) ? base.Id : AutoNumberingBacklogId.GetValueOrDefault();
+			set
+			{
+                if (value == Guid.Empty) {
+                    Attributes.Remove("ys_autonumberingbacklogid");
+                    base.Id = value;
+                } else {
+				    AutoNumberingBacklogId = value;
+                }
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedBy'.<br />
+        /// Unique identifier of the user who created the record.
+        /// </summary>
+		[AttributeLogicalName("createdby")]
+		public Guid? CreatedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdby");
+                return value?.Id;
+			}
+		}
+
+        public string CreatedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdby");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'CreatedOn'.<br />
+        /// Date and time when the record was created.
+        /// </summary>
+		[AttributeLogicalName("createdon")]
+		public DateTime? CreatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("createdon");
+			    return value;
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who created the record.
+        /// </summary>
+		[AttributeLogicalName("createdonbehalfby")]
+		public Guid? CreatedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+                return value?.Id;
+			}
+		}
+
+        public string CreatedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        /// [Range(-2147483648, 2147483647)] 
+		/// 'ImportSequenceNumber'.<br />
+        /// Sequence number of the import that created this record.
+        /// </summary>
+		[AttributeLogicalName("importsequencenumber")]
+		public int? ImportSequenceNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("importsequencenumber");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("importsequencenumber", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedBy'.<br />
+        /// Unique identifier of the user who modified the record.
+        /// </summary>
+		[AttributeLogicalName("modifiedby")]
+		public Guid? ModifiedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+                return value?.Id;
+			}
+		}
+
+        public string ModifiedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOn'.<br />
+        /// Date and time when the record was modified.
+        /// </summary>
+		[AttributeLogicalName("modifiedon")]
+		public DateTime? ModifiedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("modifiedon");
+			    return value;
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who modified the record.
+        /// </summary>
+		[AttributeLogicalName("modifiedonbehalfby")]
+		public Guid? ModifiedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+                return value?.Id;
+			}
+		}
+
+        public string ModifiedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'OverriddenCreatedOn'.<br />
+        /// Date and time that the record was migrated.
+        /// </summary>
+		[AttributeLogicalName("overriddencreatedon")]
+		public DateTime? RecordCreatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("overriddencreatedon");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("overriddencreatedon", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'OwnerId'.<br />
+        /// Owner Id
+        /// </summary>
+		[AttributeLogicalName("ownerid")]
+		public EntityReference Owner
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("ownerid");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ownerid", value);
+			}
+		}
+
+        public string OwnerName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("ownerid");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'OwningBusinessUnit'.<br />
+        /// Unique identifier for the business unit that owns the record
+        /// </summary>
+		[AttributeLogicalName("owningbusinessunit")]
+		public Guid? OwningBusinessUnit
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
+                return value?.Id;
+			}
+		}
+
+        public string OwningBusinessUnitName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'OwningTeam'.<br />
+        /// Unique identifier for the team that owns the record.
+        /// </summary>
+		[AttributeLogicalName("owningteam")]
+		public Guid? OwningTeam
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("owningteam");
+                return value?.Id;
+			}
+		}
+
+        public string OwningTeamName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("owningteam");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'OwningUser'.<br />
+        /// Unique identifier for the user that owns the record.
+        /// </summary>
+		[AttributeLogicalName("owninguser")]
+		public Guid? OwningUser
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("owninguser");
+                return value?.Id;
+			}
+		}
+
+        public string OwningUserName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("owninguser");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'statecode'.<br />
+        /// Status of the Auto-Numbering Backlog
+        /// </summary>
+		[AttributeLogicalName("statecode")]
+		public StatusEnum? Status
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("statecode");
+				return (StatusEnum?)value?.Value;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("statecode", new OptionSetValue((int) value.Value));
+                else
+	                SetAttributeValue("statecode", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'statuscode'.<br />
+        /// Reason for the status of the Auto-Numbering Backlog
+        /// </summary>
+		[AttributeLogicalName("statuscode")]
+		public StatusReasonEnum? StatusReason
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("statuscode");
+				return (StatusReasonEnum?)value?.Value;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("statuscode", new OptionSetValue((int) value.Value));
+                else
+	                SetAttributeValue("statuscode", value);
+			}
+		}
+
+        /// <summary>
+        /// [Range(-1, 2147483647)] 
+		/// 'TimeZoneRuleVersionNumber'.<br />
+        /// For internal use only.
+        /// </summary>
+		[AttributeLogicalName("timezoneruleversionnumber")]
+		public int? TimeZoneRuleVersionNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("timezoneruleversionnumber");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("timezoneruleversionnumber", value);
+			}
+		}
+
+        /// <summary>
+        /// [Range(-1, 2147483647)] 
+		/// 'UTCConversionTimeZoneCode'.<br />
+        /// Time zone code that was in use when the record was created.
+        /// </summary>
+		[AttributeLogicalName("utcconversiontimezonecode")]
+		public int? UTCConversionTimeZoneCode
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("utcconversiontimezonecode");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("utcconversiontimezonecode", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'VersionNumber'.<br />
+        /// Version Number
+        /// </summary>
+		[AttributeLogicalName("versionnumber")]
+		public long? VersionNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<long?>("versionnumber");
+			    return value;
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ys_autonumberingbacklogId'.<br />
+        /// Unique identifier for entity instances
+        /// </summary>
+		[AttributeLogicalName("ys_autonumberingbacklogid")]
+		public Guid? AutoNumberingBacklogId
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("ys_autonumberingbacklogid");
+			    return value;
+			}
+			set
+			{
+                if (value != null)
+	                SetAttributeValue("ys_autonumberingbacklogid", value);
+				if (value != null) base.Id = value.Value;
+				else Id = System.Guid.Empty;
+			}
+		}
+
+		[AttributeLogicalName("ys_autonumberingconfigid")]
+		public Guid? AutoNumberingConfig
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("ys_autonumberingconfigid");
+                return value?.Id;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("ys_autonumberingconfigid", new EntityReference("ys_autonumbering", value.Value));
+                else
+	                SetAttributeValue("ys_autonumberingconfigid", value);
+			}
+		}
+
+        public string AutoNumberingConfigName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("ys_autonumberingconfigid");
+                return value?.Name;
+            }
+        }
+
+		[AttributeLogicalName("ys_indexvalue")]
+		public int? IndexValue
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("ys_indexvalue");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_indexvalue", value);
+			}
+		}
+
+        /// <summary>
+        /// [MaxLength=100] 
+		/// 'ys_name'.<br />
+        /// The name of the custom entity.
+        /// </summary>
+		[AttributeLogicalName("ys_name")]
+		public string Name
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_name");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_name", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_streamfieldname")]
+		public string StreamFieldName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_streamfieldname");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_streamfieldname", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_streamfieldvalue")]
+		public string StreamFieldValue
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_streamfieldvalue");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_streamfieldvalue", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_triggerid")]
+		public string TriggerID
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_triggerid");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_triggerid", value);
+			}
+		}
+
+		#endregion
+
+		#region Relationships
+
+		
+		/// <summary>
+		/// N:1, 'ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId'
+		/// </summary>
+		[RelationshipSchemaName("ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId"), AttributeLogicalName("ys_autonumberingconfigid")]
+		public AutoNumbering AutoNumberingAsAutoNumberingConfig
+		{
+			get => GetRelatedEntity<AutoNumbering>("ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId", null);
+			set
+			{
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null) value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
+				SetRelatedEntity<AutoNumbering>("ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId", null, value);
+			}
+		}
+		
+		public static class RelationNames {
+			public static RelationName AutoNumberingAsAutoNumberingConfig = new RelationName("AutoNumberingAsAutoNumberingConfig");
+		}
+
+		public override IDictionary<string, object[]> RelationProperties { get {
+			if (relationProperties != null) return relationProperties;
+			relationProperties = new Dictionary<string, object[]>();
+			relationProperties["AutoNumberingAsAutoNumberingConfig"] = new object[] { "AutoNumberingAsAutoNumberingConfig", "ys_autonumbering", "ys_autonumberingbacklog", "ys_autonumberingid", "ys_autonumberingconfigid", "ys_autonumberingbacklogid", "ys_autonumberingbacklogid", "ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId", typeof (AutoNumbering) };
+			return relationProperties; } }
+
+		#endregion
+
+		/// <inheritdoc/>
+		public AutoNumberingBacklog(object obj) : base(obj, EntityLogicalName)
+		{
+            foreach (var p in obj.GetType().GetProperties())
+            {
+                var value = p.GetValue(obj, null);
+                if (p.PropertyType == typeof(Guid))
+                {
+                    base.Id = (Guid)value;
+                    Attributes["ys_autonumberingbacklogid"] = base.Id;
+                }
+                else if (p.Name == "FormattedValues")
+                {
+                    FormattedValues.AddRange((FormattedValueCollection)value);
+                }
+                else
+                {
+                    Attributes[p.Name.ToLower()] = value;
+                }
+            }
+		}
+
+		#region Label/value pairs
+
+		public enum StatusEnum
+		{
+			Active = 0,
+			Inactive = 1,
+		}
+	
+		public enum StatusReasonEnum
+		{
+			Active = 1,
+			Inactive = 2,
+		}
+	
+		#endregion
+
+		#region Metadata
+
+		#region Enums
+
+		public static class Enums
+		{
+			/// <summary>
+			/// Gets the label corresponding to the option-set's value using its logical name,
+			/// the value within, and the language code.
+			/// </summary>
+			/// <param name="logicalName">The logical name of the option-set in CRM</param>
+			/// <param name="constant">The value from the option-set</param>
+			/// <param name="languageCode">The language code from CRM</param>
+			/// <returns></returns>
+			public static string GetLabel(string logicalName, int constant, int languageCode = 1033)
+			{
+				return GeneratorHelpers.GetLabel(logicalName, constant, typeof(Enums), languageCode);
+			}
+			/// <summary>
+			/// Gets the value corresponding to the option-set's label using its logical name,
+			/// the value within, and the language code.
+			/// </summary>
+			/// <param name="logicalName">The logical name of the option-set in CRM</param>
+			/// <param name="label">The label from the option-set</param>
+			/// <param name="languageCode">The language code from CRM</param>
+			/// <returns>The value corresponding to the label</returns>
+			public static int GetValue(string logicalName, string label, int languageCode = 1033)
+			{
+				return GeneratorHelpers.GetValue(logicalName, label, typeof(Enums), languageCode);
+			}
+		}
+
+		#endregion
+
+		#region Fields
+
+		public static class Fields
+		{
+			#region Logical names
+
+			public const string CreatedBy = "createdby";
+			public const string CreatedOn = "createdon";
+			public const string CreatedByDelegate = "createdonbehalfby";
+			public const string ImportSequenceNumber = "importsequencenumber";
+			public const string ModifiedBy = "modifiedby";
+			public const string ModifiedOn = "modifiedon";
+			public const string ModifiedByDelegate = "modifiedonbehalfby";
+			public const string RecordCreatedOn = "overriddencreatedon";
+			public const string Owner = "ownerid";
+			public const string OwningBusinessUnit = "owningbusinessunit";
+			public const string OwningTeam = "owningteam";
+			public const string OwningUser = "owninguser";
+			public const string Status = "statecode";
+			public const string StatusReason = "statuscode";
+			public const string TimeZoneRuleVersionNumber = "timezoneruleversionnumber";
+			public const string UTCConversionTimeZoneCode = "utcconversiontimezonecode";
+			public const string VersionNumber = "versionnumber";
+			public const string AutoNumberingBacklogId = "ys_autonumberingbacklogid";
+			public const string AutoNumberingConfig = "ys_autonumberingconfigid";
+			public const string IndexValue = "ys_indexvalue";
+			public const string Name = "ys_name";
+			public const string StreamFieldName = "ys_streamfieldname";
+			public const string StreamFieldValue = "ys_streamfieldvalue";
+			public const string TriggerID = "ys_triggerid";
+
+			#endregion
+		}
+
+		#endregion
+
+		#endregion
+	}
+
+	#endregion
+
+	#region AutoNumberingStream
+
+	/// <summary>
+	/// 'ys_autonumberingstream'.<br />
+	/// 
+	/// </summary>
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+	[DataContract, EntityLogicalName("ys_autonumberingstream")]
+	public partial class AutoNumberingStream : GeneratedEntity<AutoNumberingStream.RelationName>
+	{
+		public AutoNumberingStream() : base(EntityLogicalName)
+		{ }
+		
+		/// <inheritdoc/>
+		public AutoNumberingStream(string[] keys, object[] values) : base(keys, values, EntityLogicalName)
+		{ }
+		
+		/// <inheritdoc/>
+		public AutoNumberingStream(object obj, Type limitingType) : base(obj, limitingType, EntityLogicalName)
+		{ }
+
+		public const string DisplayName = "Auto-Numbering Stream";
+		public const string SchemaName = "ys_autonumberingstream";
+		public const string EntityLogicalName = "ys_autonumberingstream";
+		public const int EntityTypeCode = 10498;
+		
+		public class RelationName : RelationNameBase
+		{
+			public RelationName(string name) : base(name)
+			{}
+		}
+
+		#region Attributes
+
+		[AttributeLogicalName("ys_autonumberingstreamid")]
+		public override System.Guid Id
+		{
+			get => (AutoNumberingStreamId == null || AutoNumberingStreamId == Guid.Empty) ? base.Id : AutoNumberingStreamId.GetValueOrDefault();
+			set
+			{
+                if (value == Guid.Empty) {
+                    Attributes.Remove("ys_autonumberingstreamid");
+                    base.Id = value;
+                } else {
+				    AutoNumberingStreamId = value;
+                }
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedBy'.<br />
+        /// Unique identifier of the user who created the record.
+        /// </summary>
+		[AttributeLogicalName("createdby")]
+		public Guid? CreatedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdby");
+                return value?.Id;
+			}
+		}
+
+        public string CreatedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdby");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'CreatedOn'.<br />
+        /// Date and time when the record was created.
+        /// </summary>
+		[AttributeLogicalName("createdon")]
+		public DateTime? CreatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("createdon");
+			    return value;
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'CreatedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who created the record.
+        /// </summary>
+		[AttributeLogicalName("createdonbehalfby")]
+		public Guid? CreatedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+                return value?.Id;
+			}
+		}
+
+        public string CreatedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("createdonbehalfby");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        /// [Range(-2147483648, 2147483647)] 
+		/// 'ImportSequenceNumber'.<br />
+        /// Sequence number of the import that created this record.
+        /// </summary>
+		[AttributeLogicalName("importsequencenumber")]
+		public int? ImportSequenceNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("importsequencenumber");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("importsequencenumber", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedBy'.<br />
+        /// Unique identifier of the user who modified the record.
+        /// </summary>
+		[AttributeLogicalName("modifiedby")]
+		public Guid? ModifiedBy
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+                return value?.Id;
+			}
+		}
+
+        public string ModifiedByName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedby");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOn'.<br />
+        /// Date and time when the record was modified.
+        /// </summary>
+		[AttributeLogicalName("modifiedon")]
+		public DateTime? ModifiedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("modifiedon");
+			    return value;
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'ModifiedOnBehalfBy'.<br />
+        /// Unique identifier of the delegate user who modified the record.
+        /// </summary>
+		[AttributeLogicalName("modifiedonbehalfby")]
+		public Guid? ModifiedByDelegate
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+                return value?.Id;
+			}
+		}
+
+        public string ModifiedByDelegateName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("modifiedonbehalfby");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'OverriddenCreatedOn'.<br />
+        /// Date and time that the record was migrated.
+        /// </summary>
+		[AttributeLogicalName("overriddencreatedon")]
+		public DateTime? RecordCreatedOn
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("overriddencreatedon");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("overriddencreatedon", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'OwnerId'.<br />
+        /// Owner Id
+        /// </summary>
+		[AttributeLogicalName("ownerid")]
+		public EntityReference Owner
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("ownerid");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ownerid", value);
+			}
+		}
+
+        public string OwnerName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("ownerid");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'OwningBusinessUnit'.<br />
+        /// Unique identifier for the business unit that owns the record
+        /// </summary>
+		[AttributeLogicalName("owningbusinessunit")]
+		public Guid? OwningBusinessUnit
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
+                return value?.Id;
+			}
+		}
+
+        public string OwningBusinessUnitName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("owningbusinessunit");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'OwningTeam'.<br />
+        /// Unique identifier for the team that owns the record.
+        /// </summary>
+		[AttributeLogicalName("owningteam")]
+		public Guid? OwningTeam
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("owningteam");
+                return value?.Id;
+			}
+		}
+
+        public string OwningTeamName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("owningteam");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'OwningUser'.<br />
+        /// Unique identifier for the user that owns the record.
+        /// </summary>
+		[AttributeLogicalName("owninguser")]
+		public Guid? OwningUser
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("owninguser");
+                return value?.Id;
+			}
+		}
+
+        public string OwningUserName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("owninguser");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'statecode'.<br />
+        /// Status of the Auto-Numbering Stream
+        /// </summary>
+		[AttributeLogicalName("statecode")]
+		public StatusEnum? Status
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("statecode");
+				return (StatusEnum?)value?.Value;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("statecode", new OptionSetValue((int) value.Value));
+                else
+	                SetAttributeValue("statecode", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'statuscode'.<br />
+        /// Reason for the status of the Auto-Numbering Stream
+        /// </summary>
+		[AttributeLogicalName("statuscode")]
+		public StatusReasonEnum? StatusReason
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("statuscode");
+				return (StatusReasonEnum?)value?.Value;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("statuscode", new OptionSetValue((int) value.Value));
+                else
+	                SetAttributeValue("statuscode", value);
+			}
+		}
+
+        /// <summary>
+        /// [Range(-1, 2147483647)] 
+		/// 'TimeZoneRuleVersionNumber'.<br />
+        /// For internal use only.
+        /// </summary>
+		[AttributeLogicalName("timezoneruleversionnumber")]
+		public int? TimeZoneRuleVersionNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("timezoneruleversionnumber");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("timezoneruleversionnumber", value);
+			}
+		}
+
+        /// <summary>
+        /// [Range(-1, 2147483647)] 
+		/// 'UTCConversionTimeZoneCode'.<br />
+        /// Time zone code that was in use when the record was created.
+        /// </summary>
+		[AttributeLogicalName("utcconversiontimezonecode")]
+		public int? UTCConversionTimeZoneCode
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("utcconversiontimezonecode");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("utcconversiontimezonecode", value);
+			}
+		}
+
+        /// <summary>
+        ///  
+		/// 'VersionNumber'.<br />
+        /// Version Number
+        /// </summary>
+		[AttributeLogicalName("versionnumber")]
+		public long? VersionNumber
+		{
+			get
+			{
+				var value = GetAttributeValue<long?>("versionnumber");
+			    return value;
+			}
+		}
+
+		[AttributeLogicalName("ys_autonumberingconfigid")]
+		public Guid? AutoNumberingConfig
+		{
+			get
+			{
+				var value = GetAttributeValue<EntityReference>("ys_autonumberingconfigid");
+                return value?.Id;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("ys_autonumberingconfigid", new EntityReference("ys_autonumbering", value.Value));
+                else
+	                SetAttributeValue("ys_autonumberingconfigid", value);
+			}
+		}
+
+        public string AutoNumberingConfigName
+        {
+		    get
+		    {
+				var value = GetAttributeValue<EntityReference>("ys_autonumberingconfigid");
+                return value?.Name;
+            }
+        }
+
+        /// <summary>
+        ///  
+		/// 'ys_autonumberingstreamId'.<br />
+        /// Unique identifier for entity instances
+        /// </summary>
+		[AttributeLogicalName("ys_autonumberingstreamid")]
+		public Guid? AutoNumberingStreamId
+		{
+			get
+			{
+				var value = GetAttributeValue<Guid?>("ys_autonumberingstreamid");
+			    return value;
+			}
+			set
+			{
+                if (value != null)
+	                SetAttributeValue("ys_autonumberingstreamid", value);
+				if (value != null) base.Id = value.Value;
+				else Id = System.Guid.Empty;
+			}
+		}
+
+		[AttributeLogicalName("ys_currentindex")]
+		public int? CurrentIndex
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("ys_currentindex");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_currentindex", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_fieldname")]
+		public string FieldName
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_fieldname");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_fieldname", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_fieldvalue")]
+		public string FieldValue
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_fieldvalue");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_fieldvalue", value);
+			}
+		}
+
+        /// <summary>
+        /// [MaxLength=100] 
+		/// 'ys_name'.<br />
+        /// The name of the custom entity.
+        /// </summary>
+		[AttributeLogicalName("ys_name")]
+		public string Name
+		{
+			get
+			{
+				var value = GetAttributeValue<string>("ys_name");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_name", value);
+			}
+		}
+
+		#endregion
+
+		#region Relationships
+
+		
+		/// <summary>
+		/// N:1, 'ys_autonumbering_autonumberingstream_AutoNumberingConfigId'
+		/// </summary>
+		[RelationshipSchemaName("ys_autonumbering_autonumberingstream_AutoNumberingConfigId"), AttributeLogicalName("ys_autonumberingconfigid")]
+		public AutoNumbering AutoNumberingAsAutoNumberingConfig
+		{
+			get => GetRelatedEntity<AutoNumbering>("ys_autonumbering_autonumberingstream_AutoNumberingConfigId", null);
+			set
+			{
+				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
+                if (value != null) value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
+				SetRelatedEntity<AutoNumbering>("ys_autonumbering_autonumberingstream_AutoNumberingConfigId", null, value);
+			}
+		}
+		
+		public static class RelationNames {
+			public static RelationName AutoNumberingAsAutoNumberingConfig = new RelationName("AutoNumberingAsAutoNumberingConfig");
+		}
+
+		public override IDictionary<string, object[]> RelationProperties { get {
+			if (relationProperties != null) return relationProperties;
+			relationProperties = new Dictionary<string, object[]>();
+			relationProperties["AutoNumberingAsAutoNumberingConfig"] = new object[] { "AutoNumberingAsAutoNumberingConfig", "ys_autonumbering", "ys_autonumberingstream", "ys_autonumberingid", "ys_autonumberingconfigid", "ys_autonumberingstreamid", "ys_autonumberingstreamid", "ys_autonumbering_autonumberingstream_AutoNumberingConfigId", typeof (AutoNumbering) };
+			return relationProperties; } }
+
+		#endregion
+
+		/// <inheritdoc/>
+		public AutoNumberingStream(object obj) : base(obj, EntityLogicalName)
+		{
+            foreach (var p in obj.GetType().GetProperties())
+            {
+                var value = p.GetValue(obj, null);
+                if (p.PropertyType == typeof(Guid))
+                {
+                    base.Id = (Guid)value;
+                    Attributes["ys_autonumberingstreamid"] = base.Id;
+                }
+                else if (p.Name == "FormattedValues")
+                {
+                    FormattedValues.AddRange((FormattedValueCollection)value);
+                }
+                else
+                {
+                    Attributes[p.Name.ToLower()] = value;
+                }
+            }
+		}
+
+		#region Label/value pairs
+
+		public enum StatusEnum
+		{
+			Active = 0,
+			Inactive = 1,
+		}
+	
+		public enum StatusReasonEnum
+		{
+			Active = 1,
+			Inactive = 2,
+		}
+	
+		#endregion
+
+		#region Metadata
+
+
+		#endregion
+	}
+
+	#endregion
+
+	#endregion
+
+	#region GlobalEnums
+
+	public class GlobalEnums
+	{
+		public enum ComponentState
+		{
+			Published = 0,
+			Unpublished = 1,
+			Deleted = 2,
+			DeletedUnpublished = 3,
+		}
+
+	}
 
 	#endregion
 

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
@@ -15,7 +16,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 {
 	/// <summary>
 	///     Author: Ahmed Elsawalhy<br />
-	///     Version: 2.1.2
+	///     Version: 3.1.1
 	/// </summary>
 	[Log]
 	internal class AutoNumberingEngine
@@ -253,9 +254,10 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 				resetDate = null;
 			}
 
+
 			#endregion
 
-			value = Regex.Replace(value, @"^(?:([^:]+?)(?::(.*?))?)?$",
+			value = Regex.Replace(value, @"^(?:([^:]*?)(?::([^:]*?)))$",
 				match =>
 				{
 					var index = ProcessIndex(match, isReset, resetValue);
@@ -273,7 +275,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 			var fieldName = match.Groups[1].Value;
 			var fieldValue = match.Groups[2].Value;
 			fieldValue = fieldValue.IsEmpty() ? null : fieldValue;
-			var isDefaultIndex = !fieldName.IsNotEmpty();
+			var isDefaultIndex = fieldName.IsEmpty();
 			var currentIndex = 0;
 			AutoNumberingStream stream = null;
 
@@ -351,7 +353,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 					});
 				Log.Log($"Finished updating stream with new index.");
 			}
-
+			
 			return index;
 		}
 

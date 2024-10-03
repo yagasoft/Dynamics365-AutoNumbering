@@ -59,7 +59,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 			}
 
 			if (autoNumberingConfig.Condition != null
-				&& autoNumberingConfig.EntityLogicalName_ldv_EntityLogicalName == null)
+				&& autoNumberingConfig.EntityLogicalName_ys_EntityLogicalName == null)
 			{
 				throw new InvalidPluginExecutionException("Condition is set but entity name is not set in auto-numbering config.");
 			}

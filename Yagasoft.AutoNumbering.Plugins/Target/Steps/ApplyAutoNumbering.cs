@@ -23,7 +23,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Steps
 	public class ApplyAutoNumbering : CodeActivity
 	{
 		[Input("Auto-numbering Config")]
-		[ReferenceTarget("ldv_autonumbering")]
+		[ReferenceTarget("ys_autonumbering")]
 		[RequiredArgument]
 		public InArgument<EntityReference> AutoNumberRef { get; set; }
 

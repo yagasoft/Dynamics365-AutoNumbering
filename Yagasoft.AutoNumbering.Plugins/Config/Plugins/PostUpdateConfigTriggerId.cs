@@ -77,15 +77,15 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
 			{
 				var queryXml =
 					$@"<fetch top='1' >
-  <entity name='ldv_autonumberingbacklog' >
-    <attribute name='ldv_autonumberingbacklogid' />
-    <attribute name='ldv_indexvalue' />
-    <attribute name='ldv_triggerid' />
+  <entity name='ys_autonumberingbacklog' >
+    <attribute name='ys_autonumberingbacklogid' />
+    <attribute name='ys_indexvalue' />
+    <attribute name='ys_triggerid' />
     <filter>
       <condition attribute='modifiedon' operator='olderthan-x-minutes' value='{threshold.Value}' />
-      <condition attribute='ldv_autonumberingconfigid' operator='eq' value='{config.Id}' />
+      <condition attribute='ys_autonumberingconfigid' operator='eq' value='{config.Id}' />
     </filter>
-    <order attribute='ldv_indexvalue' />
+    <order attribute='ys_indexvalue' />
   </entity>
 </fetch>";
 				Log.LogDebug("Query XML", queryXml);

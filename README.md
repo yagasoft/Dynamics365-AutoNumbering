@@ -37,7 +37,7 @@ A CRM solution that gives a lot of flexibility in creating any pattern required 
   
 #### _Result numbering_
 
-`Test-09:00-YAM76-2015-005-M"`
+`Test-09:00-YAM76-2015-005-M`
 
 ### Guide
 

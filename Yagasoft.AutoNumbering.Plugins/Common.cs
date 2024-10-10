@@ -3926,24 +3926,34 @@ namespace Yagasoft.Libraries.Common
 								case Entity entity:
 								{
 									var value = entity.GetAttributeValue<object>(property);
-									return value switch {
-										Guid id => id.ToString().ToLower(),
-										Money money => (double)money.Value,
-										decimal dec => (double)dec,
-										float flo => (double)flo,
-										OptionSetValue choice => new ChoiceParams(entity, choice, property),
-										null => entity.Contains(property)
-											? null
-											: entity.IntegrateAttributes(state.Service.Retrieve(entity.LogicalName, entity.Id, new ColumnSet(property)))
-												.GetAttributeValue<object>(property),
-										"name" =>entity["name"] = CrmHelpers
-											.GetRecordName(state.Service, entity, true, null, state.OrgId),
-										"logical" => entity.LogicalName,
-										"id" => entity.Id.ToString().ToLower(),
-										"url" => entity["url"] = CrmHelpers
-											.GetRecordUrl(state.Service, entity.ToEntityReference(), state.OrgId),
-										_ => value
-										};
+									
+									object ParseAttribute(object attribute = null)
+									{
+										return attribute switch {
+											Guid id => id.ToString().ToLower(),
+											Money money => (double)money.Value,
+											decimal dec => (double)dec,
+											float flo => (double)flo,
+											OptionSetValue choice => new ChoiceParams(entity, choice, property),
+											null => entity.Contains(property)
+												? null
+												: entity.IntegrateAttributes(state.Service.Retrieve(entity.LogicalName, entity.Id, new ColumnSet(property)))
+													.GetAttributeValue<object>(property),
+											"name" =>entity["name"] = CrmHelpers
+												.GetRecordName(state.Service, entity, true, null, state.OrgId),
+											"logical" => entity.LogicalName,
+											"id" => entity.Id.ToString().ToLower(),
+											"url" => entity["url"] = CrmHelpers
+												.GetRecordUrl(state.Service, entity.ToEntityReference(), state.OrgId),
+											_ => value
+											};
+									}
+
+									// try to retrieve
+									var parsedValue = ParseAttribute(value);
+
+									// if retrieved, parse again to the supported types
+									return value == null ? ParseAttribute(parsedValue) : parsedValue;
 								}
 
 								case EntityReference reference:
@@ -3961,7 +3971,7 @@ namespace Yagasoft.Libraries.Common
 	? label : 
 	MetadataHelpers.GetOptionSetLabel(state.Service, choice.Row.LogicalName, choice.Property,
 		choice.Choice.Value, state.Lcid, state.OrgId),
-										"value" => choice.Choice.Value,
+										"value" => (double)choice.Choice.Value,
 										_ => throw new NotSupportedException($"Choice property '{property}' is not supported.")
 										};
 

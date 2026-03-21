@@ -30,7 +30,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
 	[Log]
 	internal class PostUpdateConfigTriggerIdLogic : PluginLogic<PostUpdateConfigTriggerId>
 	{
-		public PostUpdateConfigTriggerIdLogic() : base("Update", PluginStage.PostOperation, AutoNumbering.EntityLogicalName)
+		public PostUpdateConfigTriggerIdLogic() : base("Update", PluginStage.PostOperation, YSAutoNumbering.EntityLogicalName)
 		{ }
 
 		[NoLog]
@@ -41,7 +41,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
 
 			Log.LogAttributeValues(target, target.Attributes, "Target Attributes");
 
-			var autoNumberConfig = Context.PostEntityImages.FirstOrDefault().Value?.ToEntity<AutoNumbering>();
+			var autoNumberConfig = Context.PostEntityImages.FirstOrDefault().Value?.ToEntity<YSAutoNumbering>();
 
 			if (autoNumberConfig == null)
 			{
@@ -59,7 +59,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
 			AllocateBacklog(autoNumberConfig);
 		}
 
-		private void AllocateBacklog(AutoNumbering config)
+		private void AllocateBacklog(YSAutoNumbering config)
 		{
 			var triggerId = config.TriggerID;
 			var index = config.CurrentIndex;
@@ -99,7 +99,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
 					Log.Log($"Couldn't find any old backlog entries.");
 
 					var updatedAutoNumbering =
-						new AutoNumbering
+						new YSAutoNumbering
 						{
 							Id = config.Id
 						};

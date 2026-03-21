@@ -92,13 +92,13 @@ namespace Yagasoft.AutoNumbering.Plugins
 			}
 		}
 		/// <summary>
-		/// Gets a binding to the set of all <see cref="AutoNumbering"/> entities.
+		/// Gets a binding to the set of all <see cref="YSAutoNumbering"/> entities.
 		/// </summary>
-		public System.Linq.IQueryable<AutoNumbering> AutoNumberingSet
+		public System.Linq.IQueryable<YSAutoNumbering> YSAutoNumberingSet
 		{
 			get
 			{
-				return this.CreateQuery<AutoNumbering>();
+				return this.CreateQuery<YSAutoNumbering>();
 			}
 		}
 		/// <summary>
@@ -6270,7 +6270,7 @@ namespace Yagasoft.AutoNumbering.Plugins
 
 	#endregion
 
-	#region AutoNumbering
+	#region YSAutoNumbering
 
 	/// <summary>
 	/// 'ys_autonumbering'.<br />
@@ -6279,23 +6279,23 @@ namespace Yagasoft.AutoNumbering.Plugins
 	[ExcludeFromCodeCoverage]
 	[DebuggerNonUserCode]
 	[DataContract, EntityLogicalName("ys_autonumbering")]
-	public partial class AutoNumbering : GeneratedEntity<AutoNumbering.RelationName>
+	public partial class YSAutoNumbering : GeneratedEntity<YSAutoNumbering.RelationName>
 	{
-		public AutoNumbering() : base(EntityLogicalName)
+		public YSAutoNumbering() : base(EntityLogicalName)
 		{ }
 		
 		/// <inheritdoc/>
-		public AutoNumbering(string[] keys, object[] values) : base(keys, values, EntityLogicalName)
+		public YSAutoNumbering(string[] keys, object[] values) : base(keys, values, EntityLogicalName)
 		{ }
 		
 		/// <inheritdoc/>
-		public AutoNumbering(object obj, Type limitingType) : base(obj, limitingType, EntityLogicalName)
+		public YSAutoNumbering(object obj, Type limitingType) : base(obj, limitingType, EntityLogicalName)
 		{ }
 
-		public const string DisplayName = "Auto-Numbering";
+		public const string DisplayName = "YS Auto-Numbering";
 		public const string SchemaName = "ys_autonumbering";
 		public const string EntityLogicalName = "ys_autonumbering";
-		public const int EntityTypeCode = 10496;
+		public const int EntityTypeCode = 10764;
 		
 		public class RelationName : RelationNameBase
 		{
@@ -7151,7 +7151,7 @@ namespace Yagasoft.AutoNumbering.Plugins
 		#endregion
 
 		/// <inheritdoc/>
-		public AutoNumbering(object obj) : base(obj, EntityLogicalName)
+		public YSAutoNumbering(object obj) : base(obj, EntityLogicalName)
 		{
             foreach (var p in obj.GetType().GetProperties())
             {
@@ -7357,7 +7357,7 @@ namespace Yagasoft.AutoNumbering.Plugins
 		public const string DisplayName = "Auto-Numbering Backlog";
 		public const string SchemaName = "ys_autonumberingbacklog";
 		public const string EntityLogicalName = "ys_autonumberingbacklog";
-		public const int EntityTypeCode = 10497;
+		public const int EntityTypeCode = 10765;
 		
 		public class RelationName : RelationNameBase
 		{
@@ -7878,25 +7878,25 @@ namespace Yagasoft.AutoNumbering.Plugins
 		/// N:1, 'ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId'
 		/// </summary>
 		[RelationshipSchemaName("ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId"), AttributeLogicalName("ys_autonumberingconfigid")]
-		public AutoNumbering AutoNumberingAsAutoNumberingConfig
+		public YSAutoNumbering YSAutoNumberingAsAutoNumberingConfig
 		{
-			get => GetRelatedEntity<AutoNumbering>("ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId", null);
+			get => GetRelatedEntity<YSAutoNumbering>("ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId", null);
 			set
 			{
 				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
                 if (value != null) value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
-				SetRelatedEntity<AutoNumbering>("ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId", null, value);
+				SetRelatedEntity<YSAutoNumbering>("ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId", null, value);
 			}
 		}
 		
 		public static class RelationNames {
-			public static RelationName AutoNumberingAsAutoNumberingConfig = new RelationName("AutoNumberingAsAutoNumberingConfig");
+			public static RelationName YSAutoNumberingAsAutoNumberingConfig = new RelationName("YSAutoNumberingAsAutoNumberingConfig");
 		}
 
 		public override IDictionary<string, object[]> RelationProperties { get {
 			if (relationProperties != null) return relationProperties;
 			relationProperties = new Dictionary<string, object[]>();
-			relationProperties["AutoNumberingAsAutoNumberingConfig"] = new object[] { "AutoNumberingAsAutoNumberingConfig", "ys_autonumbering", "ys_autonumberingbacklog", "ys_autonumberingid", "ys_autonumberingconfigid", "ys_autonumberingbacklogid", "ys_autonumberingbacklogid", "ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId", typeof (AutoNumbering) };
+			relationProperties["YSAutoNumberingAsAutoNumberingConfig"] = new object[] { "YSAutoNumberingAsAutoNumberingConfig", "ys_autonumbering", "ys_autonumberingbacklog", "ys_autonumberingid", "ys_autonumberingconfigid", "ys_autonumberingbacklogid", "ys_autonumberingbacklogid", "ys_autonumbering_autonumberingbacklog_AutoNumberingConfigId", typeof (YSAutoNumbering) };
 			return relationProperties; } }
 
 		#endregion
@@ -8039,7 +8039,7 @@ namespace Yagasoft.AutoNumbering.Plugins
 		public const string DisplayName = "Auto-Numbering Stream";
 		public const string SchemaName = "ys_autonumberingstream";
 		public const string EntityLogicalName = "ys_autonumberingstream";
-		public const int EntityTypeCode = 10498;
+		public const int EntityTypeCode = 10766;
 		
 		public class RelationName : RelationNameBase
 		{
@@ -8512,6 +8512,20 @@ namespace Yagasoft.AutoNumbering.Plugins
 			}
 		}
 
+		[AttributeLogicalName("ys_lastresetdate")]
+		public DateTime? LastResetDate
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("ys_lastresetdate");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_lastresetdate", value);
+			}
+		}
+
         /// <summary>
         /// [MaxLength=100] 
 		/// 'ys_name'.<br />
@@ -8531,6 +8545,55 @@ namespace Yagasoft.AutoNumbering.Plugins
 			}
 		}
 
+		[AttributeLogicalName("ys_resetdate")]
+		public DateTime? ResetDate
+		{
+			get
+			{
+				var value = GetAttributeValue<DateTime?>("ys_resetdate");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_resetdate", value);
+			}
+		}
+
+        /// <summary>
+        /// [Required][Range(0, 2147483647)] 
+		/// 'ys_ResetIndex'.<br />
+        /// The number to reset the index to on the set date.
+        /// </summary>
+		[AttributeLogicalName("ys_resetindex")]
+		public int? ResetIndex
+		{
+			get
+			{
+				var value = GetAttributeValue<int?>("ys_resetindex");
+			    return value;
+			}
+			set
+			{
+                SetAttributeValue("ys_resetindex", value);
+			}
+		}
+
+		[AttributeLogicalName("ys_resetinterval")]
+		public GlobalEnums.ResetInterval? ResetInterval
+		{
+			get
+			{
+				var value = GetAttributeValue<OptionSetValue>("ys_resetinterval");
+				return (GlobalEnums.ResetInterval?)value?.Value;
+			}
+			set
+			{
+                if (value != null) SetAttributeValue("ys_resetinterval", new OptionSetValue((int) value.Value));
+                else
+	                SetAttributeValue("ys_resetinterval", value);
+			}
+		}
+
 		#endregion
 
 		#region Relationships
@@ -8540,25 +8603,25 @@ namespace Yagasoft.AutoNumbering.Plugins
 		/// N:1, 'ys_autonumbering_autonumberingstream_AutoNumberingConfigId'
 		/// </summary>
 		[RelationshipSchemaName("ys_autonumbering_autonumberingstream_AutoNumberingConfigId"), AttributeLogicalName("ys_autonumberingconfigid")]
-		public AutoNumbering AutoNumberingAsAutoNumberingConfig
+		public YSAutoNumbering YSAutoNumberingAsAutoNumberingConfig
 		{
-			get => GetRelatedEntity<AutoNumbering>("ys_autonumbering_autonumberingstream_AutoNumberingConfigId", null);
+			get => GetRelatedEntity<YSAutoNumbering>("ys_autonumbering_autonumberingstream_AutoNumberingConfigId", null);
 			set
 			{
 				if (RelatedEntities.IsReadOnly) { throw new Exception("Relationship collection is read only. The context that loaded this entity must be used to create relationships."); }
                 if (value != null) value.LogicalName = (string) value.GetType().GetField("EntityLogicalName").GetRawConstantValue();
-				SetRelatedEntity<AutoNumbering>("ys_autonumbering_autonumberingstream_AutoNumberingConfigId", null, value);
+				SetRelatedEntity<YSAutoNumbering>("ys_autonumbering_autonumberingstream_AutoNumberingConfigId", null, value);
 			}
 		}
 		
 		public static class RelationNames {
-			public static RelationName AutoNumberingAsAutoNumberingConfig = new RelationName("AutoNumberingAsAutoNumberingConfig");
+			public static RelationName YSAutoNumberingAsAutoNumberingConfig = new RelationName("YSAutoNumberingAsAutoNumberingConfig");
 		}
 
 		public override IDictionary<string, object[]> RelationProperties { get {
 			if (relationProperties != null) return relationProperties;
 			relationProperties = new Dictionary<string, object[]>();
-			relationProperties["AutoNumberingAsAutoNumberingConfig"] = new object[] { "AutoNumberingAsAutoNumberingConfig", "ys_autonumbering", "ys_autonumberingstream", "ys_autonumberingid", "ys_autonumberingconfigid", "ys_autonumberingstreamid", "ys_autonumberingstreamid", "ys_autonumbering_autonumberingstream_AutoNumberingConfigId", typeof (AutoNumbering) };
+			relationProperties["YSAutoNumberingAsAutoNumberingConfig"] = new object[] { "YSAutoNumberingAsAutoNumberingConfig", "ys_autonumbering", "ys_autonumberingstream", "ys_autonumberingid", "ys_autonumberingconfigid", "ys_autonumberingstreamid", "ys_autonumberingstreamid", "ys_autonumbering_autonumberingstream_AutoNumberingConfigId", typeof (YSAutoNumbering) };
 			return relationProperties; } }
 
 		#endregion
@@ -8621,6 +8684,15 @@ namespace Yagasoft.AutoNumbering.Plugins
 			Unpublished = 1,
 			Deleted = 2,
 			DeletedUnpublished = 3,
+		}
+
+		public enum ResetInterval
+		{
+			Never = 0,
+			Once = 1,
+			Daily = 2,
+			Monthly = 3,
+			Yearly = 4,
 		}
 
 	}

@@ -34,19 +34,19 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 		internal readonly bool IsInlineConfig;
 		private readonly Entity target;
 		private readonly Entity image;
-		private readonly AutoNumbering autoNumberConfig;
+		private readonly YSAutoNumbering autoNumberConfig;
 		private readonly IEnumerable<string> inputParams;
 
 		private int padding;
 
 		private readonly Guid orgId;
 		private readonly bool isUpdate;
-		private AutoNumbering updatedAutoNumbering;
+		private YSAutoNumbering updatedAutoNumbering;
 
 		private readonly IDictionary<string, string> cachedValues = new Dictionary<string, string>();
 
 		internal AutoNumberingEngine(IOrganizationService service, ILogger log,
-			AutoNumbering autoNumberConfig, Entity target, Entity image, Guid orgId,
+			YSAutoNumbering autoNumberConfig, Entity target, Entity image, Guid orgId,
 			bool isUpdate = false, IEnumerable<string> inputParams = null)
 		{
 			Log = log;
@@ -70,7 +70,7 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 			}
 
 			updatedAutoNumbering =
-				new AutoNumbering
+				new YSAutoNumbering
 				{
 					Id = autoNumberConfigId
 				};
@@ -210,79 +210,55 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 
 		internal string ProcessIndices(string value)
 		{
-			#region Date stuff
-
-			var resetInterval = autoNumberConfig.ResetInterval;
-			var resetDate = autoNumberConfig.ResetDate;
-			var lastResetDate = autoNumberConfig.LastResetDate;
-			var isReset = false;
-			var resetValue = 0;
-
-			// if index reset config is set, and the time has passed, then reset index to value set
-			if (resetDate != null
-				&& (resetInterval != AutoNumbering.ResetIntervalEnum.Never
-					&& DateTime.UtcNow >= resetDate.Value
-					&& (lastResetDate == null || lastResetDate < resetDate)))
-			{
-				lastResetDate = resetDate;
-
-				// add the interval to the reset date
-				switch (resetInterval)
-				{
-					case AutoNumbering.ResetIntervalEnum.Yearly:
-						resetDate = resetDate.Value.AddYears(1);
-						break;
-					case AutoNumbering.ResetIntervalEnum.Monthly:
-						resetDate = resetDate.Value.AddMonths(1);
-						break;
-					case AutoNumbering.ResetIntervalEnum.Daily:
-						resetDate = resetDate.Value.AddDays(1);
-						break;
-					case AutoNumbering.ResetIntervalEnum.Once:
-					case AutoNumbering.ResetIntervalEnum.Never:
-						break;
-					default:
-						throw new InvalidPluginExecutionException("Interval does not exist in code. Please contact the administrator.");
-				}
-
-				isReset = true;
-				resetValue = autoNumberConfig.ResetIndex ?? 0;
-			}
-
-			if (resetInterval == AutoNumbering.ResetIntervalEnum.Never)
-			{
-				resetDate = null;
-			}
-
-
-			#endregion
-
 			value = Regex.Replace(value, @"^(?:([^:]*?)(?::([^:]*?)))$",
 				match =>
 				{
-					var index = ProcessIndex(match, isReset, resetValue);
+					var index = ProcessIndex(match);
 					return index.ToString().PadLeft(padding, '0');
 				});
-
-			updatedAutoNumbering.ResetDate = resetDate;
-			updatedAutoNumbering.LastResetDate = lastResetDate;
 
 			return value;
 		}
 
-		private int ProcessIndex(Match match, bool isReset, int resetValue)
+		private int ProcessIndex(Match match)
 		{
 			var fieldName = match.Groups[1].Value;
 			var fieldValue = match.Groups[2].Value;
 			fieldValue = fieldValue.IsEmpty() ? null : fieldValue;
 			var isDefaultIndex = fieldName.IsEmpty();
 			var currentIndex = 0;
-			AutoNumberingStream stream = null;
+			var index = 0;
 
 			if (isDefaultIndex)
 			{
 				Log.Log("Using default index.");
 				currentIndex = autoNumberConfig.CurrentIndex.GetValueOrDefault();
+				
+				var (resetDate, lastResetDate, isReset, resetValue) =
+					ResetDate((GlobalEnums.ResetInterval?)autoNumberConfig.ResetInterval,
+						autoNumberConfig.ResetDate, autoNumberConfig.LastResetDate,
+						autoNumberConfig.ResetIndex);
+
+				Log.Log($"Current index: {currentIndex}.");
+
+				// if invalid value, reset
+				// if updating and not incrementing, then keep index, else increment index
+				index = currentIndex <= 0
+					? 1
+					: (isUpdate && autoNumberConfig.IncrementOnUpdate != true
+						? currentIndex
+						: currentIndex + 1);
+
+				if (isReset)
+				{
+					index = resetValue;
+				}
+
+				Log.Log($"New index: {index}.");
+
+				updatedAutoNumbering.CurrentIndex = index;
+				updatedAutoNumbering.ResetDate = resetDate;
+				updatedAutoNumbering.LastResetDate = lastResetDate;
 			}
 			else if (match.Success)
 			{
@@ -291,15 +267,18 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 				Log.Log($"Field value: {fieldValue}");
 
 				Log.Log($"Retrieving stream ...");
-				stream =
-					(from s in new XrmServiceContext(service) { MergeOption = MergeOption.NoTracking }.AutoNumberingStreamSet
-					 where s.FieldName == fieldName && s.FieldValue == fieldValue
-						 && s.AutoNumberingConfig == autoNumberConfig.Id
-					 select new AutoNumberingStream
-							{
-								Id = s.Id,
-								CurrentIndex = s.CurrentIndex
-							}).FirstOrDefault();
+				var stream = (from s in new XrmServiceContext(service) { MergeOption = MergeOption.NoTracking }.AutoNumberingStreamSet
+					where s.FieldName == fieldName && s.FieldValue == fieldValue
+						&& s.AutoNumberingConfig == autoNumberConfig.Id
+					select new AutoNumberingStream
+						   {
+							   Id = s.Id,
+							   CurrentIndex = s.CurrentIndex,
+							   ResetInterval = s.ResetInterval,
+							   ResetDate = s.ResetDate,
+							   ResetIndex = s.ResetIndex,
+							   LastResetDate = s.LastResetDate
+						   }).FirstOrDefault();
 
 				if (stream == null)
 				{
@@ -310,6 +289,9 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 							CurrentIndex = 0,
 							FieldName = fieldName,
 							FieldValue = fieldValue,
+							ResetInterval = (GlobalEnums.ResetInterval?)autoNumberConfig.ResetInterval,
+							ResetDate = autoNumberConfig.ResetDate,
+							ResetIndex = autoNumberConfig.ResetIndex,
 							AutoNumberingConfig = autoNumberConfig.Id
 						};
 
@@ -319,42 +301,90 @@ namespace Yagasoft.AutoNumbering.Plugins.BLL
 				}
 
 				currentIndex = stream.CurrentIndex.GetValueOrDefault();
-			}
+				
+				var (resetDate, lastResetDate, isReset, resetValue) =
+					ResetDate(stream.ResetInterval, stream.ResetDate, stream.LastResetDate,
+						stream.ResetIndex);
 
-			Log.Log($"Current index: {currentIndex}.");
+				Log.Log($"Current index: {currentIndex}.");
 
-			// if invalid value, reset
-			// if updating and not incrementing, then keep index, else increment index
-			var index = currentIndex <= 0
-				? 1
-				: (isUpdate && autoNumberConfig.IncrementOnUpdate != true
-					? currentIndex
-					: currentIndex + 1);
+				// if invalid value, reset
+				// if updating and not incrementing, then keep index, else increment index
+				index = currentIndex <= 0
+					? 1
+					: (isUpdate && autoNumberConfig.IncrementOnUpdate != true
+						? currentIndex
+						: currentIndex + 1);
 
-			if (isReset)
-			{
-				index = resetValue;
-			}
+				if (isReset)
+				{
+					index = resetValue;
+				}
 
-			Log.Log($"New index: {index}.");
+				Log.Log($"New index: {index}.");
 
-			if (isDefaultIndex)
-			{
-				updatedAutoNumbering.CurrentIndex = index;
-			}
-			else if (stream != null)
-			{
 				Log.Log($"Updating stream with new index ...");
 				service.Update(
 					new AutoNumberingStream
 					{
 						Id = stream.Id,
-						CurrentIndex = index
+						CurrentIndex = index,
+						ResetDate = resetDate,
+						LastResetDate = lastResetDate
 					});
+
 				Log.Log($"Finished updating stream with new index.");
 			}
 			
 			return index;
+		}
+
+		private (DateTime? resetDate, DateTime? lastResetDate, bool isReset, int resetValue)
+			ResetDate(GlobalEnums.ResetInterval? resetInterval, DateTime? resetDate, DateTime? lastResetDate,
+				int? resetValue)
+		{
+			var isReset = false;
+
+			// if index reset config is set, and the time has passed, then reset index to value set
+			if (resetDate != null
+				&& (resetInterval != GlobalEnums.ResetInterval.Never
+					&& DateTime.UtcNow >= resetDate.Value
+					&& (lastResetDate == null || lastResetDate < resetDate)))
+			{
+				lastResetDate = DateTime.UtcNow;
+
+				while (resetDate <= DateTime.UtcNow)
+				{
+					// add the interval to the reset date
+					switch (resetInterval)
+					{
+						case GlobalEnums.ResetInterval.Yearly:
+							resetDate = resetDate.Value.AddYears(1);
+							break;
+						case GlobalEnums.ResetInterval.Monthly:
+							resetDate = resetDate.Value.AddMonths(1);
+							break;
+						case GlobalEnums.ResetInterval.Daily:
+							resetDate = resetDate.Value.AddDays(1);
+							break;
+						case GlobalEnums.ResetInterval.Once:
+						case GlobalEnums.ResetInterval.Never:
+							break;
+						default:
+							throw new InvalidPluginExecutionException("Interval does not exist in code. Please contact the administrator.");
+					}
+				}
+
+				isReset = true;
+				resetValue ??= 0;
+			}
+
+			if (resetInterval == GlobalEnums.ResetInterval.Never)
+			{
+				resetDate = null;
+			}
+			
+			return (resetDate, lastResetDate, isReset, resetValue.GetValueOrDefault());
 		}
 
 		internal string ParseParamVariables(int paramIndex)

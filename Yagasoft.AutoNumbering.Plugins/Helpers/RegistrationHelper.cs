@@ -25,7 +25,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 			xrmContext = new XrmServiceContext(service) { MergeOption = MergeOption.NoTracking };
 		}
 
-		internal void RegisterStageConfigSteps(AutoNumbering preConfig, AutoNumbering postConfig)
+		internal void RegisterStageConfigSteps(YSAutoNumbering preConfig, YSAutoNumbering postConfig)
 		{
 			var types = (from typeQ in xrmContext.PluginTypeSet
 						 where typeQ.Name == "Yagasoft.AutoNumbering.Plugins.Target.Plugins.PreCreateTargetAutoNum"
@@ -62,7 +62,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 			}
 
 			var stageType = types.FirstOrDefault(t =>
-				stage == AutoNumbering.AutoregisterStepStageEnum.Preoperation
+				stage == YSAutoNumbering.AutoregisterStepStageEnum.Preoperation
 					? t.Name.Contains("PreCreateTargetAutoNum")
 					: t.Name.Contains("PostCreateTargetAutoNum"));
 
@@ -73,7 +73,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 
 			createMessage.PluginTypeId = stageType.PluginTypeId.GetValueOrDefault();
 			createMessage.TypeName = stageType.Name;
-			createMessage.ExecutionStage = stage == AutoNumbering.AutoregisterStepStageEnum.Preoperation
+			createMessage.ExecutionStage = stage == YSAutoNumbering.AutoregisterStepStageEnum.Preoperation
 				? SdkMessageProcessingStep.ExecutionStageEnum.Preoperation
 				: SdkMessageProcessingStep.ExecutionStageEnum.Postoperation;
 

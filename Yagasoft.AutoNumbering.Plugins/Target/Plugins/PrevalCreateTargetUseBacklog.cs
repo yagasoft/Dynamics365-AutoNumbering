@@ -55,10 +55,10 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 			Log.LogAttributeValues(target, target.Attributes, "Target Attributes");
 
 			var autoNumberConfig =
-				(from autoNumberQ in new XrmServiceContext(Service).AutoNumberingSet
+				(from autoNumberQ in new XrmServiceContext(Service).YSAutoNumberingSet
 				 where autoNumberQ.UniqueID == config
-					 && autoNumberQ.Status == AutoNumbering.StatusEnum.Active
-				 select new AutoNumbering
+					 && autoNumberQ.Status == YSAutoNumbering.StatusEnum.Active
+				 select new YSAutoNumbering
 						{
 							Id = autoNumberQ.Id,
 							Name = autoNumberQ.Name,
@@ -78,7 +78,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Plugins
 
 				Log.Log($"Updating config with trigger ID '{triggerId}' ...");
 				Service.Update(
-					new AutoNumbering
+					new YSAutoNumbering
 					{
 						Id = autoNumberConfig.Id,
 						TriggerID = triggerId

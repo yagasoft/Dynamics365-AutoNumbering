@@ -23,13 +23,13 @@ namespace Yagasoft.AutoNumbering.Plugins.Config.Plugins
 	internal class PreCreateSetIdAutoNumLogic : PluginLogic<PreCreateSetIdAutoNum>
 	{
 		public PreCreateSetIdAutoNumLogic() : base("Create", PluginStage.PreOperation,
-			AutoNumbering.EntityLogicalName)
+			YSAutoNumbering.EntityLogicalName)
 		{ }
 
 		protected override void ExecuteLogic()
 		{
 			var target = (Entity) Context.InputParameters["Target"];
-			target[AutoNumbering.Fields.UniqueID] = target.Id.ToString();
+			target[YSAutoNumbering.Fields.UniqueID] = target.Id.ToString();
 		}
 	}
 }

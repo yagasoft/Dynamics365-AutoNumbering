@@ -57,9 +57,9 @@ namespace Yagasoft.AutoNumbering.Plugins.Target.Steps
 			// get it once to check for generator field update below
 			Log.Log("Getting auto-numbering config ...");
 			var autoNumberTest =
-				(from autoNumberQ in new XrmServiceContext(Service).AutoNumberingSet
+				(from autoNumberQ in new XrmServiceContext(Service).YSAutoNumberingSet
 				 where autoNumberQ.AutoNumberingId == autoNumberId
-					 && autoNumberQ.Status == AutoNumbering.StatusEnum.Active
+					 && autoNumberQ.Status == YSAutoNumbering.StatusEnum.Active
 				 select autoNumberQ).FirstOrDefault();
 
 			Log.Log("Getting target ...");

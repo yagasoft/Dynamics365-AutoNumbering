@@ -22,8 +22,8 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 	/// </summary>
 	internal static class Helper
 	{
-		internal static AutoNumbering PreValidation(IOrganizationService service, Entity target,
-			AutoNumbering autoNumberingConfig, ILogger log, bool isConditioned, bool isBackLogged)
+		internal static YSAutoNumbering PreValidation(IOrganizationService service, Entity target,
+			YSAutoNumbering autoNumberingConfig, ILogger log, bool isConditioned, bool isBackLogged)
 		{
 			if (autoNumberingConfig == null)
 			{
@@ -37,7 +37,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 			}
 
 			// if the auto-numbering is inactive, then don't apply
-			if (autoNumberingConfig.Status == AutoNumbering.StatusEnum.Inactive)
+			if (autoNumberingConfig.Status == YSAutoNumbering.StatusEnum.Inactive)
 			{
 				//throw new InvalidPluginExecutionException("Autonumbering config record is inactive.");
 				log.Log("AutoNumbering record is inactive.");
@@ -71,7 +71,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 
 				// ensure locking
 				service.Update(
-					new AutoNumbering
+					new YSAutoNumbering
 					{
 						Id = autoNumberingConfig.Id,
 						Locking = new Random().Next(999999, 999999999).ToString()
@@ -81,9 +81,9 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 
 				// get it again to ensure locking took effect
 				var currentIndex =
-					(from autoNumberQ in new XrmServiceContext(service).AutoNumberingSet
+					(from autoNumberQ in new XrmServiceContext(service).YSAutoNumberingSet
 					 where autoNumberQ.AutoNumberingId == autoNumberingConfig.Id
-						 && autoNumberQ.Status == AutoNumbering.StatusEnum.Active
+						 && autoNumberQ.Status == YSAutoNumbering.StatusEnum.Active
 					 select autoNumberQ.CurrentIndex).First();
 
 				autoNumberingConfig.CurrentIndex = currentIndex;
@@ -92,7 +92,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 			return autoNumberingConfig;
 		}
 
-		internal static AutoNumbering GetAutoNumberingConfig(Entity target, string config,
+		internal static YSAutoNumbering GetAutoNumberingConfig(Entity target, string config,
 			IPluginExecutionContext context, IOrganizationService service, ILogger log, out bool isBackLogged)
 		{
 			context.Require(nameof(context));
@@ -102,7 +102,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 			var configIds = config.Split(',').Select(item => item.Trim()).ToArray();
 			var isInlineConfig = config.Contains(";;");
 
-			AutoNumbering autoNumberConfig = null;
+			YSAutoNumbering autoNumberConfig = null;
 
 			if (isInlineConfig)
 			{
@@ -129,9 +129,9 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 					foreach (var configId in configIds)
 					{
 						autoNumberConfigTemp =
-							(from autoNumberQ in xrmContext.AutoNumberingSet
+							(from autoNumberQ in xrmContext.YSAutoNumberingSet
 							 where autoNumberQ.UniqueID == configId || autoNumberQ.Name == configId
-								 && autoNumberQ.Status == AutoNumbering.StatusEnum.Active
+								 && autoNumberQ.Status == YSAutoNumbering.StatusEnum.Active
 							 select autoNumberQ).FirstOrDefault();
 
 						if (autoNumberConfigTemp == null)
@@ -171,7 +171,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 			return PreValidation(service, target, autoNumberConfig, log, isConditioned, isBackLogged);
 		}
 
-		private static AutoNumbering GetInlineConfig(string config, Guid userIdForTimezone)
+		private static YSAutoNumbering GetInlineConfig(string config, Guid userIdForTimezone)
 		{
 			var inlineConfig = config.Split(new[] { ";;" }, StringSplitOptions.RemoveEmptyEntries)
 				.Select(item => item.Trim()).ToArray();
@@ -182,7 +182,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 			}
 
 			return
-				new AutoNumbering
+				new YSAutoNumbering
 				{
 					FieldLogicalName = inlineConfig[1],
 					FormatString = inlineConfig[0],
@@ -192,7 +192,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 				};
 		}
 
-		private static AutoNumbering GetBackloggedConfig(IPluginExecutionContext currentContext,
+		private static YSAutoNumbering GetBackloggedConfig(IPluginExecutionContext currentContext,
 			IOrganizationService service, ILogger log)
 		{
 			var xrmContext = new XrmServiceContext(service) { MergeOption = MergeOption.NoTracking };
@@ -212,7 +212,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 			log.Log("Retrieving backlog entry ...");
 			var triggerBacklog =
 				(from backlogQ in xrmContext.AutoNumberingBacklogSet
-				 join autonumberQ in xrmContext.AutoNumberingSet
+				 join autonumberQ in xrmContext.YSAutoNumberingSet
 					 on backlogQ.AutoNumberingConfig equals autonumberQ.AutoNumberingId
 				 where backlogQ.TriggerID == triggerId
 				 select new AutoNumberingBacklog
@@ -220,7 +220,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 							Id = backlogQ.Id,
 							IndexValue = backlogQ.IndexValue,
 							AutoNumberingConfig = backlogQ.AutoNumberingConfig,
-							AutoNumberingAsAutoNumberingConfig = autonumberQ
+							YSAutoNumberingAsAutoNumberingConfig = autonumberQ
 						}).FirstOrDefault();
 			log.Log("Finished retrieving backlog entry.");
 
@@ -231,13 +231,13 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 			}
 
 			log.Log($"Using backlog '{triggerBacklog.Id}' with index {triggerBacklog.IndexValue}.");
-			triggerBacklog.AutoNumberingAsAutoNumberingConfig.CurrentIndex = triggerBacklog.IndexValue;
+			triggerBacklog.YSAutoNumberingAsAutoNumberingConfig.CurrentIndex = triggerBacklog.IndexValue;
 
 			log.Log("Deleting backlog entry ...");
 			service.Delete(triggerBacklog.LogicalName, triggerBacklog.Id);
 			log.Log("Finished deleting backlog entry.");
 
-			return triggerBacklog.AutoNumberingAsAutoNumberingConfig;
+			return triggerBacklog.YSAutoNumberingAsAutoNumberingConfig;
 		}
 
 		private static object GetTriggerId(IPluginExecutionContext currentContext)
@@ -317,7 +317,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 				.GetAttributeValue<string>(primaryField);
 		}
 
-		internal static int GetNextIndex(AutoNumbering autoNumberConfig, AutoNumbering updatedAutoNumbering)
+		internal static int GetNextIndex(YSAutoNumbering autoNumberConfig, YSAutoNumbering updatedAutoNumbering)
 		{
 			#region Date stuff
 
@@ -329,7 +329,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 
 			// if index reset config is set, and the time has passed, then reset index to value set
 			if (resetDate != null
-				&& (resetInterval != AutoNumbering.ResetIntervalEnum.Never
+				&& (resetInterval != YSAutoNumbering.ResetIntervalEnum.Never
 					&& DateTime.UtcNow >= resetDate.Value
 					&& (lastResetDate == null || lastResetDate < resetDate)))
 			{
@@ -338,17 +338,17 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 				// add the interval to the reset date
 				switch (resetInterval)
 				{
-					case AutoNumbering.ResetIntervalEnum.Yearly:
+					case YSAutoNumbering.ResetIntervalEnum.Yearly:
 						resetDate = resetDate.Value.AddYears(1);
 						break;
-					case AutoNumbering.ResetIntervalEnum.Monthly:
+					case YSAutoNumbering.ResetIntervalEnum.Monthly:
 						resetDate = resetDate.Value.AddMonths(1);
 						break;
-					case AutoNumbering.ResetIntervalEnum.Daily:
+					case YSAutoNumbering.ResetIntervalEnum.Daily:
 						resetDate = resetDate.Value.AddDays(1);
 						break;
-					case AutoNumbering.ResetIntervalEnum.Once:
-					case AutoNumbering.ResetIntervalEnum.Never:
+					case YSAutoNumbering.ResetIntervalEnum.Once:
+					case YSAutoNumbering.ResetIntervalEnum.Never:
 						break;
 					default:
 						throw new InvalidPluginExecutionException("Interval does not exist in code. Please contact the administrator.");
@@ -358,7 +358,7 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 				resetValue = autoNumberConfig.ResetIndex ?? 0;
 			}
 
-			if (resetInterval == AutoNumbering.ResetIntervalEnum.Never)
+			if (resetInterval == YSAutoNumbering.ResetIntervalEnum.Never)
 			{
 				resetDate = null;
 			}

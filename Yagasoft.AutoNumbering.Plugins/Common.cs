@@ -6,7 +6,6 @@
 #region Imports
 
 using System;
-using System.Activities;
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -29,6 +28,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.Crm.Sdk.Messages;
@@ -38,7 +38,6 @@ using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Metadata.Query;
 using Microsoft.Xrm.Sdk.Query;
-using Microsoft.Xrm.Sdk.Workflow;
 
 using Match = System.Text.RegularExpressions.Match;
 using RelationshipType = Microsoft.Xrm.Sdk.Metadata.RelationshipType;
@@ -2754,94 +2753,6 @@ namespace Yagasoft.Libraries.Common
 			return dictionary;
 		}
 
-		/// <summary>
-		/// Serialises the object into JSON using the .NET <see cref="DataContractJsonSerializer" />.<br />
-		/// Classes must be decorated with <see cref="DataContract" /> and member with <see cref="DataMember" />.<br />
-		/// To aid in serialisation, known types can be passed, or pass null and the method will automatically
-		/// attempt to find the types. You can optionally limit the scope of the search to the provided type's assembly.
-		///		Author: Ahmed Elsawalhy (Yagasoft.com)
-		/// </summary>
-		/// <typeparam name="T">Return type.</typeparam>
-		/// <param name="obj">The object to serialise.</param>
-		/// <param name="isSerializeReadOnlyTypes">If set to <c>true</c> will serialise <c>readonly</c>
-		/// and properties with a <c>get</c> only.</param>
-		/// <param name="knownTypes">The known types to consider when serialising.</param>
-		/// <param name="assembliesScope">The assemblies scope.</param>
-		/// <param name="surrogate">The surrogate.</param>
-		/// <param name="latestError">The latest error.</param>
-		public static string SerialiseContractJson<T>(this T obj, bool isSerializeReadOnlyTypes = false, IEnumerable<Type> knownTypes = null,
-			Assembly[] assembliesScope = null, IDataContractSurrogate surrogate = null, string latestError = null)
-			where T : class
-		{
-			IReadOnlyList<Type> knownTypesArray = knownTypes?.ToArray() ?? Type.EmptyTypes;
-
-			try
-			{
-				using (var memoryStream = new MemoryStream())
-				{
-					var serialiser = new DataContractJsonSerializer(typeof(T),
-						BuildSerialisationSettings(isSerializeReadOnlyTypes, knownTypesArray, surrogate));
-					serialiser.WriteObject(memoryStream, obj);
-					return Encoding.Default.GetString(memoryStream.ToArray());
-				}
-			}
-			catch (SerializationException ex)
-			{
-				var serialised = HandleSerialisationException(ref knownTypesArray, assembliesScope, ref latestError, ex);
-
-				if (serialised)
-				{
-					return obj.SerialiseContractJson(isSerializeReadOnlyTypes, knownTypesArray, assembliesScope, surrogate, latestError);
-				}
-
-				return null;
-			}
-		}
-
-		/// <summary>
-		/// Deserialises the object into JSON using the .NET <see cref="DataContractJsonSerializer" />.<br />
-		/// Classes must be decorated with <see cref="DataContract" /> and member with <see cref="DataMember" />.<br />
-		/// To aid in deserialisation, known types can be passed, or pass null and the method will automatically
-		/// attempt to find the types. You can optionally limit the scope of the search to the provided type's assembly.
-		///		Author: Ahmed Elsawalhy (Yagasoft.com)
-		/// </summary>
-		/// <typeparam name="T">Return type.</typeparam>
-		/// <param name="json">The json.</param>
-		/// <param name="isSerializeReadOnlyTypes">If set to <c>true</c> will deserialise <c>readonly</c>
-		/// and properties with a <c>get</c> only.</param>
-		/// <param name="knownTypes">The known types to consider when deserialising.</param>
-		/// <param name="assembliesScope">The assemblies scope.</param>
-		/// <param name="surrogate">The surrogate.</param>
-		/// <param name="latestError">The latest error.</param>
-		public static T DeserialiseContractJson<T>(this string json, bool isSerializeReadOnlyTypes = false, IEnumerable<Type> knownTypes = null,
-			Assembly[] assembliesScope = null, IDataContractSurrogate surrogate = null, string latestError = null)
-			where T : class
-		{
-			IReadOnlyList<Type> knownTypesArray = knownTypes?.ToArray() ?? Type.EmptyTypes;
-
-			try
-			{
-				using (var memoryStream = new MemoryStream(Encoding.UTF8.GetBytes(json)))
-				{
-					var serialiser = new DataContractJsonSerializer(typeof(T),
-						BuildSerialisationSettings(isSerializeReadOnlyTypes, knownTypesArray, surrogate));
-					return (T)serialiser.ReadObject(memoryStream);
-				}
-			}
-			catch (SerializationException ex)
-			{
-				var serialised = HandleSerialisationException(ref knownTypesArray, assembliesScope, ref latestError, ex);
-
-				if (serialised)
-				{
-					return json.DeserialiseContractJson<T>(isSerializeReadOnlyTypes, knownTypesArray, assembliesScope,
-						surrogate, latestError);
-				}
-
-				return null;
-			}
-		}
-
 		private static bool HandleSerialisationException(ref IReadOnlyList<Type> knownTypes, Assembly[] assembliesScope,
 			ref string latestError, SerializationException ex)
 		{
@@ -2872,123 +2783,6 @@ namespace Yagasoft.Libraries.Common
 
 			throw new SerializationException($"Type is unsupported by [de]serialisation => '{latestError}'.");
 		}
-
-		private static DataContractJsonSerializerSettings BuildSerialisationSettings(bool isSerializeReadOnlyTypes,
-			IEnumerable<Type> knownTypes, IDataContractSurrogate surrogate)
-		{
-			return new DataContractJsonSerializerSettings
-				   {
-					   UseSimpleDictionaryFormat = true,
-					   SerializeReadOnlyTypes = isSerializeReadOnlyTypes,
-					   KnownTypes = knownTypes,
-					   DataContractSurrogate = surrogate
-				   };
-		}
-
-		/// <summary>
-		/// Credit: https://stackoverflow.com/a/9347678/1919456
-		///		Author: Ahmed Elsawalhy (Yagasoft.com)
-		/// </summary>
-		/// <seealso cref="System.Runtime.Serialization.IDataContractSurrogate" />
-		public class DateTimeCrmContractSurrogate : IDataContractSurrogate
-		{
-	        private static readonly Regex dateRegex = new Regex(@"/Date\((\d+)([-+])?(\d+)?\)/");
-	        private static readonly DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-	        public object GetCustomDataToExport(Type clrType, Type dataContractType)
-	        {
-	            // not used
-	            return null;
-	        }
-
-	        public object GetCustomDataToExport(System.Reflection.MemberInfo memberInfo, Type dataContractType)
-	        {
-	            // not used
-	            return null;
-	        }
-
-	        public Type GetDataContractType(Type type)
-	        {
-	            // not used
-	            return type;
-	        }
-
-	        public object GetDeserializedObject(object obj, Type targetType)
-	        {
-	            // for debugging
-	            //Console.WriteLine("GetDeserializedObject: obj = {0} ({1}), targetType = {2}", obj, obj.GetType(), targetType);
-
-	            if (obj is DataCollection<string, object> dataCollection)
-	            {
-		            foreach (var item in dataCollection.ToArray())
-		            {
-			            dataCollection[item.Key] = ConvertDate(item.Value as string) ?? item.Value;
-		            }
-	            }
-
-	            if (obj is IDictionary<string, object> dictionary)
-	            {
-		            foreach (var item in dictionary.ToArray())
-		            {
-			            dictionary[item.Key] = ConvertDate(item.Value as string) ?? item.Value;
-		            }
-	            }
-
-		        return CustomIterator(obj);
-	        }
-
-			protected virtual object CustomIterator(object obj)
-			{
-				return obj;
-			}
-
-			protected static DateTime? ConvertDate(string unparsedDate)
-			{
-				if (unparsedDate != null)
-				{
-					// check if we match the DateTime format
-					Match match = dateRegex.Match(unparsedDate);
-
-					if (match.Success)
-					{
-						// try to parse the string into a long. then create a datetime and convert to local time.
-						long msFromEpoch;
-
-						if (long.TryParse(match.Groups[1].Value, out msFromEpoch))
-						{
-							TimeSpan fromEpoch = TimeSpan.FromMilliseconds(msFromEpoch);
-							return TimeZoneInfo.ConvertTimeFromUtc(epoch.Add(fromEpoch), TimeZoneInfo.Local);
-						}
-					}
-				}
-
-				return null;
-			}
-
-			public void GetKnownCustomDataTypes(System.Collections.ObjectModel.Collection<Type> customDataTypes)
-	        {
-	            // not used   
-	        }
-
-	        public object GetObjectToSerialize(object obj, Type targetType)
-	        {
-	            // for debugging
-	            //Console.WriteLine("GetObjectToSerialize: obj = {0} ({1}), targetType = {2}", obj, obj.GetType(), targetType);
-	            return obj;
-	        }
-
-	        public Type GetReferencedTypeOnImport(string typeName, string typeNamespace, object customData)
-	        {
-	            // not used
-	            return null;
-	        }
-
-	        public System.CodeDom.CodeTypeDeclaration ProcessImportedType(System.CodeDom.CodeTypeDeclaration typeDeclaration, System.CodeDom.CodeCompileUnit compileUnit)
-	        {
-	            // not used
-	            return typeDeclaration;
-	        }
-	    }
 	}
 
 	/// <summary>
@@ -3022,6 +2816,11 @@ namespace Yagasoft.Libraries.Common
 
 			protected RootExpression Interpret(string input)
 			{
+				if (string.IsNullOrEmpty(input))
+				{
+					return new RootExpression(new ParserContext([]));
+				}
+				
 				var inputStack = new Stack<char>(input.Reverse());
 				var context = new ParserContext(expressions);
 
@@ -3923,54 +3722,82 @@ namespace Yagasoft.Libraries.Common
 
 							switch (baseValue)
 							{
+								case double number when property == "value":
+									return number;
 								case Entity entity:
 								{
-									var value = entity.GetAttributeValue<object>(property);
-									
-									object ParseAttribute(object attribute = null)
+									switch (property)
 									{
-										return attribute switch {
-											Guid id => id.ToString().ToLower(),
-											Money money => (double)money.Value,
-											decimal dec => (double)dec,
-											float flo => (double)flo,
-											OptionSetValue choice => new ChoiceParams(entity, choice, property),
-											null => entity.Contains(property)
+										case "id":
+											return entity.Id.ToString().ToLower();
+										case "logical":
+											return entity.LogicalName;
+										case "name":
+										{
+											if (state.Service == null)
+											{
+												if (entity.Contains("name"))
+												{
+													return entity.GetAttributeValue<string>("name");
+												}
+									
+												return entity.Id == Guid.Empty ? null : throw ServiceRequired(entity.LogicalName, property);
+											}
+
+											var primaryNameField = MetadataHelpers.GetEntityAttribute<string>(state.Service,
+												entity.LogicalName, MetadataHelpers.EntityAttribute.PrimaryNameAttribute, state.OrgId);
+											return primaryNameField.IsEmpty() ? null : ReadAttribute(state, entity, primaryNameField);
+										}
+										case "url":
+											return entity.Id == Guid.Empty
 												? null
-												: entity.IntegrateAttributes(state.Service.Retrieve(entity.LogicalName, entity.Id, new ColumnSet(property)))
-													.GetAttributeValue<object>(property),
-											"name" =>entity["name"] = CrmHelpers
-												.GetRecordName(state.Service, entity, true, null, state.OrgId),
-											"logical" => entity.LogicalName,
-											"id" => entity.Id.ToString().ToLower(),
-											"url" => entity["url"] = CrmHelpers
-												.GetRecordUrl(state.Service, entity.ToEntityReference(), state.OrgId),
-											_ => value
-											};
+												: CrmHelpers.GetRecordUrl(state.Service ?? throw ServiceRequired(entity.LogicalName, property),
+													entity.ToEntityReference(), state.OrgId);
 									}
 
-									// try to retrieve
-									var parsedValue = ParseAttribute(value);
-
-									// if retrieved, parse again to the supported types
-									return value == null ? ParseAttribute(parsedValue) : parsedValue;
-								}
+									return ReadAttribute(state, entity, property);
+									}
 
 								case EntityReference reference:
-									return property switch {
-										"id" => reference.Id.ToString().ToLower(),
-										"logical" => reference.LogicalName,
-										"name" => reference.Name,
-										_ => state.Service.Retrieve(reference.LogicalName, reference.Id, new ColumnSet(property))
-											.GetAttributeValue<object>(property)
-										};
+								{
+									if (property == "id")
+									{
+										return reference.Id.ToString().ToLower();
+									}
+									// try to retrieve
+									if (property == "logical")
+									{
+										return reference.LogicalName;
+									}
+
+									if (property == "name")
+									{
+										if (!string.IsNullOrWhiteSpace(reference.Name) || reference.Id == Guid.Empty)
+										{
+											return reference.Name;
+										}
+									// if retrieved, parse again to the supported types
+										var service = state.Service ?? throw ServiceRequired(reference.LogicalName, property);
+										var primaryNameField = MetadataHelpers.GetEntityAttribute<string>(service,
+											reference.LogicalName, MetadataHelpers.EntityAttribute.PrimaryNameAttribute, state.OrgId);
+										return primaryNameField.IsEmpty() ? null : service.Retrieve(reference.LogicalName,
+											reference.Id, new ColumnSet(primaryNameField)).GetAttributeValue<string>(primaryNameField);
+								}
+
+									if (reference.Id == Guid.Empty)
+									{
+										return null;
+									}
+
+									var row = (state.Service ?? throw ServiceRequired(reference.LogicalName, property))
+										.Retrieve(reference.LogicalName, reference.Id, new ColumnSet(property));
+									return NormaliseAttribute(row, property, row.GetAttributeValue<object>(property));
+								}
 
 								case ChoiceParams choice:
 									return property switch {
-"name" => state.Lcid == 1033 && choice.Row.FormattedValues.TryGetValue(property, out var label)
-	? label : 
-	MetadataHelpers.GetOptionSetLabel(state.Service, choice.Row.LogicalName, choice.Property,
-		choice.Choice.Value, state.Lcid, state.OrgId),
+										"name" => MetadataHelpers.GetOptionSetLabel(state.Service, choice.Row.LogicalName,
+											choice.Property, choice.Choice.Value, state.Lcid, state.OrgId),
 										"value" => (double)choice.Choice.Value,
 										_ => throw new NotSupportedException($"Choice property '{property}' is not supported.")
 										};
@@ -4015,6 +3842,34 @@ namespace Yagasoft.Libraries.Common
 					}
 				}
 
+			private static object ReadAttribute(GlobalState state, Entity entity, string property)
+			{
+				if (!entity.Contains(property))
+				{
+					if (entity.Id == Guid.Empty)
+					{
+						return null;
+					}
+
+					entity.IntegrateAttributes((state.Service ?? throw ServiceRequired(entity.LogicalName, property))
+						.Retrieve(entity.LogicalName, entity.Id, new ColumnSet(property)));
+				}
+
+				return NormaliseAttribute(entity, property, entity.GetAttributeValue<object>(property));
+			}
+
+			private static object NormaliseAttribute(Entity row, string property, object value) => value switch
+			{
+				Guid id => id.ToString().ToLower(),
+				Money money => (double)money.Value,
+				decimal dec => (double)dec,
+				float flo => (double)flo,
+				OptionSetValue choice => new ChoiceParams(row, choice, property),
+				_ => value
+			};
+
+			private static InvalidOperationException ServiceRequired(string entityName, string property) =>
+				new($"Reading '{entityName}.{property}' requires an organisation service.");
 			protected override void InnerBuild(Stack<Expression> parentDoneExpressions, Stack<Expression> pendingExpressions)
 			{ }
 		}
@@ -9928,73 +9783,183 @@ else if (Context.CodeScopeCount <= 0)
 	///  		// code ...
 	///   	}
 	///     </code>
-	///     After exiting the 'using' block, <see cref="ReleasePermit" /> is called automatically.<br />
+	///     After exiting the 'using' block, <see cref="Release" /> is called automatically.<br />
 	///		Author: Ahmed Elsawalhy (Yagasoft.com)
 	/// </summary>
 	[ExcludeFromCodeCoverage]
-	[DebuggerNonUserCode]
+	//[DebuggerNonUserCode]
 	[GeneratedCode("This is not generated code, but this attribute is used for excluding the code from code analysis.", "0.0.0.0")]
 	public sealed class FifoSemaphore : IDisposable
 	{
-		private readonly Queue<ManualResetEvent> threadLocksQueue = new Queue<ManualResetEvent>();
+		public int MaxConcurrency
+		{
+			get => maxConcurrency;
+			set
+			{
+				var diff = value - maxConcurrency;
 
-		private readonly int maxConcurrency;
+				if (diff > 0)
+				{
+					_ = Release(diff);
+				}
+				
+				maxConcurrency = value;
+			}
+		}
 
-		private readonly object lockObject = new object();
-		private int currentRequests;
+		public bool IsBlocked;
+		
+		private readonly ConcurrentQueue<SemaphoreSlim> consumedLocksQueue = new();
+		private readonly ConcurrentQueue<SemaphoreSlim> threadLocksQueue = new();
+		public int currentRequests;
+		private int maxConcurrency;
+		private readonly SemaphoreSlim semaphore = new(1);
 
 		public FifoSemaphore(int maxConcurrency)
 		{
-			this.maxConcurrency = maxConcurrency;
+			MaxConcurrency = maxConcurrency;
 		}
 
 		public void Dispose()
 		{
-			ReleasePermit();
+			IsBlocked = false;
+			MaxConcurrency = int.MaxValue;
+			_ = ReleaseAllBlocked();
 		}
 
+		public async Task<bool> WaitAsync()
+		{
+			return await WaitAsync(null, null);
+		}
+
+		public async Task<bool> WaitAsync(TimeSpan timeout)
+		{
+			return await WaitAsync(timeout, null);
+		}
+
+		public async Task<bool> WaitAsync(CancellationToken cancellationToken)
+		{
+			return await WaitAsync(null, cancellationToken);
+		}
+		
 		/// <summary>
 		///     Check how many permits have been requested before, and if the number is greater than the limit,
 		///     hold this request until a permit elsewhere is released.
 		/// </summary>
-		public FifoSemaphore AcquirePermit()
+		public async Task<bool> WaitAsync(TimeSpan? timeout, CancellationToken? cancellationToken)
 		{
-			lock (lockObject)
+			Interlocked.Increment(ref currentRequests);
+			
+			// if the limit hasn't been reached yet, note it, and give permission
+			if (!IsBlocked && currentRequests <= MaxConcurrency)
 			{
-				currentRequests++;
+				return true;
+			}
 
-				// if the limit hasn't been reached yet, note it, and give permission
-				if (currentRequests <= maxConcurrency)
+			if (!consumedLocksQueue.TryDequeue(out var newLock))
+			{
+				newLock = new SemaphoreSlim(0);
+			}
+			
+			// we have to wait for a slot to open
+			threadLocksQueue.Enqueue(newLock);
+
+			if (timeout is null && cancellationToken is null)
+			{
+				await newLock.WaitAsync();
+			}
+			else if (cancellationToken is null)
+			{
+				if (await newLock.WaitAsync(timeout.Value))
 				{
-					return this;
+					return true;
 				}
+				
+				Interlocked.Decrement(ref currentRequests);
+				
+				return false;
 			}
-
-			using (var newLock = new ManualResetEvent(false))
+			else if (timeout is null)
 			{
-				// we have to wait for a slot to open
-				threadLocksQueue.Enqueue(newLock);
-				newLock.WaitOne();
+				await newLock.WaitAsync(cancellationToken.Value);
+			}
+			else
+			{
+				if (await newLock.WaitAsync(timeout.Value, cancellationToken.Value))
+				{
+					return true;
+				}
+				
+				Interlocked.Decrement(ref currentRequests);
+				
+				return false;
 			}
 
-			return this;
+			return true;
 		}
 
 		/// <summary>
 		///     Release a permit, and release the hold on the next in line.
 		/// </summary>
-		public void ReleasePermit()
+		public async Task Release(int count = 1)
 		{
-			lock (lockObject)
+			for (var i = 0; i < count; i++)
 			{
-				// note the release
-				currentRequests--;
-
-				// give permission to the next in line
-				if (threadLocksQueue.Any())
+				if (currentRequests > 0)
 				{
-					threadLocksQueue.Dequeue().Set();
+					// note the release
+					Interlocked.Decrement(ref currentRequests);
 				}
+			}
+
+			if (IsBlocked)
+			{
+				return;
+			}
+			
+			await ReleaseFromQueue(count);
+		}
+
+		/// <summary>
+		///     Release permits without affecting current request count.
+		/// </summary>
+		public async Task ReleaseBlocked(int count = 1)
+		{
+			await ReleaseFromQueue(count);
+		}
+
+		/// <summary>
+		///     Release all permits without affecting current request count.
+		/// </summary>
+		public async Task ReleaseAllBlocked()
+		{
+			await ReleaseFromQueue(threadLocksQueue.Count);
+		}
+
+		private async Task ReleaseFromQueue(int count = 1)
+		{
+			if (threadLocksQueue.Count == 0)
+			{
+				return;
+			}
+			
+			await semaphore.WaitAsync();
+
+			try
+			{
+				for (var i = 0; i < count && threadLocksQueue.Count > 0; i++)
+				{
+					// give permission to the next in line
+					if (threadLocksQueue.TryDequeue(out var threadLock))
+					{
+						threadLock.Release();
+						consumedLocksQueue.Enqueue(threadLock);
+					}
+				}
+			}
+			finally
+			{
+				semaphore.Release();
 			}
 		}
 	}
@@ -10009,8 +9974,8 @@ else if (Context.CodeScopeCount <= 0)
 	public sealed class QueuedLock : IDisposable
 	{
 		private readonly object innerLock;
-		private volatile int ticketsCount;
-		private volatile int ticketToRide;
+		private int ticketsCount;
+		private int ticketToRide;
 
 		public QueuedLock()
 		{
@@ -10058,10 +10023,12 @@ else if (Context.CodeScopeCount <= 0)
 	{
 		#region ctor(s)
 
-		public BlockingQueue() : base(new ConcurrentQueue<T>())
+		public BlockingQueue(IEnumerable<T> initialCollection = null)
+			: base(initialCollection is null ? new ConcurrentQueue<T>() : new ConcurrentQueue<T>(initialCollection))
 		{ }
 
-		public BlockingQueue(int maxSize) : base(new ConcurrentQueue<T>(), maxSize)
+		public BlockingQueue(int maxSize, IEnumerable<T> initialCollection = null)
+			: base(initialCollection is null ? new ConcurrentQueue<T>() : new ConcurrentQueue<T>(initialCollection), maxSize)
 		{ }
 
 		#endregion ctor(s)
@@ -11136,388 +11103,6 @@ else if (Context.CodeScopeCount <= 0)
 		#endregion
 	}
 
-	/// <summary>
-	///     Plugin logging.<br />
-	///		Author: Ahmed Elsawalhy (Yagasoft.com)<br />
-	/// </summary>
-	[ExcludeFromCodeCoverage]
-	[DebuggerNonUserCode]
-	[GeneratedCode("This is not generated code, but this attribute is used for excluding the code from code analysis.", "0.0.0.0")]
-	public class PluginLogger : LoggerBase
-	{
-		public Guid UserId { get; protected set; }
-		public Guid OrganisationId { get; protected set; }
-
-		public IOrganizationService Service { get; protected set; }
-		public ITracingService TracingService { get; protected set; }
-		public IExecutionContext Context { get; protected set; }
-		public bool IsCrmLogEnabled { get; protected set; }
-
-		private readonly Queue<LogEntry> logQueue = new Queue<LogEntry>();
-		private string pluginExecInfo;
-		private Entity logRecord;
-		
-		public PluginLogger(IServiceProvider serviceProvider, LogLevel? maximumLevel = null, [CallerMemberName] string callingFunction = "")
-			: base(maximumLevel, callingFunction)
-		{
-			serviceProvider.Require(nameof(serviceProvider));
-
-			Context = (IPluginExecutionContext)serviceProvider.GetService(typeof(IPluginExecutionContext));
-			UserId = Context.InitiatingUserId;
-			OrganisationId = Context.OrganizationId;
-
-			Service = ((IOrganizationServiceFactory)serviceProvider.GetService(typeof(IOrganizationServiceFactory)))
-				.CreateOrganizationService(null);
-			TracingService = (ITracingService)serviceProvider.GetService(typeof(ITracingService));
-
-			InitialiseLog(maximumLevel, callingFunction);
-		}
-		
-		public PluginLogger(ActivityContext activityContext, LogLevel? maximumLevel = null, [CallerMemberName] string callingFunction = "")
-			: base(maximumLevel, callingFunction)
-		{
-			activityContext.Require(nameof(activityContext));
-
-			Context = activityContext.GetExtension<IWorkflowContext>();
-			UserId = Context.InitiatingUserId;
-			OrganisationId = Context.OrganizationId;
-
-			Service = activityContext.GetExtension<IOrganizationServiceFactory>().CreateOrganizationService(null);
-			TracingService = activityContext.GetExtension<ITracingService>();
-
-			InitialiseLog(maximumLevel, callingFunction);
-		}
-
-		private void InitialiseLog(LogLevel? maximumLevel = null, [CallerMemberName] string callingFunction = "")
-		{
-			LogStartDate = DateTime.UtcNow;
-			CurrentEntryIndex = 1;
-
-			var config = GetConfiguration();
-
-			IsCrmLogEnabled = config?.IsCrmLogEnabled == true;
-			MaxLogLevel = maximumLevel ?? config?.LogLevel ?? LogLevel.Warning;
-
-			if (!IsCrmLogEnabled)
-			{
-				TracingService?.Trace("CRM log disabled in Common Config.");
-			}
-
-			// if assembly is excluded, then turn off logging
-			if (config?.AssemblyFilter.IsFilled() == true)
-			{
-				var isAssemblyIncluded = Regex
-					.IsMatch(Helpers
-						.GetAssemblyName(-1, "Yagasoft.Libraries.Common"), config.AssemblyFilter);
-				MaxLogLevel = isAssemblyIncluded ? MaxLogLevel : LogLevel.None;
-			}
-
-			if (config?.AssemblyExclusion.IsFilled() == true)
-			{
-				var isAssemblyExcluded = Regex
-					.IsMatch(Helpers
-						.GetAssemblyName(-1, "Yagasoft.Libraries.Common"), config.AssemblyExclusion);
-				MaxLogLevel = isAssemblyExcluded ? LogLevel.None : MaxLogLevel;
-			}
-
-			if (UserId == Guid.Empty && Service != null && MaxLogLevel != LogLevel.None)
-			{
-				UserId = ((WhoAmIResponse)Service.Execute(new WhoAmIRequest())).UserId;
-			}
-
-			ParentLog.UserId = UserId;
-
-			if (Context != null && IsCrmLogEnabled)
-			{
-				LogExecutionStart((LogEntry)null, ParentLog.EntryFunction, 0);
-			}
-
-			InitLogRecord();
-
-			LogEntryGiven +=
-				(sender, args) =>
-				{
-					if (!ExecutionStarted)
-					{
-						LogExecutionStart((LogEntry)null, ParentLog.EntryFunction, 0);
-					}
-				};
-
-			if (MaxLogLevel == LogLevel.None)
-			{
-				TracingService?.Trace($"Max log level has been determined as {MaxLogLevel}.");
-			}
-		}
-
-		public override void SetExecutionState(ExecutionEndState state)
-		{
-			base.SetExecutionState(state);
-
-			// plugin context
-			if (pluginExecInfo == null && Context != null && IsCrmLogEnabled)
-			{
-				pluginExecInfo =
-					state == ExecutionEndState.Failure && Service != null
-						? PluginInfo.GetPluginExecutionInfo(Context, Service)
-						: PluginInfo.GetPluginExecutionInfo(Context);
-				Log("Plugin context info.", LogLevel.Debug, pluginExecInfo, ParentLog.EntryFunction, 0);
-			}
-		}
-
-		public override void LogExecutionEnd(LogEntry logEntry = null, ExecutionEndState state = ExecutionEndState.Success,
-			string callingFunction = "", int callingLineNumber = 0)
-		{
-			base.LogExecutionEnd(logEntry, state, callingFunction, callingLineNumber);
-			FinaliseLogRecord();
-			Flush();
-		}
-
-		private LogConfiguration GetConfiguration()
-		{
-			if (Service == null)
-			{
-				return null;
-			}
-
-			var config = CrmHelpers.GetGenericConfig(Service, OrganisationId);
-
-			return config == null
-				? null
-				: new LogConfiguration
-				  {
-					  IsCrmLogEnabled = config.GetAttributeValue<bool?>("ys_iscrmlogenabled").GetValueOrDefault(),
-					  LogLevel = (LogLevel)(config.GetAttributeValue<OptionSetValue>("ys_loglevel")
-						  ?? new OptionSetValue((int)LogLevel.Warning)).Value,
-					  AssemblyFilter = config.GetAttributeValue<string>("ys_assemblyfilter"),
-					  AssemblyExclusion = config.GetAttributeValue<string>("ys_assemblyexclusion")
-				  };
-		}
-
-		private void InitLogRecord()
-		{
-			var stage = (Context as IPluginExecutionContext)?.Stage;
-
-			logRecord =
-				new Entity("ys_log")
-				{
-					["ys_correlationid"] = Context?.CorrelationId.ToString().ToUpper(),
-					["ys_businessunitid"] = Context?.BusinessUnitId.ToString().ToUpper(),
-					["ys_depth"] = Context?.Depth,
-					["ys_messagename"] = Context?.MessageName,
-					["ys_isolationmodevalue"] = Context?.IsolationMode == null ? null : new OptionSetValue(Context.IsolationMode),
-					["ys_stagevalue"] = stage == null ? null : new OptionSetValue(stage.Value),
-					["ys_modevalue"] = Context?.Mode == null ? null : new OptionSetValue(Context.Mode),
-					["ys_operationid"] = Context?.OperationId.ToString().ToUpper()
-				};
-		}
-
-		private void FinaliseLogRecord()
-		{
-			logRecord["ys_name"] = ParentLog.Name;
-			logRecord["ys_title"] = ParentLog.Title;
-			logRecord["ys_assembly"] = ParentLog.Assembly;
-			logRecord["ys_entryclass"] = ParentLog.EntryClass;
-			logRecord["ys_entryfunction"] = ParentLog.EntryFunction;
-			logRecord["ys_startdate"] = ParentLog.StartDate;
-			logRecord["ys_user"] = new EntityReference("systemuser", ParentLog.UserId.GetValueOrDefault());
-			logRecord["ys_executionendstate"] = new OptionSetValue((int)AssemblyExecutionState);
-			logRecord["ys_executionduration"] = (int)ExecutionTimer.ElapsedMilliseconds;
-			logRecord["ys_exceptionthrown"] = ExceptionThrown;
-			logRecord["ys_regardingtype"] = ParentLog.RegardingType ?? Context?.PrimaryEntityName;
-			logRecord["ys_regardingid"] = (ParentLog.RegardingId ?? Context?.PrimaryEntityId).ToString().ToUpper();
-			logRecord["ys_regardingname"] = ParentLog.RegardingName;
-		}
-		
-		protected override void ProcessLogEntry(LogEntry logEntry)
-		{
-			if (logEntry.Level > LogLevel.None && logEntry.Level <= MaxLogLevel)
-			{
-				TracingService?.Trace(GetTraceServiceFormattedEntry(logEntry));
-			}
-
-			if (logEntry.ExceptionThrown)
-			{
-				ExceptionLogEntry = logEntry;
-			}
-
-			logQueue.Enqueue(logEntry);
-		}
-
-		private string GetTraceServiceFormattedEntry(LogEntry logEntry)
-		{
-			try
-			{
-				var stringBuilder = new StringBuilder();
-
-				////stringBuilder.Append($"Start date: {logEntry.StartDate.GetValueOrDefault().ToLocalTime()}");
-				////stringBuilder.AppendFormat("\r\nLog level: {0}", logEntry.Level);
-				////stringBuilder.AppendFormat("\r\nDuration: {0} ms", logEntry.ElapsedTime);
-				////stringBuilder.AppendFormat("\r\nClass: {0}", logEntry.CallingClass.Split('.').LastOrDefault());
-				////stringBuilder.AppendFormat("\r\nMethod: {0}", logEntry.CallingFunction);
-				////stringBuilder.AppendFormat("\r\nLine: {0}", logEntry.CallingLineNumber);
-
-				if (logEntry.Exception == null)
-				{
-					if (logEntry.Level != LogLevel.Info)
-					{
-						stringBuilder.Append($"[{logEntry.Level}] ");
-					}
-
-					stringBuilder.Append($"{logEntry.Message}"
-						+ $" | {logEntry.ElapsedTime} ms"
-						+ $" | {logEntry.CallingClass?.Split('.').LastOrDefault()}"
-						+ $".{logEntry.CallingFunction} at {logEntry.CallingLineNumber}");
-				}
-				else
-				{
-					stringBuilder.Append($"\r\n-- START ** EXCEPTION -"
-						+ $"\r\n{logEntry.Exception.BuildExceptionMessage()}"
-						+ $"\r\n-- END ** EXCEPTION -");
-				}
-
-				return stringBuilder.ToString();
-			}
-			catch (Exception e)
-			{
-				return $"Logger error:\r\n{e}";
-			}
-		}
-
-		private void Flush()
-		{
-			TracingService?.Trace("Flushing log entries ...");
-
-			if (!IsCrmLogEnabled || MaxLogLevel == LogLevel.None
-				|| logQueue.All(entry => entry.Level == LogLevel.None)
-				|| (logQueue.All(entry => entry.Level == LogLevel.None || entry.Level > MaxLogLevel)
-					&& AssemblyExecutionState != ExecutionEndState.Failure))
-			{
-				TracingService?.Trace("No log entries.");
-				return;
-			}
-
-			var requests = new List<OrganizationRequest>();
-			var serialisedLogEntries = new StringBuilder();
-
-			TracingService?.Trace($"{logQueue.Count} log entries.");
-
-			while (logQueue.Count > 0)
-			{
-				var logEntry = logQueue.Dequeue();
-
-				// if the log entry's level is above the maximum, then no need to log it
-				// unless the execution failed
-				if (logEntry.Level > MaxLogLevel
-					&& AssemblyExecutionState != ExecutionEndState.Failure)
-				{
-					continue;
-				}
-
-				serialisedLogEntries.Append("<|||>").Append(EntitySerializer.SerializeObject(CreateEntryEntity(logEntry)));
-			}
-
-			logRecord["ys_serialisedlogentries"] = serialisedLogEntries.ToString().Compress();
-			requests.Add(new CreateRequest { Target = logRecord });
-			var response = CrmHelpers.ExecuteBulk(Service, requests, true);
-			var fault = response.Values.FirstOrDefault()?.Fault.BuildFaultMessage();
-
-			if (fault.IsFilled())
-			{
-				TracingService?.Trace($"Failed to create log:");
-				TracingService?.Trace(fault);
-			}
-		}
-
-		/// <summary>
-		///     Creates an entity containing the log entry data
-		/// </summary>
-		/// <param name="logEntry">The log entry.</param>
-		/// <returns>The CRM entity object including all info in the log entry object</returns>
-		private Entity CreateEntryEntity(LogEntry logEntry)
-		{
-			var target =
-				new Entity("ys_logentry")
-				{
-					Id = logEntry.Id,
-					["ys_name"] = BuildLogId(logEntry),
-					["ys_message"] = logEntry.Message,
-					["ys_entryindex"] = logEntry.CurrentEntryIndex,
-					["ys_startdate"] = logEntry.StartDate,
-					["ys_regardingtype"] = logEntry.RegardingType,
-					["ys_regardingname"] = logEntry.RegardingName,
-					["ys_stacktrace"] = logEntry.StackTrace
-				};
-
-			if (logEntry.Exception != null)
-			{
-				if (logEntry.Message.IsEmpty())
-				{
-					target["ys_message"] = logEntry.Message = "Exception: " + logEntry.Exception.Message;
-				}
-
-				target["ys_exception"] = logEntry.Exception.GetType().Name;
-				target["ys_exceptionsource"] = logEntry.Exception.Source;
-				target["ys_stacktrace"] = logEntry.Exception.StackTrace;
-
-				if (logEntry.Exception.InnerException != null)
-				{
-					target["ys_innerexception"] = logEntry.Exception.InnerException.GetType().Name;
-					target["ys_innerexceptionmessage"] = logEntry.Exception.InnerException.Message;
-					target["ys_innerexceptionsource"] = logEntry.Exception.InnerException.Source;
-					target["ys_innerexceptionstacktrace"] = logEntry.Exception.InnerException.StackTrace;
-				}
-			}
-
-			target["ys_exceptionthrown"] = logEntry.ExceptionThrown;
-
-			target["ys_level"] = new OptionSetValue((int)logEntry.Level);
-
-			if (logEntry.UserId.HasValue)
-			{
-				target["ys_user"] = new EntityReference("systemuser", logEntry.UserId.Value);
-			}
-			else if (UserId != Guid.Empty)
-			{
-				target["ys_user"] = new EntityReference("systemuser", UserId);
-			}
-
-			target["ys_assembly"] = logEntry.Assembly ?? Helpers.GetAssemblyName(-1, "Yagasoft.Libraries.Common");
-			target["ys_class"] = logEntry.CallingClass;
-			target["ys_callingfunction"] = logEntry.CallingFunction;
-			target["ys_linenumber"] = logEntry.CallingLineNumber;
-
-			if (logEntry.ElapsedTime > -1)
-			{
-				target["ys_executionduration"] = logEntry.ElapsedTime;
-			}
-
-			target["ys_information"] = logEntry.Information;
-
-			if (logEntry.ParentLogEntry != null)
-			{
-				target["ys_parentlogentryid"] = new EntityReference("ys_logentry", logEntry.ParentLogEntry.Id);
-			}
-
-			return target;
-		}
-
-		private static string BuildLogId(LogEntry logEntry)
-		{
-			return $"LogEntry-{logEntry.StartDate?.ToLocalTime() ?? DateTime.Now:yyyy_MM_dd-HH_mm_ss_fff}";
-		}
-
-		private class LogConfiguration
-		{
-			internal bool IsCrmLogEnabled { get; set; }
-
-			internal LogLevel LogLevel { get; set; }
-
-			internal string AssemblyFilter { get; set; }
-
-			internal string AssemblyExclusion { get; set; }
-		}
-	}
-
 	#endregion
 
 	#region Plugin classes
@@ -11542,715 +11127,6 @@ else if (Context.CodeScopeCount <= 0)
 		None = 1,
 		Sandbox = 2,
 		External = 3
-	}
-
-	/// <summary>
-	///     Author: Ahmed Elsawalhy
-	/// </summary>
-	[GeneratedCode("This is not generated code, but this attribute is used for excluding the code from code analysis.", "0.0.0.0")]
-	public interface IPluginContext
-	{
-		IPlugin Plugin { get; }
-		CodeActivity CodeActivity { get; }
-
-		IServiceProvider ServiceProvider { get; }
-		CodeActivityContext ExecutionContext { get; }
-
-		IExecutionContext Context { get; }
-		IOrganizationServiceFactory ServiceFactory { get; }
-		ITracingService TracingService { get; }
-		IOrganizationService Service { get; }
-		IOrganizationService EscalatedService { get; }
-
-		string Message { get; }
-		PluginStage Stage { get; }
-		
-		Guid UserId { get; }
-		Guid EscalationUserId { get; }
-		Guid OrgId { get; }
-
-		string Entity { get; }
-		Guid Id { get; }
-
-		ILogger Log { get; }
-
-		Entity PreImage { get; }
-		Entity Target { get; }
-		Entity PostImage { get; }
-	}
-
-	/// <summary>
-	///     Author: Ahmed Elsawalhy
-	/// </summary>
-	[GeneratedCode("This is not generated code, but this attribute is used for excluding the code from code analysis.", "0.0.0.0")]
-	public abstract class PluginLogic<TPlugin> : IPluginContext
-		where TPlugin : IPlugin
-	{
-		public virtual IPlugin Plugin => plugin;
-		public virtual CodeActivity CodeActivity => throw new NotSupportedException("Not supported in IPlugins.");
-		public virtual CodeActivityContext ExecutionContext => throw new NotSupportedException("Not supported in IPlugins.");
-
-		public virtual IServiceProvider ServiceProvider
-		{
-			get
-			{
-				serviceProvider.Require(nameof(serviceProvider));
-				return serviceProvider;
-			}
-		}
-
-		public virtual IExecutionContext Context =>
-			context ??= (IPluginExecutionContext)ServiceProvider.GetService(typeof(IPluginExecutionContext));
-
-		public virtual IOrganizationServiceFactory ServiceFactory =>
-				serviceFactory ??= (IOrganizationServiceFactory)ServiceProvider.GetService(typeof(IOrganizationServiceFactory));
-
-		public virtual ITracingService TracingService =>
-			tracingService ??= (ITracingService)ServiceProvider.GetService(typeof(ITracingService));
-
-		public virtual IOrganizationService Service =>
-			service ??= ServiceFactory.CreateOrganizationService(UserId);
-		public virtual IOrganizationService EscalatedService =>
-			escalatedService ??= ServiceFactory.CreateOrganizationService(EscalationUserId);
-
-		public virtual string Message => Context.MessageName;
-		public virtual PluginStage Stage => (PluginStage)((IPluginExecutionContext)Context).Stage;
-		
-		public virtual Guid UserId => userId ??= Context.UserId;
-
-		public virtual Guid EscalationUserId => escalationUserId
-			??= (escalationUserId = CrmHelpers.GetGenericConfig(Service, Context.OrganizationId)
-				.GetAttributeValue<EntityReference>("ys_escalationuserid")?.Id)
-				?? throw new ArgumentNullException(nameof(EscalationUserId), "Escalation User is not set in Common Configuration.");
-
-		public virtual Guid OrgId => orgId ??= Context.OrganizationId;
-
-		public virtual string Entity => Context.PrimaryEntityName;
-		public virtual Guid Id => Context.PrimaryEntityId;
-
-		public virtual ILogger Log => log;
-
-		public virtual Entity PreImage => preImage ??= GetPreImage<Entity>();
-		public virtual Entity Target => target ??= GetTarget<Entity>();
-		public virtual Entity PostImage
-		{
-			get
-			{
-				try
-				{
-					return postImage ??= GetPostImage<Entity>();
-				}
-				catch
-				{
-					try
-					{
-						return postImage ??= BuildPostFromPreImage<Entity>();
-					}
-					catch
-					{
-						throw new InvalidPluginExecutionException("Missing a post-image for this step.");
-					}
-				}
-			}
-		}
-
-		protected readonly string intendedPluginMessage;
-		protected readonly PluginStage intendedPluginStage;
-		protected readonly string intendedEntity;
-
-		private TPlugin plugin;
-
-		private IServiceProvider serviceProvider;
-		private IPluginExecutionContext context;
-		private IOrganizationServiceFactory serviceFactory;
-		private ITracingService tracingService;
-		private IOrganizationService service;
-		private IOrganizationService escalatedService;
-
-		private Guid? userId;
-		private Guid? escalationUserId;
-		private Guid? orgId;
-
-		protected ILogger log;
-
-		private Entity preImage;
-		private Entity target;
-		private Entity postImage;
-
-		protected PluginLogic(string intendedPluginMessage, PluginStage intendedPluginStage, string intendedEntity = null)
-		{
-			this.intendedPluginMessage = intendedPluginMessage;
-			this.intendedPluginStage = intendedPluginStage;
-			this.intendedEntity = intendedEntity;
-		}
-
-		public virtual void Execute(TPlugin plugin, IServiceProvider serviceProvider)
-		{
-			Execute(plugin, serviceProvider, PluginUser.System);
-		}
-
-		public virtual void Execute(TPlugin plugin, IServiceProvider serviceProvider, bool isLogEnabled)
-		{
-			Execute(plugin, serviceProvider, PluginUser.System, null, isLogEnabled);
-		}
-
-		public virtual void Execute(TPlugin plugin, IServiceProvider serviceProvider, Guid? userId,
-			bool isLogEnabled = true)
-		{
-			Execute(plugin, serviceProvider, PluginUser.Custom, userId, isLogEnabled);
-		}
-
-		public virtual void Execute(TPlugin plugin, IServiceProvider serviceProvider, PluginUser user,
-			bool isLogEnabled = true)
-		{
-			Execute(plugin, serviceProvider, user, null, isLogEnabled);
-		}
-
-		public virtual void Execute(TPlugin plugin, IServiceProvider serviceProvider, PluginUser user, Guid? userId,
-			bool isLogEnabled = true)
-		{
-			this.plugin = plugin;
-			this.serviceProvider = serviceProvider;
-			this.userId = userId;
-
-			InitialisePlugin(user);
-
-			try
-			{
-				TracingService.Trace("Initialising CRM Log ...");
-				log = new PluginLogger(serviceProvider);
-
-				if (isLogEnabled)
-				{
-					TracingService.Trace("Log is enabled in the code.");
-
-					Log.SetEntryClass(typeof(TPlugin).FullName);
-
-					if (Context.PrimaryEntityName != null && Context.PrimaryEntityName != "none"
-						&& Context.PrimaryEntityId != Guid.Empty)
-					{
-						Log.SetRegarding(Context.PrimaryEntityName, Context.PrimaryEntityId);
-					}
-				}
-				else
-				{
-					TracingService.Trace("Log is disabled in the code.");
-				}
-			}
-			catch (Exception ex)
-			{
-				TracingService.Trace("Failed to init log.");
-				TracingService.Trace(CrmHelpers.BuildExceptionMessage(ex));
-				throw new InvalidPluginExecutionException("Failed to init log => " + ex.Message, ex);
-			}
-
-			try
-			{
-				if (isLogEnabled)
-				{
-					Log.LogExecutionStart();
-				}
-
-				TracingService.Trace("Loading custom messages ...");
-				MessageHelpers.LoadCustomMessages(service, OrgId);
-				TracingService.Trace("Finished loading custom messages.");
-
-				TracingService.Trace("Executing plugin logic ...");
-				ExecuteLogic();
-				TracingService.Trace("Finished executing plugin logic.");
-			}
-			catch (Exception ex)
-			{
-				TracingService.Trace($"Exception occurred: {ex.Message}.");
-
-				if (isLogEnabled)
-				{
-					Log.ExecutionFailed();
-					Log.Log(ex);
-				}
-				else
-				{
-					TracingService.Trace(CrmHelpers.BuildExceptionMessage(ex));
-				}
-
-				throw new InvalidPluginExecutionException(ex.Message, ex);
-			}
-			finally
-			{
-				if (isLogEnabled)
-				{
-					TracingService.Trace("Logging execution end ...");
-
-					try
-					{
-						Log.LogExecutionEnd();
-					}
-					catch (Exception e)
-					{
-						TracingService.Trace(CrmHelpers.BuildExceptionMessage(e));
-						throw;
-					}
-				}
-
-				TracingService.Trace("Finished executing plugin.");
-			}
-		}
-
-		protected abstract void ExecuteLogic();
-
-		protected TEntity GetPreImage<TEntity>() where TEntity : Entity
-		{
-			var image = Message == "Create" ? Target : Context.PreEntityImages.FirstOrDefault().Value;
-
-			if (image == null)
-			{
-				throw new InvalidPluginExecutionException("Missing a pre-image for this step.");
-			}
-
-			return image.ToEntity<TEntity>();
-		}
-
-		protected TEntity GetTarget<TEntity>() where TEntity : Entity
-		{
-			if (Context.InputParameters.TryGetValue("Target", out var target) && target is Entity targetEntity)
-			{
-				return targetEntity.ToEntity<TEntity>();
-			}
-
-			throw new InvalidPluginExecutionException("Missing Target in the plugin input, or not of type Entity.");
-		}
-
-		protected EntityReference GetTargetReference()
-		{
-			if (Context.InputParameters.TryGetValue("Target", out var target) && target is EntityReference targetEntityRef)
-			{
-				return targetEntityRef;
-			}
-
-			throw new InvalidPluginExecutionException("Missing Target in the plugin input, or not of type EntityReference.");
-		}
-
-		protected TEntity BuildPostFromPreImage<TEntity>() where TEntity : Entity
-		{
-			var preImage = GetPreImage<TEntity>();
-			var target = GetTarget<TEntity>();
-			var postImage = new Entity(target.LogicalName, target.Id);
-
-			foreach (var pair in preImage.Attributes)
-			{
-				postImage[pair.Key] = pair.Value;
-			}
-
-			foreach (var pair in preImage.FormattedValues)
-			{
-				postImage.FormattedValues[pair.Key] = pair.Value;
-			}
-
-			foreach (var pair in target.Attributes)
-			{
-				postImage[pair.Key] = pair.Value;
-			}
-
-			foreach (var pair in target.FormattedValues)
-			{
-				postImage.FormattedValues[pair.Key] = pair.Value;
-			}
-
-			return postImage.ToEntity<TEntity>();
-		}
-
-		protected TEntity GetPostImage<TEntity>() where TEntity : Entity
-		{
-			var image = Message == "Create"
-				? Target
-				: Message == "Delete"
-					? GetPreImage<TEntity>()
-					: context.Stage == (int)PluginStage.PostOperation
-						? Context.PostEntityImages.FirstOrDefault().Value
-						: BuildPostFromPreImage<TEntity>();
-
-			if (image == null)
-			{
-				throw new InvalidPluginExecutionException("Missing a post-image for this step.");
-			}
-
-			return image.ToEntity<TEntity>();
-		}
-
-		protected virtual bool IsContextValid()
-		{
-			return true;
-		}
-
-		protected virtual void ValidateRegistration()
-		{
-			if (!string.IsNullOrWhiteSpace(intendedEntity) && Context.PrimaryEntityName != intendedEntity)
-			{
-				throw new InvalidPluginExecutionException(
-					$"Step registered on wrong entity: {Context.PrimaryEntityName}, "
-						+ $"expected: {intendedEntity}");
-			}
-
-			if (!string.IsNullOrWhiteSpace(intendedPluginMessage) && Context.MessageName != intendedPluginMessage)
-			{
-				throw new InvalidPluginExecutionException(
-					$"Step registered on wrong message: {Context.MessageName}, "
-						+ $"expected: {intendedPluginMessage}.");
-			}
-
-			var pluginContext = (IPluginExecutionContext)Context;
-
-			if (intendedPluginStage != PluginStage.All && pluginContext.Stage != (int)intendedPluginStage)
-			{
-				throw new InvalidPluginExecutionException(
-					$"Step registered on wrong stage: {pluginContext.Stage}, "
-						+ $"expected: {intendedPluginStage}");
-			}
-		}
-
-		protected void InitialisePlugin(PluginUser user = PluginUser.System)
-		{
-			tracingService = (ITracingService)ServiceProvider.GetService(typeof(ITracingService));
-
-			TracingService.Trace("Getting context ...");
-			context = (IPluginExecutionContext)ServiceProvider.GetService(typeof(IPluginExecutionContext));
-			ValidateRegistration();
-
-			TracingService.Trace("Getting factory ...");
-			serviceFactory = (IOrganizationServiceFactory)ServiceProvider.GetService(typeof(IOrganizationServiceFactory));
-
-			switch (user)
-			{
-				case PluginUser.ContextUser:
-					TracingService.Trace("Running as ContextUser.");
-					userId = Context.UserId;
-					break;
-
-				case PluginUser.InitiatingUser:
-					TracingService.Trace("Running as InitiatingUserId.");
-					userId = Context.InitiatingUserId;
-					break;
-
-				case PluginUser.System:
-					TracingService.Trace("Running as System.");
-					userId = null;
-					break;
-
-				case PluginUser.Custom:
-					TracingService.Trace($"Running as {userId}.");
-					break;
-
-				default:
-					throw new ArgumentOutOfRangeException("user", user, "Plugin user type is out of range.");
-			}
-
-			TracingService.Trace("Getting service ...");
-			service = ServiceFactory.CreateOrganizationService(userId);
-
-			if (!IsContextValid())
-			{
-				throw new InvalidPluginExecutionException("Failed to initialise plugin due to invalid context.");
-			}
-
-			TracingService.Trace($"Initialised plugin.");
-		}
-	}
-
-	/// <summary>
-	///     Author: Ahmed Elsawalhy
-	/// </summary>
-	[GeneratedCode("This is not generated code, but this attribute is used for excluding the code from code analysis.", "0.0.0.0")]
-	public abstract class StepLogic<TCodeActivity> : IPluginContext
-		where TCodeActivity : CodeActivity
-	{
-		public virtual IPlugin Plugin => throw new NotSupportedException("Not supported in Code Activities.");
-		public virtual CodeActivity CodeActivity => codeActivity;
-
-		public virtual IServiceProvider ServiceProvider => throw new NotSupportedException("Not supported in Code Activities.");
-
-		public virtual CodeActivityContext ExecutionContext
-		{
-			get
-			{
-				executionContext.Require(nameof(executionContext));
-				return executionContext;
-			}
-		}
-
-		public virtual IExecutionContext Context => context ??= ExecutionContext.GetExtension<IWorkflowContext>();
-		public virtual IOrganizationServiceFactory ServiceFactory => 
-			serviceFactory ??= ExecutionContext.GetExtension<IOrganizationServiceFactory>();
-		public virtual ITracingService TracingService =>
-			tracingService ??= ExecutionContext.GetExtension<ITracingService>();
-
-		public virtual IOrganizationService Service => 
-			service ??= ServiceFactory.CreateOrganizationService(UserId);
-		public virtual IOrganizationService EscalatedService => 
-			escalatedService ??= ServiceFactory.CreateOrganizationService(EscalationUserId);
-
-		public virtual string Message => Context.MessageName;
-		public virtual PluginStage Stage => throw new NotSupportedException("Not supported in Code Activities.");
-		public virtual Guid UserId => userId ??= Context.UserId;
-
-		public virtual Guid EscalationUserId => escalationUserId
-			??= (escalationUserId = CrmHelpers.GetGenericConfig(Service, Context.OrganizationId)
-				.GetAttributeValue<EntityReference>("ys_escalationuserid")?.Id)
-				?? throw new ArgumentNullException(nameof(EscalationUserId), "Escalation User is not set in Common Configuration.");
-		
-		public virtual Guid OrgId => orgId ??= Context.OrganizationId;
-
-		public virtual string Entity => Context.PrimaryEntityName;
-		public virtual Guid Id => Context.PrimaryEntityId;
-
-		public virtual ILogger Log => log;
-
-		public virtual Entity PreImage => preImage ??= GetPreImage<Entity>();
-		public virtual Entity Target => target ??= GetTarget<Entity>();
-		public virtual Entity PostImage
-		{
-			get
-			{
-				try
-				{
-					return postImage ??= GetPostImage<Entity>(true);
-				}
-				catch
-				{
-					throw new InvalidPluginExecutionException("Missing a post-image for this step.");
-				}
-			}
-		}
-
-		protected TCodeActivity codeActivity;
-
-		private CodeActivityContext executionContext;
-		private IWorkflowContext context;
-		private IOrganizationServiceFactory serviceFactory;
-		private ITracingService tracingService;
-		private IOrganizationService service;
-		private IOrganizationService escalatedService;
-
-		private Guid? userId;
-		private Guid? escalationUserId;
-		private Guid? orgId;
-
-		protected ILogger log;
-
-		private Entity preImage;
-		private Entity target;
-		private Entity postImage;
-
-		public virtual void Execute(TCodeActivity codeActivity, CodeActivityContext executionContext)
-		{
-			Execute(codeActivity, executionContext, PluginUser.System);
-		}
-
-		public virtual void Execute(TCodeActivity codeActivity, CodeActivityContext executionContext,
-			bool isLogEnabled)
-		{
-			Execute(codeActivity, executionContext, PluginUser.System, null, isLogEnabled);
-		}
-
-		public virtual void Execute(TCodeActivity codeActivity, CodeActivityContext executionContext,
-			Guid? userId, bool isLogEnabled = true)
-		{
-			Execute(codeActivity, executionContext, PluginUser.Custom, userId, isLogEnabled);
-		}
-
-		public virtual void Execute(TCodeActivity codeActivity, CodeActivityContext executionContext,
-			PluginUser user, bool isLogEnabled = true)
-		{
-			Execute(codeActivity, executionContext, user, null, isLogEnabled);
-		}
-
-		public virtual void Execute(TCodeActivity codeActivity, CodeActivityContext executionContext,
-			PluginUser user, Guid? userId, bool isLogEnabled = true)
-		{
-			this.codeActivity = codeActivity;
-			this.executionContext = executionContext;
-			this.userId = userId;
-
-			InitialiseCodeActivity(user);
-
-			try
-			{
-				TracingService.Trace("Initialising CRM Log ...");
-				log = new PluginLogger(ExecutionContext);
-
-				if (isLogEnabled)
-				{
-					TracingService.Trace("Log enabled.");
-
-					Log.SetEntryClass(typeof(TCodeActivity).FullName);
-
-					if (Context.PrimaryEntityName != null && Context.PrimaryEntityName != "none"
-						&& Context.PrimaryEntityId != Guid.Empty)
-					{
-						Log.SetRegarding(Context.PrimaryEntityName, Context.PrimaryEntityId);
-					}
-				}
-			}
-			catch (Exception ex)
-			{
-				TracingService.Trace("Failed to init log.");
-				TracingService.Trace(CrmHelpers.BuildExceptionMessage(ex));
-				throw new InvalidPluginExecutionException("Failed to init Log => " + ex.Message, ex);
-			}
-
-			try
-			{
-				if (isLogEnabled)
-				{
-					Log.LogExecutionStart();
-				}
-
-				TracingService.Trace("Loading custom messages ...");
-				MessageHelpers.LoadCustomMessages(service, OrgId);
-				TracingService.Trace("Finished loading custom messages.");
-
-				TracingService.Trace("Executing step logic ...");
-				ExecuteLogic();
-				TracingService.Trace("Finished executing step.");
-			}
-			catch (Exception ex)
-			{
-				TracingService.Trace($"Exception occurred: {ex.Message}.");
-
-				if (isLogEnabled)
-				{
-					Log.ExecutionFailed();
-					Log.Log(ex);
-				}
-				else
-				{
-					TracingService.Trace(CrmHelpers.BuildExceptionMessage(ex));
-				}
-
-				throw new InvalidPluginExecutionException(ex.Message, ex);
-			}
-			finally
-			{
-				if (isLogEnabled)
-				{
-					TracingService.Trace("Logging execution end ...");
-
-					try
-					{
-						Log.LogExecutionEnd();
-					}
-					catch (Exception e)
-					{
-						TracingService.Trace(CrmHelpers.BuildExceptionMessage(e));
-						throw;
-					}
-				}
-
-				TracingService.Trace("Finished executing step.");
-			}
-		}
-
-		protected abstract void ExecuteLogic();
-
-		protected TEntity GetPreImage<TEntity>() where TEntity : Entity
-		{
-			if (Context.PreEntityImages.TryGetValue("PreBusinessEntity", out var image))
-			{
-				return image.ToEntity<TEntity>();
-			}
-
-			throw new InvalidPluginExecutionException("Missing a pre-image for this step.");
-		}
-
-		protected TEntity GetTarget<TEntity>() where TEntity : Entity
-		{
-			throw new InvalidPluginExecutionException("The Target parameter should not be accessed in a step.");
-		}
-
-		protected TEntity GetPostImage<TEntity>(bool retrieveIfMissing = false, ColumnSet columns = null) where TEntity : Entity
-		{
-			if (Context.PostEntityImages.TryGetValue("PostBusinessEntity", out var image))
-			{
-				return image.ToEntity<TEntity>();
-			}
-
-			if (retrieveIfMissing)
-			{
-				return service.Retrieve(Context.PrimaryEntityName, Context.PrimaryEntityId, columns == null ? new ColumnSet(true) : columns)
-					.ToEntity<TEntity>();
-			}
-
-			throw new InvalidPluginExecutionException("Missing a post-image for this step.");
-		}
-
-		protected TEntity GetPostPreImage<TEntity>(bool retrieveIfMissing = false, ColumnSet columns = null) where TEntity : Entity
-		{
-			if (Context.PostEntityImages.TryGetValue("PostBusinessEntity", out var image))
-			{
-				return image.ToEntity<TEntity>();
-			}
-
-			if (Context.PreEntityImages.TryGetValue("PreBusinessEntity", out image))
-			{
-				return image.ToEntity<TEntity>();
-			}
-
-			if (retrieveIfMissing)
-			{
-				return service.Retrieve(Context.PrimaryEntityName, Context.PrimaryEntityId, columns == null ? new ColumnSet(true) : columns)
-					.ToEntity<TEntity>();
-			}
-
-			throw new InvalidPluginExecutionException("Missing a post or pre-image for this step.");
-		}
-
-		protected virtual bool IsContextValid()
-		{
-			return true;
-		}
-
-		protected void InitialiseCodeActivity(PluginUser user = PluginUser.System)
-		{
-			tracingService = ExecutionContext.GetExtension<ITracingService>();
-			context = ExecutionContext.GetExtension<IWorkflowContext>();
-			TracingService.Trace("Got context.");
-			serviceFactory = ExecutionContext.GetExtension<IOrganizationServiceFactory>();
-			TracingService.Trace("Got factory.");
-
-			switch (user)
-			{
-				case PluginUser.ContextUser:
-					userId = context.UserId;
-					TracingService.Trace("Running as ContextUser.");
-					break;
-
-				case PluginUser.InitiatingUser:
-					userId = context.InitiatingUserId;
-					TracingService.Trace("Running as InitiatingUserId.");
-					break;
-
-				case PluginUser.System:
-					userId = null;
-					TracingService.Trace("Running as System.");
-					break;
-
-				case PluginUser.Custom:
-					TracingService.Trace($"Running as {userId}.");
-					break;
-
-				default:
-					throw new ArgumentOutOfRangeException("user", user, "Step user type is out of range.");
-			}
-
-			service = ServiceFactory.CreateOrganizationService(userId);
-			TracingService.Trace("Got service.");
-
-			if (!IsContextValid())
-			{
-				throw new InvalidPluginExecutionException("Failed to initialise workflow step due to invalid context.");
-			}
-
-			TracingService.Trace($"Initialised step.");
-		}
 	}
 
 	#endregion

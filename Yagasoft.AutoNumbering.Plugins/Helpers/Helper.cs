@@ -64,8 +64,10 @@ namespace Yagasoft.AutoNumbering.Plugins.Helpers
 				throw new InvalidPluginExecutionException("Condition is set but entity name is not set in auto-numbering config.");
 			}
 
-			// only lock if an index is needed
-			if (autoNumberingConfig.FormatString.Contains("{!index!}") && !isBackLogged)
+			// Detect sequences inside expressions and with arguments, as well as the legacy index token.
+			if (!isBackLogged
+				&& (autoNumberingConfig.FormatString.Contains("$sequence")
+					|| autoNumberingConfig.FormatString.Contains("{!index!}")))
 			{
 				log.Log("Locking ...", LogLevel.Debug);
 
